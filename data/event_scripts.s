@@ -1157,3 +1157,11 @@ EventScript_VsSeekerChargingDone::
 	.include "data/text/save.inc"
 	.include "data/text/birch_speech.inc"
 	.include "data/scripts/dexnav.inc"
+
+	.include "data/maps/LittlerootDojo/scripts.inc"
+
+	.include "data/maps/PC_104/scripts.inc"
+
+	.include "data/maps/WOODS_HIDEOUT/scripts.inc"
+
+	.include "data/maps/SLATEPORT_UNDERGROUND/scripts.inc"

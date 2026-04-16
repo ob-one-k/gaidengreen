@@ -99,6 +99,7 @@ PetalburgWoods_EventScript_BagFull::
 	end
 
 PetalburgWoods_EventScript_DevonResearcherFinish::
+	msgbox PetalburgWoods_Text_LevelCapIncreased, MSGBOX_DEFAULT
 	msgbox PetalburgWoods_Text_TeamAquaAfterSomethingInRustboro, MSGBOX_DEFAULT
 	applymovement LOCALID_PETALBURG_WOODS_DEVON_EMPLOYEE, PetalburgWoods_Movement_DevonResearcherStartExit
 	waitmovement 0
@@ -269,11 +270,6 @@ PetalburgWoods_EventScript_Sign2::
 	msgbox PetalburgWoods_Text_TrainerTipsPP, MSGBOX_SIGN
 	end
 
-PetalburgWoods_EventScript_Lyle::
-	trainerbattle_single TRAINER_LYLE, PetalburgWoods_Text_GoBugPokemonTeam, PetalburgWoods_Text_ICouldntWin
-	msgbox PetalburgWoods_Text_ImOutOfPokeBalls, MSGBOX_AUTOCLOSE
-	end
-
 PetalburgWoods_EventScript_James::
 	trainerbattle_single TRAINER_JAMES_1, PetalburgWoods_Text_InstantlyPopularWithBugPokemon, PetalburgWoods_Text_CantBePopularIfILose, PetalburgWoods_EventScript_TryRegisterJames
 	specialvar VAR_RESULT, ShouldTryRematchBattle
@@ -380,19 +376,6 @@ PetalburgWoods_Text_YoureLoadedWithItems:
 	.string "You're loaded with items.\n"
 	.string "I can't give you this GREAT BALL.$"
 
-PetalburgWoods_Text_GoBugPokemonTeam:
-	.string "I caught a whole bunch of POKéMON!\p"
-	.string "Go, go, go!\n"
-	.string "My BUG POKéMON team!$"
-
-PetalburgWoods_Text_ICouldntWin:
-	.string "I have all these POKéMON,\n"
-	.string "but I couldn't win…$"
-
-PetalburgWoods_Text_ImOutOfPokeBalls:
-	.string "I caught a bunch of POKéMON.\n"
-	.string "Now I'm out of POKé BALLS.$"
-
 PetalburgWoods_Text_InstantlyPopularWithBugPokemon:
 	.string "If you take BUG POKéMON to school,\n"
 	.string "you get to be instantly popular!$"
@@ -470,4 +453,7 @@ PetalburgWoods_Text_TrainerTipsPP:
 	.string "make moves during battle.\p"
 	.string "If a POKéMON runs out of PP, it must be\n"
 	.string "taken to a POKéMON CENTER.$"
+
+PetalburgWoods_Text_LevelCapIncreased:
+	.string "LEVEL CAP INCREASED!\pYour Pokémon can now reach Lv. 14.$"
 

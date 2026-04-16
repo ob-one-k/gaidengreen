@@ -738,6 +738,43 @@ Route110_Movement_BirchExit4:
 	walk_up
 	step_end
 
+Route110_EventScript_KirliaPC::
+    lock
+    faceplayer
+
+    msgbox Route110_Text_KirliaPC, MSGBOX_DEFAULT
+
+    goto EventScript_PC
+
+Route110_EventScript_HealNpc::
+	lock
+	faceplayer
+	msgbox Route110_Text_WouldYouLikeToHeal, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, Route110_EventScript_HealNpc_No
+
+	special HealPlayerParty
+	msgbox Route110_Text_HealNpc_Done, MSGBOX_DEFAULT
+	release
+	end
+
+Route110_EventScript_HealNpc_No:
+	msgbox Route110_Text_HealNpc_No, MSGBOX_DEFAULT
+	release
+	end
+
+Route110_Text_WouldYouLikeToHeal:
+	.string "Would you like to heal your POKéMON?$"
+
+Route110_Text_HealNpc_Done:
+	.string "Your POKéMON were fully healed.$"
+
+Route110_Text_HealNpc_No:
+	.string "Come back anytime.$"
+
+Route110_Text_KirliaPC:
+    .string "Kirlia tilts its head...\n"
+    .string "It seems to connect you to a PC.$"
+
 Route110_Text_WeCantTalkAboutAquaActivities:
 	.string "TEAM AQUA's activities…\n"
 	.string "We can't talk about them yet.$"

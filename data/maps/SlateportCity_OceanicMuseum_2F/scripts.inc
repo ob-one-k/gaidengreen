@@ -348,6 +348,8 @@ SlateportCity_OceanicMuseum_2F_Text_SternThankYouForSavingUs:
 	.string "Ah, okay, you're {PLAYER}{KUN}…\p"
 	.string "Anyway, that was a tense situation!\n"
 	.string "Thank you for saving us!\p"
+	.string "YOUR LEVEL CAP INCREASED!\n"
+	.string "You can now go to level 32!\p"
 	.string "Oh, yes, I almost forgot that you\n"
 	.string "even brought the parts from DEVON!$"
 

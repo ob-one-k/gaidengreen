@@ -2397,6 +2397,11 @@ extern const u8 gText_PkmnForSwap[];
 extern const u8 gText_SamePkmnInPartyAlready[];
 extern const u8 gText_Cancel3[];
 
+//*
+extern const u8 gText_ChespinStarter[];
+extern const u8 gText_TepigStarter[];
+extern const u8 gText_PiplupStarter[];
+
 // Naming Screen
 extern const u8 gText_MoveOkBack[];
 extern const u8 gText_YourName[];

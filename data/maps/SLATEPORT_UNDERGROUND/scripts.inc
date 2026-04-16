@@ -1,0 +1,2 @@
+SLATEPORT_UNDERGROUND_MapScripts::
+	.byte 0

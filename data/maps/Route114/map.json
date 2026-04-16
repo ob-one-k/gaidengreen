@@ -53,8 +53,8 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_HIKER",
-      "x": 15,
-      "y": 65,
+      "x": 7,
+      "y": 69,
       "elevation": 7,
       "movement_type": "MOVEMENT_TYPE_FACE_RIGHT",
       "movement_range_x": 0,
@@ -66,8 +66,8 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_HIKER",
-      "x": 30,
-      "y": 72,
+      "x": 32,
+      "y": 60,
       "elevation": 5,
       "movement_type": "MOVEMENT_TYPE_FACE_LEFT",
       "movement_range_x": 0,
@@ -78,9 +78,9 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_CAMPER",
-      "x": 22,
-      "y": 50,
+      "graphics_id": "OBJ_EVENT_GFX_SAILOR",
+      "x": 17,
+      "y": 57,
       "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_FACE_RIGHT",
       "movement_range_x": 0,
@@ -92,8 +92,8 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_PICNICKER",
-      "x": 19,
-      "y": 35,
+      "x": 17,
+      "y": 49,
       "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_LOOK_AROUND",
       "movement_range_x": 0,
@@ -104,9 +104,9 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_MANIAC",
-      "x": 20,
-      "y": 56,
+      "graphics_id": "OBJ_EVENT_GFX_WOMAN_2",
+      "x": 28,
+      "y": 60,
       "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_FACE_UP",
       "movement_range_x": 0,
@@ -208,9 +208,9 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_FISHERMAN",
-      "x": 25,
-      "y": 6,
+      "graphics_id": "OBJ_EVENT_GFX_GIRL_3",
+      "x": 22,
+      "y": 22,
       "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
       "movement_range_x": 0,
@@ -221,9 +221,9 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_FISHERMAN",
-      "x": 19,
-      "y": 26,
+      "graphics_id": "OBJ_EVENT_GFX_GENTLEMAN",
+      "x": 9,
+      "y": 53,
       "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_FACE_LEFT",
       "movement_range_x": 0,
@@ -235,8 +235,8 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_MAN_5",
-      "x": 30,
-      "y": 58,
+      "x": 22,
+      "y": 30,
       "elevation": 5,
       "movement_type": "MOVEMENT_TYPE_ROTATE_COUNTERCLOCKWISE",
       "movement_range_x": 0,
@@ -300,8 +300,8 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_LASS",
-      "x": 24,
-      "y": 44,
+      "x": 18,
+      "y": 34,
       "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
       "movement_range_x": 1,
@@ -314,7 +314,7 @@
     {
       "graphics_id": "OBJ_EVENT_GFX_LASS",
       "x": 23,
-      "y": 44,
+      "y": 34,
       "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
       "movement_range_x": 1,
@@ -325,11 +325,11 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_PICNICKER",
-      "x": 28,
-      "y": 20,
+      "graphics_id": "OBJ_EVENT_GFX_RED",
+      "x": 30,
+      "y": 18,
       "elevation": 3,
-      "movement_type": "MOVEMENT_TYPE_FACE_UP",
+      "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
       "movement_range_x": 1,
       "movement_range_y": 1,
       "trainer_type": "TRAINER_TYPE_NORMAL",
@@ -338,9 +338,9 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_PICNICKER",
-      "x": 26,
-      "y": 72,
+      "graphics_id": "OBJ_EVENT_GFX_GIRL_3",
+      "x": 19,
+      "y": 62,
       "elevation": 5,
       "movement_type": "MOVEMENT_TYPE_FACE_DOWN_AND_RIGHT",
       "movement_range_x": 1,
@@ -365,8 +365,8 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_FISHERMAN",
-      "x": 28,
-      "y": 16,
+      "x": 19,
+      "y": 26,
       "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_FACE_DOWN_AND_LEFT",
       "movement_range_x": 1,

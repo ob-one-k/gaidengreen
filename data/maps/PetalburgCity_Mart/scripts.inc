@@ -15,7 +15,6 @@ PetalburgCity_Mart_EventScript_Clerk::
 	.align 2
 PetalburgCity_Mart_Pokemart_Basic:
 	.2byte ITEM_POKE_BALL
-	.2byte ITEM_POTION
 	.2byte ITEM_ANTIDOTE
 	.2byte ITEM_PARALYZE_HEAL
 	.2byte ITEM_AWAKENING
@@ -56,6 +55,7 @@ PetalburgCity_Mart_EventScript_Woman::
 
 PetalburgCity_Mart_EventScript_Boy::
 	msgbox PetalburgCity_Mart_Text_RepelIsUseful, MSGBOX_NPC
+	giveitem ITEM_EXPERT_BELT, 1
 	end
 
 PetalburgCity_Mart_EventScript_Man::
@@ -69,9 +69,9 @@ PetalburgCity_Mart_Text_WeakWillGrowStronger:
 	.string "Love for your POKéMON!$"
 
 PetalburgCity_Mart_Text_RepelIsUseful:
-	.string "Do you use REPEL?\n"
-	.string "It keeps POKéMON away, so it's\l"
-	.string "useful when you're in a hurry.$"
+	.string "Are you on your way?\n"
+	.string "To becoming a master?\l"
+	.string "You should take this on your journey.$"
 
 PetalburgCity_Mart_Text_TakeSomeAntidotesWithYou:
 	.string "Do you have any ANTIDOTES with\n"

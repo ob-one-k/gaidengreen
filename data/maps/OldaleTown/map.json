@@ -84,6 +84,20 @@
       "trainer_sight_or_berry_tree_id": "0",
       "script": "OldaleTown_EventScript_Rival",
       "flag": "FLAG_HIDE_OLDALE_TOWN_RIVAL"
+    },
+    {
+      "local_id": "LOCALID_OLDALE_GATEKEEPER",
+      "graphics_id": "OBJ_EVENT_GFX_BLACK_BELT",
+      "x": 10,
+      "y": 14,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "NULL",
+      "flag": "0"
     }
   ],
   "warp_events": [
@@ -102,7 +116,7 @@
       "dest_warp_id": "0"
     },
     {
-      "x": 6,
+      "x": 5,
       "y": 16,
       "elevation": 0,
       "dest_map": "MAP_OLDALE_TOWN_POKEMON_CENTER_1F",
@@ -152,6 +166,60 @@
       "var": "VAR_OLDALE_RIVAL_STATE",
       "var_value": "1",
       "script": "OldaleTown_EventScript_RivalTrigger3"
+    },
+    {
+      "type": "trigger",
+      "x": 8,
+      "y": 16,
+      "elevation": 0,
+      "var": "VAR_GATEKEEPER_EVENT_COMPLETE",
+      "var_value": "0",
+      "script": "OldDale_Gatekeeper_Event"
+    },
+    {
+      "type": "trigger",
+      "x": 9,
+      "y": 16,
+      "elevation": 0,
+      "var": "VAR_GATEKEEPER_EVENT_COMPLETE",
+      "var_value": "0",
+      "script": "OldDale_Gatekeeper_Event"
+    },
+    {
+      "type": "trigger",
+      "x": 10,
+      "y": 16,
+      "elevation": 0,
+      "var": "VAR_GATEKEEPER_EVENT_COMPLETE",
+      "var_value": "0",
+      "script": "OldDale_Gatekeeper_Event"
+    },
+    {
+      "type": "trigger",
+      "x": 11,
+      "y": 16,
+      "elevation": 0,
+      "var": "VAR_GATEKEEPER_EVENT_COMPLETE",
+      "var_value": "0",
+      "script": "OldDale_Gatekeeper_Event"
+    },
+    {
+      "type": "trigger",
+      "x": 12,
+      "y": 16,
+      "elevation": 0,
+      "var": "VAR_GATEKEEPER_EVENT_COMPLETE",
+      "var_value": "0",
+      "script": "OldDale_Gatekeeper_Event"
+    },
+    {
+      "type": "trigger",
+      "x": 13,
+      "y": 16,
+      "elevation": 0,
+      "var": "VAR_GATEKEEPER_EVENT_COMPLETE",
+      "var_value": "0",
+      "script": "OldDale_Gatekeeper_Event"
     }
   ],
   "bg_events": [
@@ -165,7 +233,7 @@
     },
     {
       "type": "sign",
-      "x": 7,
+      "x": 6,
       "y": 16,
       "elevation": 0,
       "player_facing_dir": "BG_EVENT_PLAYER_FACING_NORTH",
@@ -181,7 +249,7 @@
     },
     {
       "type": "sign",
-      "x": 8,
+      "x": 7,
       "y": 16,
       "elevation": 0,
       "player_facing_dir": "BG_EVENT_PLAYER_FACING_NORTH",

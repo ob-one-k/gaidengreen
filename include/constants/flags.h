@@ -43,16 +43,15 @@
 #define TEMP_FLAGS_END   FLAG_TEMP_1F
 #define NUM_TEMP_FLAGS   (TEMP_FLAGS_END - TEMP_FLAGS_START + 1)
 
-#define FLAG_UNUSED_0x020    0x20 // Unused Flag
-#define FLAG_UNUSED_0x021    0x21 // Unused Flag
-#define FLAG_UNUSED_0x022    0x22 // Unused Flag
-#define FLAG_UNUSED_0x023    0x23 // Unused Flag
-#define FLAG_UNUSED_0x024    0x24 // Unused Flag
-#define FLAG_UNUSED_0x025    0x25 // Unused Flag
-#define FLAG_UNUSED_0x026    0x26 // Unused Flag
-#define FLAG_UNUSED_0x027    0x27 // Unused Flag
-#define FLAG_UNUSED_0x028    0x28 // Unused Flag
-#define FLAG_UNUSED_0x029    0x29 // Unused Flag
+#define FLAG_RESTRICT_BAG_USE           0x20 //* Unused Flag
+#define FLAG_SUPER_FISHER_TALK          0x21 //* Unused Flag
+#define FLAG_RUSTBORO_STARTER_SELECT    0x22 //* Unused Flag
+#define FLAG_RECEIVED_EEVEE_EGG         0x23 //* Unused Flag
+#define FLAG_SENSEI_UNLOCKED            0x24 //* Unused Flag
+#define FLAG_SUPER_POTION_TALK          0x25 //* Unused Flag
+#define FLAG_101_TREE                   0x26 //* Unused Flag
+#define FLAG_HIDE_ROXANNE_BLOCKER       0x27 //* Unused Flag
+#define FLAG_SENSEI_DEFEATED            0x29 //* Unused Flag
 #define FLAG_UNUSED_0x02A    0x2A // Unused Flag
 #define FLAG_UNUSED_0x02B    0x2B // Unused Flag
 #define FLAG_UNUSED_0x02C    0x2C // Unused Flag
@@ -655,6 +654,7 @@
 #define FLAG_HIDDEN_ITEM_NAVEL_ROCK_TOP_SACRED_ASH           (FLAG_HIDDEN_ITEMS_START + 0x6D)
 #define FLAG_HIDDEN_ITEM_ROUTE_123_RARE_CANDY                (FLAG_HIDDEN_ITEMS_START + 0x6E)
 #define FLAG_HIDDEN_ITEM_ROUTE_105_BIG_PEARL                 (FLAG_HIDDEN_ITEMS_START + 0x6F)
+#define FLAG_HIDDEN_ITEM_DEWFORD_NET_BALL                    (FLAG_HIDDEN_ITEMS_START + 0x70) //* Unused Flag
 
 #define FLAG_UNUSED_0x264  0x264 // Unused Flag
 #define FLAG_UNUSED_0x265  0x265 // Unused Flag
@@ -1167,7 +1167,7 @@
 #define FLAG_ITEM_ROUTE_103_GUARD_SPEC                              0x45A
 #define FLAG_ITEM_ROUTE_104_X_ACCURACY                              0x45B
 #define FLAG_ITEM_MAUVILLE_CITY_X_SPEED                             0x45C
-#define FLAG_ITEM_PETALBURG_WOODS_PARALYZE_HEAL                     0x45D
+#define FLAG_ITEM_PETALBURG_WOODS_PARALYZE_HEAL                     0x45D // Unused Flag
 #define FLAG_ITEM_ROUTE_115_GREAT_BALL                              0x45E
 #define FLAG_ITEM_SAFARI_ZONE_NORTH_CALCIUM                         0x45F
 #define FLAG_ITEM_MT_PYRE_3F_SUPER_REPEL                            0x460

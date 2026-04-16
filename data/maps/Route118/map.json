@@ -112,7 +112,7 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_GIRL_2",
-      "x": 12,
+      "x": 14,
       "y": 10,
       "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_WANDER_AROUND",
@@ -195,7 +195,7 @@
     {
       "graphics_id": "OBJ_EVENT_GFX_FISHERMAN",
       "x": 28,
-      "y": 8,
+      "y": 9,
       "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_FACE_LEFT",
       "movement_range_x": 0,
@@ -206,21 +206,8 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_WOMAN_2",
-      "x": 7,
-      "y": 12,
-      "elevation": 3,
-      "movement_type": "MOVEMENT_TYPE_FACE_UP",
-      "movement_range_x": 0,
-      "movement_range_y": 0,
-      "trainer_type": "TRAINER_TYPE_NORMAL",
-      "trainer_sight_or_berry_tree_id": "4",
-      "script": "Route118_EventScript_Rose",
-      "flag": "0"
-    },
-    {
       "graphics_id": "OBJ_EVENT_GFX_FISHERMAN",
-      "x": 14,
+      "x": 34,
       "y": 14,
       "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
@@ -246,8 +233,8 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_FISHERMAN",
-      "x": 39,
-      "y": 15,
+      "x": 35,
+      "y": 14,
       "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_LOOK_AROUND",
       "movement_range_x": 0,
@@ -259,7 +246,7 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_MAN_5",
-      "x": 17,
+      "x": 31,
       "y": 11,
       "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_FACE_UP_AND_LEFT",
@@ -296,19 +283,6 @@
       "trainer_sight_or_berry_tree_id": "ITEM_HYPER_POTION",
       "script": "Common_EventScript_FindItem",
       "flag": "FLAG_ITEM_ROUTE_118_HYPER_POTION"
-    },
-    {
-      "graphics_id": "OBJ_EVENT_GFX_YOUNGSTER",
-      "x": 7,
-      "y": 7,
-      "elevation": 3,
-      "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
-      "movement_range_x": 1,
-      "movement_range_y": 1,
-      "trainer_type": "TRAINER_TYPE_NORMAL",
-      "trainer_sight_or_berry_tree_id": "4",
-      "script": "Route118_EventScript_Deandre",
-      "flag": "0"
     }
   ],
   "warp_events": [

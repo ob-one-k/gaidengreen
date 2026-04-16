@@ -125,6 +125,12 @@ SlateportCity_EventScript_EnergyGuru::
 
 	.align 2
 SlateportCity_Pokemart_EnergyGuru:
+	.2byte ITEM_WIDE_LENS
+	.2byte ITEM_ZOOM_LENS
+	.2byte ITEM_SCOPE_LENS
+	.2byte ITEM_ROCKY_HELMET
+	.2byte ITEM_QUICK_CLAW
+	.2byte ITEM_SHELL_BELL
 	.2byte ITEM_PROTEIN
 	.2byte ITEM_IRON
 	.2byte ITEM_CARBOS

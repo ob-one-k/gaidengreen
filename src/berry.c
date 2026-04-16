@@ -59,8 +59,8 @@ const struct Berry gBerries[] =
         .firmness = BERRY_FIRMNESS_SOFT,
         .color = BERRY_COLOR_RED,
         .size = 20,
-        .maxYield = YIELD_RATE(3, 5, 15, 20),
-        .minYield = YIELD_RATE(2, 2, 4, 4),
+        .maxYield = 45,
+        .minYield = 15,
         .description1 = COMPOUND_STRING("Blooms with delicate pretty flowers."),
         .description2 = COMPOUND_STRING("The bright red Berry is very spicy."),
         .growthDuration = GROWTH_DURATION(12, 12, 18, 24, 16, 24),
@@ -82,8 +82,8 @@ const struct Berry gBerries[] =
         .firmness = BERRY_FIRMNESS_SUPER_HARD,
         .color = BERRY_COLOR_PURPLE,
         .size = 80,
-        .maxYield = YIELD_RATE(3, 5, 15, 20),
-        .minYield = YIELD_RATE(2, 2, 4, 4),
+        .maxYield = 24,
+        .minYield = 12,
         .description1 = COMPOUND_STRING("The Berry's thick skin and fruit are"),
         .description2 = COMPOUND_STRING("very tough. It is dry-tasting all over."),
         .growthDuration = GROWTH_DURATION(12, 12, 18, 24, 16, 24),
@@ -105,8 +105,8 @@ const struct Berry gBerries[] =
         .firmness = BERRY_FIRMNESS_VERY_SOFT,
         .color = BERRY_COLOR_PINK,
         .size = 40,
-        .maxYield = YIELD_RATE(3, 5, 15, 20),
-        .minYield = YIELD_RATE(2, 2, 4, 4),
+        .maxYield = 45,
+        .minYield = 15,
         .description1 = COMPOUND_STRING("Very sweet and delicious."),
         .description2 = COMPOUND_STRING("Also very tender - handle with care."),
         .growthDuration = GROWTH_DURATION(12, 12, 18, 24, 16, 24),
@@ -128,8 +128,8 @@ const struct Berry gBerries[] =
         .firmness = BERRY_FIRMNESS_HARD,
         .color = BERRY_COLOR_GREEN,
         .size = 32,
-        .maxYield = YIELD_RATE(3, 5, 15, 20),
-        .minYield = YIELD_RATE(2, 2, 4, 4),
+        .maxYield = 45,
+        .minYield = 15,
         .description1 = COMPOUND_STRING("If the leaves grow long and curly,"),
         .description2 = COMPOUND_STRING("the Berry seems to grow very bitter."),
         .growthDuration = GROWTH_DURATION(12, 12, 18, 24, 16, 24),
@@ -197,8 +197,8 @@ const struct Berry gBerries[] =
         .firmness = BERRY_FIRMNESS_SUPER_HARD,
         .color = BERRY_COLOR_BLUE,
         .size = 35,
-        .maxYield = YIELD_RATE(3, 5, 15, 20),
-        .minYield = YIELD_RATE(2, 2, 4, 4),
+        .maxYield = 45,
+        .minYield = 15,
         .description1 = COMPOUND_STRING("A peculiar Berry with a mix of flavors."),
         .description2 = COMPOUND_STRING("Berries grow in half a day."),
         .growthDuration = GROWTH_DURATION(12, 16, 24, 24, 16, 24),
@@ -1976,6 +1976,22 @@ void PlantBerryTree(u8 id, u8 berry, u8 stage, bool8 allowGrowth)
     SetTreeMutations(id, berry);
 }
 
+void RandomizeBerryTrees(void)
+{
+    int i;
+
+    for (i = 0; i < BERRY_TREES_COUNT; i++)
+    {
+        if (gSaveBlock1Ptr->berryTrees[i].berry != ITEM_NONE)
+        {
+            const struct Berry *berry = GetBerryInfo(gSaveBlock1Ptr->berryTrees[i].berry);
+            u16 yield = berry->minYield + (Random() % (berry->maxYield - berry->minYield + 1));
+
+            gSaveBlock1Ptr->berryTrees[i].berryYield = yield;
+        }
+    }
+}
+
 void RemoveBerryTree(u8 id)
 {
     gSaveBlock1Ptr->berryTrees[id] = gBlankBerryTree;
@@ -2085,19 +2101,10 @@ static u8 CalcBerryYieldInternal(u16 max, u16 min, u8 water)
 static u8 CalcBerryYield(struct BerryTree *tree)
 {
     const struct Berry *berry = GetBerryInfo(tree->berry);
-    u8 min = tree->berryYield;
+    u8 min = berry->minYield;
     u8 max = berry->maxYield;
-    u8 result;
-    if (OW_BERRY_MULCH_USAGE && (tree->mulch == ITEM_TO_MULCH(ITEM_RICH_MULCH) || tree->mulch == ITEM_TO_MULCH(ITEM_AMAZE_MULCH)))
-        min += 2;
-    if (!(OW_BERRY_MOISTURE && OW_BERRY_ALWAYS_WATERABLE))
-        min += berry->minYield;
-    if (min >= max)
-        result = max;
-    else
-        result = CalcBerryYieldInternal(max, min, BerryTreeGetNumStagesWatered(tree));
-
-    return result;
+    u8 maxWater = NUM_WATER_STAGES; // Usually 4, confirm in your codebase
+    return CalcBerryYieldInternal(min, max, maxWater);
 }
 
 static u8 GetBerryCountByBerryTreeId(u8 id)

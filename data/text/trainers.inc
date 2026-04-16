@@ -347,7 +347,7 @@ Route104_Text_HaleyPostRematch:
 
 Route104_Text_WinstonIntro:
 	.string "Oh, sure, I'll accept your challenge.\n"
-	.string "I have a lot of money.$"
+	.string "I'm strong, all my mons smash rocks!$"
 
 Route104_Text_WinstonDefeat:
 	.string "Why couldn't I win?$"

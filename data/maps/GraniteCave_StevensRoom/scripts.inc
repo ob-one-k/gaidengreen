@@ -9,7 +9,9 @@ GraniteCave_StevensRoom_EventScript_Steven::
 	call Common_EventScript_PlayerHandedOverTheItem
 	setflag FLAG_DELIVERED_STEVEN_LETTER
 	msgbox GraniteCave_StevensRoom_Text_ThankYouTakeThis, MSGBOX_DEFAULT
+	giveitem ITEM_TM_AERIAL_ACE
 	giveitem ITEM_TM_STEEL_WING
+	giveitem ITEM_METAL_COAT
 	call_if_eq VAR_RESULT, FALSE, GraniteCave_StevensRoom_EventScript_BagFull
 	msgbox GraniteCave_StevensRoom_Text_CouldBecomeChampionLetsRegister, MSGBOX_DEFAULT
 	closemessage

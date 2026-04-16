@@ -6,12 +6,12 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
 #if P_FAMILY_SPRIGATITO
     [SPECIES_SPRIGATITO] =
     {
-        .baseHP        = 40,
+        .baseHP        = 45, //* +5
         .baseAttack    = 61,
         .baseDefense   = 54,
-        .baseSpeed     = 65,
+        .baseSpeed     = 72, //* +7
         .baseSpAttack  = 45,
-        .baseSpDefense = 45,
+        .baseSpDefense = 50, //* +5
         .types = MON_TYPES(TYPE_GRASS),
         .catchRate = 45,
         .expYield = 62,
@@ -21,7 +21,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .friendship = STANDARD_FRIENDSHIP,
         .growthRate = GROWTH_MEDIUM_SLOW,
         .eggGroups = MON_EGG_GROUPS(EGG_GROUP_FIELD, EGG_GROUP_GRASS),
-        .abilities = { ABILITY_OVERGROW, ABILITY_NONE, ABILITY_PROTEAN },
+        .abilities = { ABILITY_OVERGROW, ABILITY_NONE, ABILITY_EFFECT_SPORE }, //* change
         .bodyColor = BODY_COLOR_GREEN,
         .speciesName = _("Sprigatito"),
         .cryId = CRY_SPRIGATITO,
@@ -66,15 +66,15 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .levelUpLearnset = sSprigatitoLevelUpLearnset,
         .teachableLearnset = sSprigatitoTeachableLearnset,
         .eggMoveLearnset = sSprigatitoEggMoveLearnset,
-        .evolutions = EVOLUTION({EVO_LEVEL, 16, SPECIES_FLORAGATO}),
+        .evolutions = EVOLUTION({EVO_LEVEL, 14, SPECIES_FLORAGATO}), //! -2
     },
 
     [SPECIES_FLORAGATO] =
     {
         .baseHP        = 61,
-        .baseAttack    = 80,
+        .baseAttack    = 85, //* +5
         .baseDefense   = 63,
-        .baseSpeed     = 83,
+        .baseSpeed     = 98, //* +15
         .baseSpAttack  = 60,
         .baseSpDefense = 63,
         .types = MON_TYPES(TYPE_GRASS),
@@ -86,7 +86,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .friendship = STANDARD_FRIENDSHIP,
         .growthRate = GROWTH_MEDIUM_SLOW,
         .eggGroups = MON_EGG_GROUPS(EGG_GROUP_FIELD, EGG_GROUP_GRASS),
-        .abilities = { ABILITY_OVERGROW, ABILITY_NONE, ABILITY_PROTEAN },
+        .abilities = { ABILITY_OVERGROW, ABILITY_NONE, ABILITY_PROTEAN }, //*change
         .bodyColor = BODY_COLOR_GREEN,
         .speciesName = _("Floragato"),
         .cryId = CRY_FLORAGATO,
@@ -150,7 +150,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .friendship = STANDARD_FRIENDSHIP,
         .growthRate = GROWTH_MEDIUM_SLOW,
         .eggGroups = MON_EGG_GROUPS(EGG_GROUP_FIELD, EGG_GROUP_GRASS),
-        .abilities = { ABILITY_OVERGROW, ABILITY_NONE, ABILITY_PROTEAN },
+        .abilities = { ABILITY_OVERGROW, ABILITY_NONE, ABILITY_PROTEAN }, //*change
         .bodyColor = BODY_COLOR_GREEN,
         .speciesName = _("Meowscarada"),
         .cryId = CRY_MEOWSCARADA,
@@ -3322,11 +3322,11 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
 
     [SPECIES_SCOVILLAIN] =
     {
-        .baseHP        = 65,
-        .baseAttack    = 108,
+        .baseHP        = 75,
+        .baseAttack    = 126,
         .baseDefense   = 65,
         .baseSpeed     = 75,
-        .baseSpAttack  = 108,
+        .baseSpAttack  = 90,
         .baseSpDefense = 65,
         .types = MON_TYPES(TYPE_GRASS, TYPE_FIRE),
         .catchRate = 75,
@@ -3337,7 +3337,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .friendship = STANDARD_FRIENDSHIP,
         .growthRate = GROWTH_MEDIUM_FAST,
         .eggGroups = MON_EGG_GROUPS(EGG_GROUP_GRASS),
-        .abilities = { ABILITY_CHLOROPHYLL, ABILITY_INSOMNIA, ABILITY_MOODY },
+        .abilities = { ABILITY_CHLOROPHYLL, ABILITY_INSOMNIA, ABILITY_WATER_ABSORB },
         .bodyColor = BODY_COLOR_GREEN,
         .speciesName = _("Scovillain"),
         .cryId = CRY_SCOVILLAIN,
@@ -4442,7 +4442,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .friendship = STANDARD_FRIENDSHIP,
         .growthRate = GROWTH_SLOW,
         .eggGroups = MON_EGG_GROUPS(EGG_GROUP_FIELD),
-        .abilities = { ABILITY_EARTH_EATER, ABILITY_NONE, ABILITY_SAND_VEIL },
+        .abilities = { ABILITY_EARTH_EATER, ABILITY_NONE, ABILITY_NONE },
         .bodyColor = BODY_COLOR_PINK,
         .speciesName = _("Orthworm"),
         .cryId = CRY_ORTHWORM,
@@ -6342,7 +6342,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .levelUpLearnset = sGimmighoulLevelUpLearnset,
         .teachableLearnset = sGimmighoulTeachableLearnset,
         .formSpeciesIdTable = sGimmighoulFormSpeciesIdTable,
-        .evolutions = EVOLUTION({EVO_LEVEL, 0, SPECIES_GHOLDENGO, CONDITIONS({IF_BAG_ITEM_COUNT, ITEM_GIMMIGHOUL_COIN, 999})}),
+        .evolutions = EVOLUTION({EVO_LEVEL, 55, SPECIES_GHOLDENGO}),
     },
 
     [SPECIES_GIMMIGHOUL_ROAMING] =
@@ -6398,7 +6398,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .levelUpLearnset = sGimmighoulLevelUpLearnset,
         .teachableLearnset = sGimmighoulTeachableLearnset,
         .formSpeciesIdTable = sGimmighoulFormSpeciesIdTable,
-        .evolutions = EVOLUTION({EVO_LEVEL, 0, SPECIES_GHOLDENGO, CONDITIONS({IF_BAG_ITEM_COUNT, ITEM_GIMMIGHOUL_COIN, 999})}),
+        .evolutions = EVOLUTION({EVO_LEVEL, 55, SPECIES_GHOLDENGO}),
     },
 
     [SPECIES_GHOLDENGO] =

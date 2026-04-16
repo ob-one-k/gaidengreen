@@ -476,6 +476,39 @@ Route109_EventScript_Elijah::
 	msgbox Route109_Text_ElijahPostBattle, MSGBOX_AUTOCLOSE
 	end
 
+Route109_EventScript_KirliaPC::
+    lock
+    faceplayer
+
+    msgbox Route109_Text_KirliaPC, MSGBOX_DEFAULT
+
+    goto EventScript_PC
+
+MyMap_EventScript_HealNpc::
+	lock
+	faceplayer
+	msgbox MyMap_Text_WouldYouLikeToHeal, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, MyMap_EventScript_HealNpc_No
+
+	special HealPlayerParty
+	msgbox MyMap_Text_HealNpc_Done, MSGBOX_DEFAULT
+	release
+	end
+
+MyMap_EventScript_HealNpc_No:
+	msgbox MyMap_Text_HealNpc_No, MSGBOX_DEFAULT
+	release
+	end
+
+MyMap_Text_WouldYouLikeToHeal:
+	.string "Would you like to heal your POKéMON?$"
+
+MyMap_Text_HealNpc_Done:
+	.string "Your POKéMON were fully healed.$"
+
+MyMap_Text_HealNpc_No:
+	.string "Come back anytime.$"
+
 DewfordTown_Text_BrineyLandedInSlateportDeliverGoods:
 	.string "MR. BRINEY: Ahoy!\n"
 	.string "We've made land in SLATEPORT!\p"
@@ -562,3 +595,7 @@ Route109_Text_TrainerTipsSign:
 	.string "always have identical stats.\p"
 	.string "POKéMON raised by TRAINERS are said\n"
 	.string "to grow stronger than wild POKéMON.$"
+
+Route109_Text_KirliaPC:
+    .string "Kirlia tilts its head...\n"
+    .string "It seems to connect you to a PC.$"

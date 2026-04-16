@@ -104,6 +104,16 @@ Route115_EventScript_Hector::
 	msgbox Route115_Text_HectorPostBattle, MSGBOX_AUTOCLOSE
 	end
 
+Route116_EventScript_Dawson::
+	trainerbattle_single TRAINER_DAWSON, Route116_Text_DawsonIntro, Route116_Text_DawsonDefeat
+	msgbox Route116_Text_DawsonPostBattle, MSGBOX_AUTOCLOSE
+	end
+
+Route116_EventScript_Clark::
+	trainerbattle_single TRAINER_CLARK, Route116_Text_ClarkIntro, Route116_Text_ClarkDefeat
+	msgbox Route116_Text_ClarkPostBattle, MSGBOX_AUTOCLOSE
+	end
+
 Route115_EventScript_Kyra::
 	trainerbattle_single TRAINER_KYRA, Route115_Text_KyraIntro, Route115_Text_KyraDefeat
 	msgbox Route115_Text_KyraPostBattle, MSGBOX_AUTOCLOSE
@@ -128,6 +138,43 @@ Route115_EventScript_Marlene::
 	trainerbattle_single TRAINER_MARLENE, Route115_Text_MarleneIntro, Route115_Text_MarleneDefeat
 	msgbox Route115_Text_MarlenePostBattle, MSGBOX_AUTOCLOSE
 	end
+
+Route115_EventScript_KirliaPC::
+    lock
+    faceplayer
+
+    msgbox Route115_Text_KirliaPC, MSGBOX_DEFAULT
+
+    goto EventScript_PC
+
+Route115_EventScript_HealNpc::
+	lock
+	faceplayer
+	msgbox Route115_Text_WouldYouLikeToHeal, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, Route115_EventScript_HealNpc_No
+
+	special HealPlayerParty
+	msgbox Route115_Text_HealNpc_Done, MSGBOX_DEFAULT
+	release
+	end
+
+Route115_EventScript_HealNpc_No:
+	msgbox Route115_Text_HealNpc_No, MSGBOX_DEFAULT
+	release
+	end
+
+Route115_Text_WouldYouLikeToHeal:
+	.string "Would you like to heal your POKéMON?$"
+
+Route115_Text_HealNpc_Done:
+	.string "Your POKéMON were fully healed.$"
+
+Route115_Text_HealNpc_No:
+	.string "Come back anytime.$"
+
+Route115_Text_KirliaPC:
+    .string "Kirlia tilts its head...\n"
+    .string "It seems to connect you to a PC.$"
 
 Route115_Text_NeverKnowWhenCavePokemonWillAppear:
 	.string "Exploring a cave isn't like walking\n"
