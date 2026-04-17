@@ -37,6 +37,7 @@ from decomp_data import (
     load_learnsets, species_to_learnset_key, load_move_learners,
     find_sprite_for_key, pokemon_sprite, make_shiny_pixmap, make_transparent_pixmap,
     parse_trainers_party, write_trainers_party, build_trainer_location_map,
+    load_item_descriptions, load_item_stats,
     _HP_TYPES, calc_hidden_power, optimal_ivs_for_hp_type,
     calc_ingame_hp, calc_ingame_stat, calc_all_ingame_stats, get_dex_base_stats,
     _TYPE_CHART, _ABILITY_IMMUNITIES, _mon_type_effectiveness, calc_team_type_profile,
@@ -60,10 +61,11 @@ try:
         QAction, QMenu, QToolButton,
         QTreeWidget, QTreeWidgetItem,
         QTableWidget, QTableWidgetItem,
-        QHeaderView,
+        QHeaderView, QSizeGrip,
+        QStyledItemDelegate, QStyle,
     )
-    from PyQt5.QtCore  import Qt, QTimer, QSize, pyqtSignal, QFileSystemWatcher
-    from PyQt5.QtGui   import QColor, QFont, QBrush, QPixmap, QIcon
+    from PyQt5.QtCore  import Qt, QTimer, QSize, QRect, pyqtSignal, QFileSystemWatcher, QObject, QEvent
+    from PyQt5.QtGui   import QColor, QFont, QBrush, QPixmap, QIcon, QCursor
     HAS_QT = True
 except ImportError:
     HAS_QT = False
@@ -110,6 +112,16 @@ def _pokemon_pixmap(species_display, size=64):
             return pix.scaled(size, size, Qt.KeepAspectRatio, Qt.SmoothTransformation)
     return None
 
+
+# ─── Ball names (for MonEditorDialog ball selector) ───────────────────────────
+_BALL_NAMES = [
+    "", "Poke Ball", "Great Ball", "Ultra Ball", "Master Ball",
+    "Premier Ball", "Heal Ball", "Net Ball", "Nest Ball", "Dive Ball",
+    "Dusk Ball", "Timer Ball", "Quick Ball", "Repeat Ball", "Luxury Ball",
+    "Level Ball", "Lure Ball", "Moon Ball", "Friend Ball", "Love Ball",
+    "Fast Ball", "Heavy Ball", "Dream Ball", "Safari Ball", "Sport Ball",
+    "Park Ball", "Beast Ball", "Cherish Ball",
+]
 
 # ─── Nature combo helpers ─────────────────────────────────────────────────────
 _NEUTRAL_NATURES = ["Hardy", "Docile", "Bashful", "Quirky", "Serious"]
@@ -372,18 +384,27 @@ class AbilitySelectorDialog(_FramelessDialogBase):
 
 
 class ItemSelectorDialog(_FramelessDialogBase):
+    """Item picker with a description detail panel on the right.
+
+    Clicking an item shows its sprite, name, and description in the panel.
+    The user can select the item from either the list footer buttons or
+    the "Select This Item" button inside the detail panel.
+    """
     def __init__(self, current="", parent=None):
         super().__init__("Select Item", parent)
-        self.resize(500, 460)
+        self.resize(720, 500)
         self.selected = current
         self.selected_key = current
         self._items = load_items()
+        self._item_descs = load_item_descriptions()
+        self._item_stats = load_item_stats()
         self._build_ui()
         self._populate(self._items)
 
     def _build_ui(self):
         lay = self._root_layout
 
+        # ── Search + clear row ───────────────────────────────────────────────
         search_row = QHBoxLayout()
         self._search = QLineEdit(); self._search.setPlaceholderText("Search items…")
         self._search.setClearButtonEnabled(True)
@@ -393,12 +414,78 @@ class ItemSelectorDialog(_FramelessDialogBase):
         search_row.addWidget(self._search); search_row.addWidget(no_btn)
         lay.addLayout(search_row)
 
+        # ── Body: list (left) + detail panel (right) ─────────────────────────
+        body = QHBoxLayout(); body.setSpacing(10)
+
         self._list = QListWidget()
         self._list.setIconSize(QSize(32, 32))
         self._list.setAlternatingRowColors(True)
+        self._list.itemClicked.connect(self._on_item_clicked)
         self._list.itemDoubleClicked.connect(self._accept)
-        lay.addWidget(self._list, 1)
+        body.addWidget(self._list, 1)
 
+        # Detail panel
+        detail_w = QWidget()
+        detail_w.setFixedWidth(220)
+        detail_w.setStyleSheet(
+            "QWidget { background:#1e1e2e; border-radius:8px; border:1px solid #313244; }"
+        )
+        detail_lay = QVBoxLayout(detail_w)
+        detail_lay.setContentsMargins(10, 12, 10, 10)
+        detail_lay.setSpacing(8)
+
+        self._det_sprite = QLabel()
+        self._det_sprite.setFixedSize(64, 64)
+        self._det_sprite.setAlignment(Qt.AlignCenter)
+        self._det_sprite.setStyleSheet(
+            "background:#181825; border-radius:8px; border:1px solid #313244;"
+        )
+        sprite_wrap = QWidget(); sprite_wrap.setStyleSheet("background:transparent; border:none;")
+        sw_lay = QHBoxLayout(sprite_wrap); sw_lay.setContentsMargins(0,0,0,0)
+        sw_lay.addStretch(); sw_lay.addWidget(self._det_sprite); sw_lay.addStretch()
+        detail_lay.addWidget(sprite_wrap)
+
+        self._det_name = QLabel("")
+        self._det_name.setAlignment(Qt.AlignCenter)
+        self._det_name.setWordWrap(True)
+        self._det_name.setStyleSheet(
+            "font-size:13px; font-weight:bold; color:#cdd6f4; background:transparent; border:none;"
+        )
+        detail_lay.addWidget(self._det_name)
+
+        sep = QFrame(); sep.setFrameShape(QFrame.HLine)
+        sep.setStyleSheet("background:#313244; max-height:1px; border:none;")
+        detail_lay.addWidget(sep)
+
+        self._det_desc = QLabel("")
+        self._det_desc.setWordWrap(True)
+        self._det_desc.setAlignment(Qt.AlignTop | Qt.AlignLeft)
+        self._det_desc.setStyleSheet(
+            "color:#a6adc8; font-size:11px; font-style:italic; "
+            "background:transparent; border:none;"
+        )
+        detail_lay.addWidget(self._det_desc, 1)
+
+        self._det_stats = QLabel("")
+        self._det_stats.setAlignment(Qt.AlignLeft)
+        self._det_stats.setWordWrap(True)
+        self._det_stats.setStyleSheet(
+            "color:#f9e2af; font-size:11px; background:transparent; border:none;"
+        )
+        self._det_stats.setVisible(False)
+        detail_lay.addWidget(self._det_stats)
+
+        self._det_select_btn = QPushButton("Select This Item")
+        self._det_select_btn.setObjectName("accent")
+        self._det_select_btn.setFixedHeight(30)
+        self._det_select_btn.setVisible(False)
+        self._det_select_btn.clicked.connect(self._accept)
+        detail_lay.addWidget(self._det_select_btn)
+
+        body.addWidget(detail_w)
+        lay.addLayout(body, 1)
+
+        # ── Footer buttons ────────────────────────────────────────────────────
         btns = QHBoxLayout()
         ok_btn = QPushButton("Select"); ok_btn.setObjectName("accent")
         ok_btn.clicked.connect(self._accept)
@@ -416,6 +503,44 @@ class ItemSelectorDialog(_FramelessDialogBase):
             self._list.addItem(item)
             if key == self.selected or display.lower() == self.selected.lower():
                 self._list.setCurrentItem(item)
+                self._show_detail(key, display, icon_path)
+
+    def _on_item_clicked(self, list_item):
+        key = list_item.data(Qt.UserRole)
+        tup = item_lookup(key) if key else None
+        display   = tup[1] if tup else (list_item.text() if list_item else "")
+        icon_path = tup[2] if tup else ""
+        self._show_detail(key, display, icon_path)
+
+    def _show_detail(self, key, display, icon_path):
+        """Populate the right-side detail panel for the given item."""
+        # Sprite (larger, 64px)
+        pix = _item_pixmap(icon_path, 64)
+        if pix:
+            self._det_sprite.setPixmap(pix)
+        else:
+            self._det_sprite.clear()
+            self._det_sprite.setText("?")
+
+        self._det_name.setText(display or "")
+
+        # Description from items.h
+        desc = self._item_descs.get(key, "") if key else ""
+        self._det_desc.setText(desc if desc else "(No description available)")
+
+        # Cost + fling power
+        st = self._item_stats.get(key, {}) if key else {}
+        price = st.get('price', '')
+        fling = st.get('fling_power', 0)
+        lines = []
+        if price and price != '0':
+            lines.append(f"Buy: ₽{price}")
+        if fling:
+            lines.append(f"Fling: {fling}")
+        self._det_stats.setText("  ·  ".join(lines))
+        self._det_stats.setVisible(bool(lines))
+
+        self._det_select_btn.setVisible(bool(key))
 
     def _filter(self, text):
         q = text.strip().lower()
@@ -429,9 +554,9 @@ class ItemSelectorDialog(_FramelessDialogBase):
     def _accept(self):
         cur = self._list.currentItem()
         if cur:
-            self.selected_key = cur.data(Qt.UserRole)          # ITEM_ constant
+            self.selected_key = cur.data(Qt.UserRole)
             tup = item_lookup(self.selected_key)
-            self.selected = tup[1] if tup and tup[1] else self.selected_key  # display name
+            self.selected = tup[1] if tup and tup[1] else self.selected_key
         self.accept()
 
 
@@ -972,6 +1097,66 @@ class GenderToggleBtn(QPushButton):
 
 
 # ══════════════════════════════════════════════════════════════════════════════
+# SPECIES LIST SPRITE DELEGATE
+# ══════════════════════════════════════════════════════════════════════════════
+_species_sprite_cache: dict = {}   # module-level: name → QPixmap | None
+
+class _SpriteItemDelegate(QStyledItemDelegate):
+    """List-row delegate: draws a 32×32 transparent sprite before the item text.
+    Sprites are loaded and processed lazily (only when the row scrolls into view)
+    and cached for the session so repeated filter changes are instant."""
+
+    ICON_W = 32
+    ROW_H  = 40
+    PAD    = 4
+
+    def _pixmap(self, name: str):
+        if name in _species_sprite_cache:
+            return _species_sprite_cache[name]
+        front, _ = pokemon_sprite(name)
+        pix = None
+        if front:
+            raw = QPixmap(front)
+            if not raw.isNull():
+                if raw.height() > raw.width():
+                    raw = raw.copy(0, 0, raw.width(), raw.width())
+                raw = make_transparent_pixmap(raw)
+                pix = raw.scaled(self.ICON_W, self.ICON_W,
+                                 Qt.KeepAspectRatio, Qt.SmoothTransformation)
+        _species_sprite_cache[name] = pix
+        return pix
+
+    def sizeHint(self, option, index):
+        return QSize(option.rect.width(), self.ROW_H)
+
+    def paint(self, painter, option, index):
+        self.initStyleOption(option, index)
+        style = option.widget.style() if option.widget else QApplication.style()
+        # Draw standard panel background (selection, hover, alternating row colour)
+        style.drawPrimitive(QStyle.PE_PanelItemViewItem, option, painter, option.widget)
+
+        rect  = option.rect
+        name  = index.data(Qt.UserRole) or ''
+        label = index.data(Qt.DisplayRole) or name
+        pix   = self._pixmap(name)
+
+        # Sprite — centred vertically in the row
+        if pix:
+            ix = rect.left() + self.PAD
+            iy = rect.top() + (rect.height() - pix.height()) // 2
+            painter.drawPixmap(ix, iy, pix)
+
+        # Text — offset right of sprite
+        tx = rect.left() + self.ICON_W + self.PAD * 2
+        tr = QRect(tx, rect.top(), rect.right() - tx, rect.height())
+        if option.state & QStyle.State_Selected:
+            painter.setPen(option.palette.highlightedText().color())
+        else:
+            painter.setPen(option.palette.text().color())
+        painter.drawText(tr, Qt.AlignVCenter | Qt.AlignLeft, label)
+
+
+# ══════════════════════════════════════════════════════════════════════════════
 # SPECIES SELECTOR DIALOG
 # ══════════════════════════════════════════════════════════════════════════════
 class SpeciesSelectorDialog(_FramelessDialogBase):
@@ -983,15 +1168,25 @@ class SpeciesSelectorDialog(_FramelessDialogBase):
         self.selected = current   # display name e.g. "Sprigatito"
 
         # Build master list: (display_name, Pokemon|None)
+        # Mega evolutions, Gigantamax, Primal Reversions, and Eternamax are excluded —
+        # they are triggered automatically in battle by held item and cannot be
+        # directly assigned as a party species. Dynamax is not used in this game.
+        _BLOCKED_TAGS = ('_MEGA', '_GMAX', '_PRIMAL', '_ETERNAMAX')
         all_pkmn = load_all_pokemon()
         seen = set()
         self._entries = []
         for p in all_pkmn:
+            if any(tag in p.key.upper() for tag in _BLOCKED_TAGS):
+                continue
             if p.display_name not in seen:
                 seen.add(p.display_name)
                 self._entries.append((p.display_name, p))
         for name in load_species():
             if name not in seen:
+                # Filter by key-style check for raw species strings
+                name_upper = name.upper().replace(' ', '_').replace('-', '_')
+                if any(tag in name_upper for tag in _BLOCKED_TAGS):
+                    continue
                 seen.add(name)
                 self._entries.append((name, None))
         self._entries.sort(key=lambda x: x[0])
@@ -1076,6 +1271,7 @@ class SpeciesSelectorDialog(_FramelessDialogBase):
         self._list.setSelectionMode(QAbstractItemView.SingleSelection)
         self._list.currentItemChanged.connect(self._on_item_changed)
         self._list.itemDoubleClicked.connect(self._accept)
+        self._list.setItemDelegate(_SpriteItemDelegate(self._list))
         body.addWidget(self._list, 1)
 
         # Detail panel (fixed width)
@@ -1340,6 +1536,49 @@ class MonEditorDialog(_FramelessDialogBase):
         meta.addWidget(remove_btn)
         meta.addStretch()
         hdr.addLayout(meta)
+
+        # ── Header col 3: Item / Ability / Nature ─────────────────────────────
+        right_meta = QVBoxLayout(); right_meta.setSpacing(5)
+
+        hi_row = QHBoxLayout(); hi_row.setSpacing(6)
+        hi_row.addWidget(QLabel("Item:"))
+        self._item_sprite = QLabel()
+        self._item_sprite.setFixedSize(24, 24)
+        self._item_sprite.setAlignment(Qt.AlignCenter)
+        self._item_btn = QPushButton("— No Item —")
+        self._item_btn.setFixedHeight(28)
+        self._item_btn.clicked.connect(self._open_item_selector)
+        hi_row.addWidget(self._item_sprite); hi_row.addWidget(self._item_btn, 1)
+        right_meta.addLayout(hi_row)
+
+        ab_row = QHBoxLayout(); ab_row.setSpacing(6)
+        ab_row.addWidget(QLabel("Ability:"))
+        self._ability_btn = QPushButton("— No Ability —")
+        self._ability_btn.setFixedHeight(28)
+        self._ability_btn.clicked.connect(self._open_ability_selector)
+        ab_row.addWidget(self._ability_btn, 1)
+        right_meta.addLayout(ab_row)
+        self._ability_desc_lbl = QTextEdit()
+        self._ability_desc_lbl.setReadOnly(True)
+        self._ability_desc_lbl.setFixedHeight(48)
+        self._ability_desc_lbl.setFrameShape(QFrame.NoFrame)
+        self._ability_desc_lbl.setStyleSheet(
+            "QTextEdit { background:#181825; color:#a6adc8; font-size:11px; "
+            "font-style:italic; border:1px solid #313244; border-radius:4px; padding:3px; }"
+        )
+        right_meta.addWidget(self._ability_desc_lbl)
+
+        nat_row = QHBoxLayout(); nat_row.setSpacing(6)
+        nat_row.addWidget(QLabel("Nature:"))
+        self._nature_cb = QComboBox()
+        self._nature_cb.setFixedWidth(160)
+        _fill_nature_combo(self._nature_cb)
+        self._nature_cb.currentIndexChanged.connect(self._update_stats_display)
+        nat_row.addWidget(self._nature_cb); nat_row.addStretch()
+        right_meta.addLayout(nat_row)
+
+        right_meta.addStretch()
+        hdr.addLayout(right_meta)
         hdr.addStretch()
         root.addLayout(hdr)
         root.addWidget(_sep())
@@ -1380,22 +1619,16 @@ class MonEditorDialog(_FramelessDialogBase):
         stats_lay = QVBoxLayout(stats_tab)
         stats_lay.setContentsMargins(14, 12, 14, 12); stats_lay.setSpacing(6)
 
-        # Nature row + HP Type badge
-        nature_row = QHBoxLayout()
-        nature_row.addWidget(QLabel("Nature:"))
-        self._nature_cb = QComboBox()
-        self._nature_cb.setFixedWidth(200)
-        _fill_nature_combo(self._nature_cb)
-        self._nature_cb.currentIndexChanged.connect(self._update_stats_display)
-        nature_row.addWidget(self._nature_cb)
-        nature_row.addWidget(QLabel("  Hidden Power:"))
+        # HP Type badge row
+        hp_hdr_row = QHBoxLayout()
+        hp_hdr_row.addWidget(QLabel("Hidden Power:"))
         self._hp_type_badge = QLabel("")
         self._hp_type_badge.setStyleSheet(
             "background:#1a1a2e;border:1px solid #313244;border-radius:4px;"
             "padding:2px 10px;font-size:12px;font-weight:bold;color:#cdd6f4;")
-        nature_row.addWidget(self._hp_type_badge)
-        nature_row.addStretch()
-        stats_lay.addLayout(nature_row)
+        hp_hdr_row.addWidget(self._hp_type_badge)
+        hp_hdr_row.addStretch()
+        stats_lay.addLayout(hp_hdr_row)
         stats_lay.addWidget(_sep())
 
         # pokemon.db label colors (per-stat identity), uniform bar color (PS style)
@@ -1507,42 +1740,22 @@ class MonEditorDialog(_FramelessDialogBase):
         hp_opt_row.addStretch()
         stats_lay.addLayout(hp_opt_row)
 
-        stats_lay.addWidget(_sep())
-
-        # Held item row (moved from Misc)
-        hi_row = QHBoxLayout(); hi_row.setSpacing(6)
-        hi_row.addWidget(QLabel("Held Item:"))
-        self._item_sprite = QLabel()
-        self._item_sprite.setFixedSize(24, 24)
-        self._item_sprite.setAlignment(Qt.AlignCenter)
-        self._item_btn = QPushButton("— No Item —")
-        self._item_btn.setFixedHeight(26)
-        self._item_btn.clicked.connect(self._open_item_selector)
-        hi_row.addWidget(self._item_sprite); hi_row.addWidget(self._item_btn); hi_row.addStretch()
-        stats_lay.addLayout(hi_row)
-
-        # Ability row (moved from Misc)
-        ab_row = QHBoxLayout(); ab_row.setSpacing(6)
-        ab_row.addWidget(QLabel("Ability:"))
-        self._ability_btn = QPushButton("— No Ability —")
-        self._ability_btn.setFixedHeight(26)
-        self._ability_btn.clicked.connect(self._open_ability_selector)
-        self._ability_desc_lbl = QLabel("")
-        self._ability_desc_lbl.setWordWrap(True)
-        self._ability_desc_lbl.setStyleSheet("color:#a6adc8; font-size:11px; font-style:italic;")
-        ab_col = QVBoxLayout(); ab_col.setSpacing(2)
-        ab_col.addWidget(self._ability_btn)
-        ab_col.addWidget(self._ability_desc_lbl)
-        ab_row.addLayout(ab_col); ab_row.addStretch()
-        stats_lay.addLayout(ab_row)
-
-        # Happiness (moved from Misc)
+        # Happiness
         hap_row = QHBoxLayout(); hap_row.setSpacing(6)
         hap_row.addWidget(QLabel("Happiness:"))
         self._happiness_spin = QSpinBox(); self._happiness_spin.setRange(1, 255)
         self._happiness_spin.setValue(255); self._happiness_spin.setFixedWidth(70)
         hap_row.addWidget(self._happiness_spin); hap_row.addStretch()
         stats_lay.addLayout(hap_row)
+
+        # Ball
+        ball_row = QHBoxLayout(); ball_row.setSpacing(6)
+        ball_row.addWidget(QLabel("Ball:"))
+        self._ball_cb = QComboBox()
+        self._ball_cb.addItems(_BALL_NAMES)
+        self._ball_cb.setFixedWidth(150)
+        ball_row.addWidget(self._ball_cb); ball_row.addStretch()
+        stats_lay.addLayout(ball_row)
 
         stats_lay.addStretch()
         tabs.addTab(stats_tab, "Stats / IVs")
@@ -1600,9 +1813,9 @@ class MonEditorDialog(_FramelessDialogBase):
         if ability_name:
             info = load_ability_info()
             desc = info.get(ability_name.lower(), {}).get('desc', '')
-            self._ability_desc_lbl.setText(desc)
+            self._ability_desc_lbl.setPlainText(desc)
         else:
-            self._ability_desc_lbl.setText("")
+            self._ability_desc_lbl.setPlainText("")
 
     def _open_ability_selector(self):
         mega_key = _get_mega_species(self._get_species(), self.mon.held_item)
@@ -1640,10 +1853,12 @@ class MonEditorDialog(_FramelessDialogBase):
         for i, (btn, type_lbl, cat_lbl, pow_lbl, acc_lbl) in enumerate(self._move_rows):
             self._update_move_row(i, moves[i])
 
-        # Item / Ability / Happiness (now in Stats tab)
+        # Item / Ability (in header) / Happiness (in Stats tab)
         self._set_item_display(m.held_item)
         self._set_ability_display(m.ability)
         self._happiness_spin.setValue(m.happiness)
+        ball_idx = self._ball_cb.findText(m.ball or "")
+        self._ball_cb.setCurrentIndex(max(0, ball_idx))
 
         self._update_sprite()
 
@@ -1655,8 +1870,10 @@ class MonEditorDialog(_FramelessDialogBase):
 
     def _update_sprite(self, *_args):
         species  = self._get_species()
+        mega_key = _get_mega_species(species, self.mon.held_item) if self.mon else None
+        effective = mega_key if mega_key else species
         is_shiny = self._shiny_btn.isChecked()
-        front_path, _ = pokemon_sprite(species)
+        front_path, _ = pokemon_sprite(effective)
         if front_path:
             from PyQt5.QtGui import QPixmap as _QP
             raw = _QP(front_path)
@@ -1824,8 +2041,9 @@ class MonEditorDialog(_FramelessDialogBase):
         pix = _item_pixmap(icon_path, 32)
         if pix: self._item_sprite.setPixmap(pix)
         else:   self._item_sprite.clear()
-        # Mega stone check — refresh stats
+        # Mega stone check — refresh stats and sprite/abilities
         self._update_stats_display()
+        self._update_sprite()
 
     def _open_item_selector(self):
         dlg = ItemSelectorDialog(current=self.mon.held_item, parent=self)
@@ -1847,6 +2065,7 @@ class MonEditorDialog(_FramelessDialogBase):
         m.ivs           = [s.value() for s in self._iv_spins]
         m.ability       = self._ability_btn.property('current_ability') or ''
         m.happiness     = self._happiness_spin.value()
+        m.ball          = self._ball_cb.currentText()
         # held_item already saved via _set_item_display
         # moves already saved via _open_move_selector
         self.close()
@@ -1865,6 +2084,208 @@ class MonDetailDialog(MonEditorDialog):
         super()._apply()
         if self._callback:
             self._callback(self.mon)
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# FANCY TOOLTIP
+# ══════════════════════════════════════════════════════════════════════════════
+
+class _FancyTooltip(QWidget):
+    """Singleton dark-themed overlay tooltip.
+
+    Show via ``_FancyTooltip.instance().show_tip(title, body, accent, badges)``.
+    All four args are plain strings.  *accent* is a CSS hex color used as the
+    left border and title accent.  *badges* is optional info line (type / cat /
+    stats) shown between the title and description.
+
+    Implementation note: on first use the widget reparents itself into the
+    active top-level window so it becomes a child widget instead of a
+    top-level window.  This is the only reliable way to avoid the
+    QWindowsWindow::setGeometry minimum-height warnings caused by DWM
+    enforcing a non-zero frame height on every top-level window type
+    (Qt.ToolTip, Qt.Tool, Qt.Window, etc.).  A child widget has no DWM
+    involvement and can be any size.
+    """
+    _instance = None
+
+    @classmethod
+    def instance(cls):
+        if cls._instance is None:
+            cls._instance = cls()
+        return cls._instance
+
+    def __init__(self):
+        # Start as a plain frameless top-level; will be embedded on first show.
+        super().__init__(None,
+            Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint | Qt.NoDropShadowWindowHint)
+        self.setAttribute(Qt.WA_TranslucentBackground)
+        self.setAttribute(Qt.WA_ShowWithoutActivating)
+        self._hide_timer = QTimer(self)
+        self._hide_timer.setSingleShot(True)
+        self._hide_timer.timeout.connect(self.hide)
+        self._embedded = False
+        self._build()
+
+    # ── Layout ────────────────────────────────────────────────────────────────
+
+    def _build(self):
+        self._frame = QFrame(self)
+        self._frame.setObjectName("ftip_frame")
+        outer = QVBoxLayout(self)
+        outer.setContentsMargins(0, 0, 0, 0)
+        outer.addWidget(self._frame)
+
+        lay = QVBoxLayout(self._frame)
+        lay.setContentsMargins(11, 8, 13, 8)
+        lay.setSpacing(4)
+
+        self._title_lbl = QLabel()
+        self._title_lbl.setObjectName("ftip_title")
+        self._badges_lbl = QLabel()
+        self._badges_lbl.setObjectName("ftip_badges")
+        self._sep_line = QFrame()
+        self._sep_line.setFrameShape(QFrame.HLine)
+        self._sep_line.setObjectName("ftip_sep")
+        self._body_lbl = QLabel()
+        self._body_lbl.setObjectName("ftip_body")
+        self._body_lbl.setWordWrap(True)
+        self._body_lbl.setMaximumWidth(300)
+
+        lay.addWidget(self._title_lbl)
+        lay.addWidget(self._badges_lbl)
+        lay.addWidget(self._sep_line)
+        lay.addWidget(self._body_lbl)
+
+    # ── Embedding ─────────────────────────────────────────────────────────────
+
+    def _try_embed(self):
+        """Reparent into the active top-level window as a child widget.
+
+        After this call the widget is no longer top-level: DWM imposes no
+        minimum height on child widgets, eliminating the geometry warnings.
+        """
+        if self._embedded:
+            return
+        win = QApplication.activeWindow()
+        if win and win is not self:
+            self.setParent(win)
+            # After setParent the window flags are reset to Qt.Widget (child).
+            # Re-apply the attributes that survive a reparent.
+            self.setAttribute(Qt.WA_TranslucentBackground)
+            self.setAttribute(Qt.WA_ShowWithoutActivating)
+            self._embedded = True
+
+    # ── Public API ────────────────────────────────────────────────────────────
+
+    def show_tip(self, title: str, body: str,
+                 accent: str = "#585b70", badges: str = ""):
+        """Update content and show the tooltip near the cursor."""
+        self._hide_timer.stop()
+
+        self._frame.setStyleSheet(f"""
+            QFrame#ftip_frame {{
+                background: #181825;
+                border: 1px solid #313244;
+                border-left: 3px solid {accent};
+                border-radius: 8px;
+            }}
+            QLabel#ftip_title {{
+                color: {accent};
+                font-size: 13px;
+                font-weight: bold;
+                background: transparent;
+                padding: 0;
+            }}
+            QLabel#ftip_badges {{
+                color: #bac2de;
+                font-size: 11px;
+                background: transparent;
+                padding: 0;
+            }}
+            QFrame#ftip_sep {{
+                background: #313244;
+                border: none;
+                max-height: 1px;
+                margin: 0;
+            }}
+            QLabel#ftip_body {{
+                color: #a6adc8;
+                font-size: 11px;
+                background: transparent;
+                padding: 0;
+            }}
+        """)
+
+        self._title_lbl.setText(title)
+        self._badges_lbl.setText(badges)
+        self._badges_lbl.setVisible(bool(badges))
+        self._sep_line.setVisible(bool(body))
+        self._body_lbl.setText(body)
+        self._body_lbl.setVisible(bool(body))
+
+        # Embed into main window on first show so DWM never touches this widget.
+        self._try_embed()
+
+        self.adjustSize()
+        w = self.sizeHint().width()
+        h = self.sizeHint().height()
+        self.setFixedSize(w, h)  # lock size; prevents any DWM or layout inflation
+
+        if self._embedded and self.parent():
+            parent = self.parent()
+            local = parent.mapFromGlobal(QCursor.pos())
+            x = local.x() + 18
+            y = local.y() + 12
+            # Clamp so the tooltip stays fully inside the parent window
+            x = max(4, min(x, parent.width()  - w - 4))
+            y = max(4, min(y, parent.height() - h - 4))
+        else:
+            # Fallback: position as a top-level relative to the screen
+            pos = QCursor.pos()
+            x, y = pos.x() + 18, pos.y() + 12
+            screen = QApplication.primaryScreen().availableGeometry()
+            if x + w > screen.right():   x = pos.x() - w - 10
+            if y + h > screen.bottom():  y = pos.y() - h - 10
+
+        self.move(x, y)
+        self.raise_()
+        self.show()
+
+    def schedule_hide(self, ms: int = 90):
+        """Start the auto-hide timer (cancelled if show_tip fires first)."""
+        self._hide_timer.start(ms)
+
+    def cancel_hide(self):
+        self._hide_timer.stop()
+
+
+def _install_tip(widget, content_fn):
+    """Install a hover tooltip on *widget*.
+
+    *content_fn* is called with no args on each Enter event and must return
+    either ``None`` (no tooltip) or a 4-tuple ``(title, body, accent, badges)``
+    matching ``_FancyTooltip.show_tip``.
+
+    Returns the installed ``QObject`` filter so the caller can keep a reference.
+    """
+    class _Filter(QObject):
+        def eventFilter(self, obj, event):
+            tip = _FancyTooltip.instance()
+            t = event.type()
+            if t == QEvent.Enter:
+                result = content_fn()
+                if result:
+                    tip.cancel_hide()
+                    tip.show_tip(*result)
+                else:
+                    tip.schedule_hide(90)
+            elif t in (QEvent.Leave, QEvent.Hide):
+                tip.schedule_hide(90)
+            return False   # never consume the event
+
+    f = _Filter(widget)
+    widget.installEventFilter(f)
+    return f
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -1887,7 +2308,8 @@ class MonSlotCard(QFrame):
         self._build_ui()
 
     def _build_ui(self):
-        self.setFixedWidth(172)
+        self.setMinimumWidth(172)
+        self.setCursor(Qt.PointingHandCursor)
         self.setStyleSheet(
             "MonSlotCard { background:#252536; border:1px solid #313244; border-radius:8px; }"
         )
@@ -1916,14 +2338,13 @@ class MonSlotCard(QFrame):
 
         # Sprite area
         self._sprite_lbl = QLabel()
-        self._sprite_lbl.setFixedSize(80, 80)
+        self._sprite_lbl.setMinimumSize(64, 64)
         self._sprite_lbl.setAlignment(Qt.AlignCenter)
         self._sprite_lbl.setStyleSheet(
             "background:#181825; border-radius:6px; border:1px solid #313244; color:#585b70;"
         )
         self._sprite_lbl.setText("?")
         self._sprite_lbl.setCursor(Qt.PointingHandCursor)
-        self._sprite_lbl.mouseDoubleClickEvent = self._on_sprite_dbl_click
         sprite_wrapper = QWidget()
         sprite_wrapper.setStyleSheet("background:transparent;")
         sw_lay = QHBoxLayout(sprite_wrapper)
@@ -1970,6 +2391,7 @@ class MonSlotCard(QFrame):
             "QPushButton:hover { background:#313244; border-color:#585b70; }"
         )
         self._item_btn.clicked.connect(self._on_item_clicked)
+        _install_tip(self._item_btn, self._tip_item)
         lay.addWidget(self._item_btn)
 
         # Ability + Nature — grouped tightly
@@ -1985,6 +2407,7 @@ class MonSlotCard(QFrame):
             "QComboBox::drop-down { border:none; width:14px; }"
         )
         self._ability_cb.currentTextChanged.connect(self._on_ability_changed)
+        _install_tip(self._ability_cb, self._tip_ability)
         ab_nat.addWidget(self._ability_cb)
 
         self._nature_cb = QComboBox()
@@ -1997,6 +2420,7 @@ class MonSlotCard(QFrame):
         )
         _fill_nature_combo(self._nature_cb)
         self._nature_cb.currentIndexChanged.connect(self._on_nature_changed)
+        _install_tip(self._nature_cb, self._tip_nature)
         ab_nat.addWidget(self._nature_cb)
         lay.addLayout(ab_nat)
 
@@ -2013,10 +2437,132 @@ class MonSlotCard(QFrame):
                 "QPushButton:hover { background:#45475a; }"
             )
             btn.clicked.connect(lambda _, idx=i: self._on_move_clicked(idx))
+            _install_tip(btn, lambda idx=i: self._tip_move(idx))
             lay.addWidget(btn)
             self._move_btns.append(btn)
 
+        # Install hover tooltips on the passive click-to-edit areas
+        _install_tip(self._sprite_lbl, self._tip_card)
+        _install_tip(self._name_lbl,   self._tip_card)
+
         lay.addStretch()
+
+    def mousePressEvent(self, event):
+        """Single-click anywhere on the card (background, sprite, labels) opens the detail popout.
+        Clicks on interactive children (buttons, combos, spinbox) are consumed by those widgets
+        and do NOT propagate here, so they remain fully functional."""
+        if event.button() == Qt.LeftButton:
+            self.slot_double_clicked.emit(self._slot_idx)
+        super().mousePressEvent(event)
+
+    # ── Card-level hover → "click to open" tooltip ───────────────────────────
+    def enterEvent(self, event):
+        result = self._tip_card()
+        if result:
+            _FancyTooltip.instance().cancel_hide()
+            _FancyTooltip.instance().show_tip(*result)
+        super().enterEvent(event)
+
+    def leaveEvent(self, event):
+        _FancyTooltip.instance().schedule_hide(90)
+        super().leaveEvent(event)
+
+    _BASE_CARD_W = 172  # design-reference card width
+
+    def resizeEvent(self, event):
+        """Scale the sprite label (and its pixmap) as the card grows with the window."""
+        super().resizeEvent(event)
+        new_w = event.size().width()
+        scale = new_w / self._BASE_CARD_W
+        sz = max(64, min(int(80 * scale), 200))
+        if self._sprite_lbl.width() != sz:
+            self._sprite_lbl.setFixedSize(sz, sz)
+            if self._front_path:
+                self._refresh_card_sprite(self._mon.shiny if self._mon else False)
+
+    # ── Tooltip content functions ─────────────────────────────────────────────
+    def _tip_card(self):
+        """Content for the card background / sprite / name hover tooltip."""
+        if self._mon and self._mon.species:
+            return (
+                "Open Pokémon Editor",
+                "Click to open the advanced editor for this slot.",
+                "#89b4fa",
+                "",
+            )
+        return (
+            "Empty Slot",
+            "Click to add a Pokémon to this slot.",
+            "#585b70",
+            "",
+        )
+
+    def _tip_item(self):
+        """Content for the held-item button hover tooltip."""
+        if self._mon is None or not self._mon.held_item:
+            return (
+                "Held Item",
+                "No item held. Click to pick one.",
+                "#f9e2af",
+                "",
+            )
+        tup = item_lookup(self._mon.held_item)
+        if not tup:
+            return (self._mon.held_item, "No description available.", "#f9e2af", "")
+        key, display, _ = tup
+        descs = load_item_descriptions()
+        desc = descs.get(key, "") or "No description available."
+        return (display, desc, "#f9e2af", "")
+
+    def _tip_move(self, move_idx: int):
+        """Content for a move button hover tooltip."""
+        if self._mon is None:
+            return None
+        move_name = (self._mon.moves[move_idx]
+                     if move_idx < len(self._mon.moves) else "")
+        if not move_name:
+            return (f"Move Slot {move_idx + 1}", "No move assigned. Click to pick one.",
+                    "#585b70", "")
+        mv = move_lookup(move_name)
+        if not mv:
+            return (move_name, "Unknown move.", "#585b70", "")
+        t     = mv.get('type', '').replace('TYPE_', '').strip()
+        color = type_color(t)
+        cat   = cat_label(mv.get('category', ''))
+        pwr   = mv.get('power', 0)
+        acc   = mv.get('accuracy', 0)
+        pp    = mv.get('pp', 0)
+        desc  = mv.get('description', '') or "No description available."
+        badges = (
+            f"{t.title() or '—'}  ·  {cat}  ·  "
+            f"Pwr: {pwr or '—'}  ·  Acc: {f'{acc}%' if acc else '—'}  ·  PP: {pp or '—'}"
+        )
+        return (mv.get('name', move_name), desc, color, badges)
+
+    def _tip_ability(self):
+        """Content for the ability combo-box hover tooltip."""
+        ab_name = self._ability_cb.currentText().strip()
+        if not ab_name:
+            return ("Ability", "No ability selected.", "#89dceb", "")
+        info = load_ability_info()
+        ab = info.get(ab_name.lower())
+        if not ab:
+            return (ab_name, "No description available.", "#89dceb", "")
+        return (ab['name'], ab.get('desc') or "No description available.", "#89dceb", "")
+
+    def _tip_nature(self):
+        """Content for the nature combo-box hover tooltip."""
+        idx = self._nature_cb.currentIndex()
+        nature = self._nature_cb.itemData(idx) if idx >= 0 else ""
+        if not nature:
+            return ("Nature", "No nature selected.", "#cba6f7", "")
+        bi, ri = NATURE_MODS.get(nature, (0, 0))
+        stat_short = ["", "Atk", "Def", "SpA", "SpD", "Spe"]
+        if bi and ri:
+            body = f"+10% {stat_short[bi]}  /  −10% {stat_short[ri]}"
+        else:
+            body = "Neutral — no stat modifications."
+        return (nature, body, "#cba6f7", "")
 
     def _on_sprite_dbl_click(self, event):
         self.slot_double_clicked.emit(self._slot_idx)
@@ -2078,6 +2624,19 @@ class MonSlotCard(QFrame):
         if dlg.exec_() == QDialog.Accepted:
             self._mon.held_item = dlg.selected   # ItemSelectorDialog uses .selected
             self._refresh_item()
+            # Reset to base species sprite/types before mega check
+            front_path, _ = pokemon_sprite(self._mon.species)
+            self._front_path = front_path or ""
+            self._normal_pix = None
+            self._shiny_pix  = None
+            self._refresh_card_sprite(self._mon.shiny)
+            _base = get_dex_base_stats(self._mon.species)
+            self._apply_type_border(
+                _base.get('type1','') if _base else '',
+                _base.get('type2','') if _base else ''
+            )
+            # Then apply mega override if applicable
+            self._refresh_mega(self._mon)
 
     def _on_move_clicked(self, move_idx):
         """Quick move pick via MoveSelectorDialog."""
@@ -2107,8 +2666,6 @@ class MonSlotCard(QFrame):
                 "color:#45475a; font-size:30px; font-weight:bold;"
             )
             self._sprite_lbl.setCursor(Qt.PointingHandCursor)
-            self._sprite_lbl.mousePressEvent   = self._on_sprite_click
-            self._sprite_lbl.mouseDoubleClickEvent = self._on_sprite_click
             self._clear_btn.hide()
             self._name_lbl.setText("Add Pokémon")
             self._name_lbl.setStyleSheet("font-weight:bold; font-size:11px; color:#45475a;")
@@ -2138,8 +2695,6 @@ class MonSlotCard(QFrame):
             "background:#181825; border-radius:6px; border:1px solid #313244; color:#585b70;"
         )
         self._sprite_lbl.setCursor(Qt.PointingHandCursor)
-        self._sprite_lbl.mousePressEvent       = None   # single-click no longer needed
-        self._sprite_lbl.mouseDoubleClickEvent = self._on_sprite_dbl_click
         self._clear_btn.show()
 
         # Sprite (with shiny support)
@@ -2203,6 +2758,8 @@ class MonSlotCard(QFrame):
             _base.get('type1','') if _base else '',
             _base.get('type2','') if _base else ''
         )
+        # Mega stone override: update sprite/types/abilities if mega stone held
+        self._refresh_mega(mon)
 
     def _refresh_card_sprite(self, shiny: bool):
         """Load (and cache) the normal or shiny sprite for the current mon."""
@@ -2223,8 +2780,9 @@ class MonSlotCard(QFrame):
             self._shiny_pix = make_shiny_pixmap(path, self._normal_pix)
         pix = (self._shiny_pix if shiny and self._shiny_pix else self._normal_pix)
         if pix:
+            sz = self._sprite_lbl.width() or 80
             self._sprite_lbl.setPixmap(
-                pix.scaled(80, 80, Qt.KeepAspectRatio, Qt.SmoothTransformation))
+                pix.scaled(sz, sz, Qt.KeepAspectRatio, Qt.SmoothTransformation))
         else:
             self._sprite_lbl.clear()
             self._sprite_lbl.setText("?")
@@ -2243,6 +2801,41 @@ class MonSlotCard(QFrame):
             self._item_btn.setIcon(QIcon())
             txt = self._mon.held_item if self._mon.held_item else "— No Item —"
             self._item_btn.setText(txt)
+
+    def _refresh_mega(self, mon):
+        """If mon holds the correct mega stone, update sprite/types/abilities to mega form."""
+        mega_key = _get_mega_species(mon.species, mon.held_item)
+        if not mega_key:
+            return
+        # Update sprite to mega form
+        front_path, _ = pokemon_sprite(mega_key)
+        if front_path:
+            self._front_path = front_path
+            self._normal_pix = None
+            self._shiny_pix  = None
+            self._refresh_card_sprite(mon.shiny)
+        # Update type border and abilities from mega stats
+        mega_base = get_dex_base_stats(mega_key)
+        if mega_base:
+            self._apply_type_border(
+                mega_base.get('type1', ''),
+                mega_base.get('type2', '')
+            )
+            self._ability_cb.blockSignals(True)
+            self._ability_cb.clear()
+            self._ability_cb.addItem("")
+            seen = set()
+            for ab in mega_base.get('abilities', ('', '', '')):
+                if ab and ab not in seen:
+                    self._ability_cb.addItem(ab)
+                    seen.add(ab)
+            idx = self._ability_cb.findText(mon.ability)
+            if idx >= 0:
+                self._ability_cb.setCurrentIndex(idx)
+            elif mon.ability:
+                self._ability_cb.addItem(mon.ability)
+                self._ability_cb.setCurrentText(mon.ability)
+            self._ability_cb.blockSignals(False)
 
     def _refresh_moves(self):
         if self._mon is None:
@@ -2272,8 +2865,8 @@ class MonSlotCard(QFrame):
 
     def _apply_type_border(self, type1: str, type2: str):
         """Style card border using type colors — left=type1, right=type2."""
-        c1 = TYPE_HEX.get(type1.upper(), "#313244") if type1 else "#313244"
-        c2 = TYPE_HEX.get(type2.upper(), "#313244") if type2 else c1
+        c1 = type_color(type1) if type1 else "#313244"
+        c2 = type_color(type2) if type2 else c1
         self.setStyleSheet(
             "MonSlotCard { "
             "background:#252536; border-radius:8px; "
@@ -2290,134 +2883,394 @@ class MonSlotCard(QFrame):
 # TEAM TYPE ANALYSIS DIALOG
 # ══════════════════════════════════════════════════════════════════════════════
 class TeamTypeAnalysisDialog(_FramelessDialogBase):
-    """Pop-out showing team type weakness/resistance profile and type spread."""
+    """Pop-out showing team defensive + offensive type analysis."""
 
     def __init__(self, party, parent=None):
         super().__init__("Team Type Analysis", parent)
-        self.resize(700, 640)
+        self.resize(820, 700)
         self._party = [m for m in party if m and m.species]
+        self._moves_data = load_moves()
         self._build_ui()
 
-    def _build_ui(self):
-        root = self._root_layout
-        root.setSpacing(10)
+    # ── Offensive coverage helper ─────────────────────────────────────────────
 
-        title = QLabel("Team Defensive Profile  (Gen 8 type chart)")
-        title.setStyleSheet("font-size:15px; font-weight:bold; color:#cdd6f4;")
-        root.addWidget(title)
+    def _calc_offensive(self):
+        """Returns (coverage, holes, per_mon).
 
-        if not self._party:
-            root.addWidget(QLabel("No Pokémon in party yet."))
-            close_btn2 = QPushButton("Close"); close_btn2.setFixedWidth(80)
-            close_btn2.clicked.connect(self.accept)
-            root.addWidget(close_btn2)
-            return
+        coverage  : def_type → list of (mon_display, source_label, atk_type)
+        holes     : def types with zero SE coverage across whole team
+        per_mon   : mon_display → {'atk_types': set, 'def_covered': set}
+        """
+        coverage = {}
+        per_mon  = {}
+
+        for mon in self._party:
+            base = get_dex_base_stats(mon.species)
+            mon_types = set()
+            if base:
+                for k in ('type1', 'type2'):
+                    if base.get(k): mon_types.add(base[k].upper())
+
+            # Attacking types available: from moves + STAB types
+            atk_sources = {}    # atk_type → first source label seen
+            for mk in (mon.moves or []):
+                if not mk: continue
+                mv  = self._moves_data.get(mk.upper()) or self._moves_data.get(mk) or {}
+                mt  = (mv.get('type') or '').upper()
+                if mt and mt not in atk_sources:
+                    atk_sources[mt] = mk.replace('MOVE_','').replace('_',' ').title()
+            for t in mon_types:
+                if t not in atk_sources:
+                    atk_sources[t] = '(STAB)'
+
+            def_covered = set()
+            mon_display = mon.species.replace('SPECIES_','').replace('_',' ').title()
+            for atk_type, source in atk_sources.items():
+                for def_type, mult in _TYPE_CHART.get(atk_type, {}).items():
+                    if mult >= 2:
+                        def_covered.add(def_type)
+                        coverage.setdefault(def_type, []).append(
+                            (mon_display, source, atk_type))
+
+            per_mon[mon_display] = {
+                'atk_types':  set(atk_sources.keys()),
+                'def_covered': def_covered,
+            }
+
+        holes = [t for t in ALL_TYPES if not coverage.get(t)]
+        return coverage, holes, per_mon
+
+    # ── Tab builders ─────────────────────────────────────────────────────────
+
+    def _type_badge(self, type_name, height=20, pad="0 6px"):
+        tc  = TYPE_HEX.get(type_name, "#585b70")
+        lbl = QLabel(type_name.title())
+        lbl.setFixedHeight(height)
+        lbl.setAlignment(Qt.AlignCenter)
+        lbl.setStyleSheet(
+            f"background:{tc}; color:#ffffff; border-radius:3px; "
+            f"font-size:11px; font-weight:bold; padding:{pad};")
+        return lbl
+
+    def _summary_pill(self, text, fg, bg=None):
+        lbl = QLabel(f"  {text}  ")
+        bg2 = bg or (fg + "22")
+        lbl.setStyleSheet(
+            f"color:{fg}; background:{bg2}; border:1px solid {fg}44; "
+            f"border-radius:4px; font-size:11px; font-weight:bold; padding:3px 0;")
+        return lbl
+
+    def _build_defensive_tab(self):
+        w   = QWidget()
+        lay = QVBoxLayout(w)
+        lay.setContentsMargins(14, 12, 14, 8)
+        lay.setSpacing(10)
 
         profile = calc_team_type_profile(self._party)
-        n_mons  = len(self._party)
-
-        # ── Vulnerability table ───────────────────────────────────────────────
-        scroll = QScrollArea(); scroll.setWidgetResizable(True)
-        scroll.setFrameShape(QFrame.NoFrame)
-        table_w = QWidget()
-        tbl = QGridLayout(table_w)
-        tbl.setHorizontalSpacing(8); tbl.setVerticalSpacing(3)
-
-        for col, (txt, w) in enumerate([
-                ("Attacking Type",110),("4×",30),("2×",30),("½×",30),("¼×",30),("Immune",50),("Coverage",100)]):
-            h = QLabel(txt); h.setFixedWidth(w)
-            h.setStyleSheet("font-size:11px; font-weight:bold; color:#6c7086;")
-            h.setAlignment(Qt.AlignCenter)
-            tbl.addWidget(h, 0, col)
+        n       = len(self._party)
 
         def _danger(t):
             d = profile[t]
             return d['4x']*4 + d['2x']*2 - d['half'] - d['quarter']*2 - d['immune']*3
 
-        for row, atk in enumerate(sorted(ALL_TYPES, key=_danger, reverse=True), 1):
-            d  = profile[atk]
-            tc = TYPE_HEX.get(atk, "#585b70")
-            badge = QLabel(atk.title()); badge.setFixedHeight(20)
-            badge.setAlignment(Qt.AlignCenter)
-            badge.setStyleSheet(
-                f"background:{tc}; color:#ffffff; border-radius:3px; "
-                f"font-size:11px; font-weight:bold; padding:0 4px;")
-            tbl.addWidget(badge, row, 0)
-            for col, (key, color) in enumerate(
-                    [('4x','#f38ba8'),('2x','#fab387'),
-                     ('half','#a6e3a1'),('quarter','#89dceb'),('immune','#cba6f7')], 1):
-                count = d[key]
-                lbl = QLabel(str(count) if count else "—")
-                lbl.setAlignment(Qt.AlignCenter)
-                if count > 0 and key in ('4x','2x'):
-                    lbl.setStyleSheet(f"color:{color}; font-weight:bold; font-size:12px;")
-                elif count > 0:
-                    lbl.setStyleSheet(f"color:{color}; font-size:12px;")
+        n_crit   = sum(1 for t in ALL_TYPES if profile[t]['4x'] > 0)
+        n_weak   = sum(1 for t in ALL_TYPES if profile[t]['4x'] == 0 and profile[t]['2x'] > 0)
+        n_immune = sum(1 for t in ALL_TYPES if profile[t]['immune'] > 0)
+        n_resist = sum(1 for t in ALL_TYPES if profile[t]['4x'] == 0 and profile[t]['2x'] == 0
+                       and (profile[t]['half'] > 0 or profile[t]['quarter'] > 0))
+
+        # Summary row
+        sr = QHBoxLayout(); sr.setSpacing(8)
+        sr.addWidget(self._summary_pill(f"{n_crit} critical (4×) weaknesses", "#f38ba8"))
+        sr.addWidget(self._summary_pill(f"{n_weak} standard (2×) weaknesses", "#fab387"))
+        sr.addWidget(self._summary_pill(f"{n_resist} resisted types", "#a6e3a1"))
+        sr.addWidget(self._summary_pill(f"{n_immune} immunities", "#cba6f7"))
+        sr.addStretch()
+        lay.addLayout(sr)
+
+        # Scrollable table
+        scroll = QScrollArea(); scroll.setWidgetResizable(True)
+        scroll.setFrameShape(QFrame.NoFrame)
+        scroll.setStyleSheet("QScrollArea { background:transparent; border:none; }")
+        table_w = QWidget()
+        table_w.setStyleSheet("background:transparent;")
+        tbl = QGridLayout(table_w)
+        tbl.setHorizontalSpacing(6); tbl.setVerticalSpacing(3)
+        tbl.setColumnStretch(7, 1)
+
+        # Header row
+        for col, (txt, w_px, align) in enumerate([
+            ("Attacking Type", 120, Qt.AlignLeft),
+            ("4×", 36, Qt.AlignCenter), ("2×", 36, Qt.AlignCenter),
+            ("½×", 36, Qt.AlignCenter), ("¼×", 36, Qt.AlignCenter),
+            ("Imm", 36, Qt.AlignCenter),
+            ("Net Danger ←→ Resist", 160, Qt.AlignLeft),
+        ]):
+            h = QLabel(txt)
+            h.setFixedWidth(w_px)
+            h.setAlignment(align)
+            h.setStyleSheet("font-size:10px; font-weight:bold; color:#6c7086;")
+            tbl.addWidget(h, 0, col)
+
+        # Data rows — sorted worst danger first, skip all-neutral rows
+        sorted_types = sorted(ALL_TYPES, key=_danger, reverse=True)
+
+        def _multiplied_names(atk, mult_key):
+            """Return comma-separated species names taking mult_key against atk."""
+            names = []
+            for mon in self._party:
+                base = get_dex_base_stats(mon.species)
+                if not base: continue
+                t1 = base.get('type1',''); t2 = base.get('type2','')
+                ab = mon.ability or ((base.get('abilities',()) or ('',))[0])
+                m  = _mon_type_effectiveness(atk, t1, t2, ab)
+                threshold = {'4x':4,'2x':2,'half':0.5,'quarter':0.25,'immune':0}[mult_key]
+                if abs(m - threshold) < 0.01:
+                    names.append(mon.species.replace('SPECIES_','').replace('_',' ').title())
+            return ', '.join(names)
+
+        for row, atk in enumerate(sorted_types, 1):
+            d   = profile[atk]
+            net = _danger(atk)
+
+            tbl.addWidget(self._type_badge(atk), row, 0)
+
+            for col, (key, fg, bg) in enumerate([
+                ('4x',      '#f38ba8', '#3d1a1e'),
+                ('2x',      '#fab387', '#3d2a1a'),
+                ('half',    '#a6e3a1', '#1a3d2a'),
+                ('quarter', '#89dceb', '#1a2e3d'),
+                ('immune',  '#cba6f7', '#2e1a3d'),
+            ], 1):
+                cnt = d[key]
+                if cnt:
+                    lbl = QLabel(str(cnt))
+                    lbl.setAlignment(Qt.AlignCenter)
+                    lbl.setFixedSize(32, 20)
+                    lbl.setStyleSheet(
+                        f"background:{bg}; color:{fg}; border:1px solid {fg}55; "
+                        f"border-radius:3px; font-size:11px; font-weight:bold;")
+                    lbl.setToolTip(_multiplied_names(atk, key))
+                    tbl.addWidget(lbl, row, col)
                 else:
-                    lbl.setStyleSheet("color:#313244; font-size:12px;")
-                tbl.addWidget(lbl, row, col)
-            # Coverage bar
-            net = d['4x']*4 + d['2x']*2 - d['half'] - d['quarter']*2 - d['immune']*3
-            bar_host = QWidget(); bar_host.setFixedHeight(14)
-            bh = QHBoxLayout(bar_host); bh.setContentsMargins(2,2,2,2); bh.setSpacing(0)
+                    lbl = QLabel("—")
+                    lbl.setAlignment(Qt.AlignCenter)
+                    lbl.setStyleSheet("color:#313244; font-size:11px;")
+                    tbl.addWidget(lbl, row, col)
+
+            # Net bar
+            bar_host = QWidget(); bar_host.setFixedHeight(20)
+            bh = QHBoxLayout(bar_host); bh.setContentsMargins(0,4,0,4); bh.setSpacing(2)
             if net > 0:
-                bar_c = "#f38ba8" if net >= 4 else "#fab387"
-                bar = QWidget(); bar.setFixedHeight(10)
-                bar.setFixedWidth(min(int(abs(net)/(n_mons*4)*80), 80))
-                bar.setStyleSheet(f"background:{bar_c}; border-radius:3px;")
+                c   = "#f38ba8" if net >= 4 else "#fab387"
+                bar = QWidget()
+                bar.setFixedHeight(12)
+                bar.setFixedWidth(min(int(net / (n * 4) * 120), 120))
+                bar.setStyleSheet(f"background:{c}; border-radius:3px;")
                 bh.addWidget(bar)
+                bh.addWidget(QLabel(f"  ⚠ {net:+.0f}") if net >= 4
+                             else QLabel(f"  {net:+.0f}"))
             elif net < 0:
-                bar = QWidget(); bar.setFixedHeight(10)
-                bar.setFixedWidth(min(int(abs(net)/(n_mons*4)*80), 80))
+                bar = QWidget()
+                bar.setFixedHeight(12)
+                bar.setFixedWidth(min(int(abs(net) / (n * 4) * 120), 120))
                 bar.setStyleSheet("background:#a6e3a1; border-radius:3px;")
                 bh.addWidget(bar)
             bh.addStretch()
             tbl.addWidget(bar_host, row, 6)
 
         scroll.setWidget(table_w)
-        root.addWidget(scroll, 1)
+        lay.addWidget(scroll, 1)
 
-        # ── Type spread ───────────────────────────────────────────────────────
-        root.addWidget(_sep())
-        spread_lbl = QLabel("Team Type Spread")
-        spread_lbl.setStyleSheet("font-size:13px; font-weight:bold; color:#cdd6f4;")
-        root.addWidget(spread_lbl)
+        # Type spread
+        lay.addWidget(_sep())
+        spread_hdr = QLabel("Team Type Spread")
+        spread_hdr.setStyleSheet("font-size:12px; font-weight:bold; color:#89b4fa;")
+        lay.addWidget(spread_hdr)
         spread = {}
         for mon in self._party:
             base = get_dex_base_stats(mon.species)
             if not base: continue
             for t in (base.get('type1',''), base.get('type2','')):
                 if t: spread[t] = spread.get(t, 0) + 1
-        spread_row = QHBoxLayout(); spread_row.setSpacing(4)
+        sr2 = QHBoxLayout(); sr2.setSpacing(4)
         for t, cnt in sorted(spread.items(), key=lambda x: -x[1]):
-            tc = TYPE_HEX.get(t, "#585b70")
-            pill = QLabel(f"{t.title()} ×{cnt}")
+            tc   = TYPE_HEX.get(t, "#585b70")
+            pill = QLabel(f" {t.title()} ×{cnt} ")
             pill.setStyleSheet(
                 f"background:{tc}; color:#ffffff; border-radius:4px; "
-                f"font-size:11px; font-weight:bold; padding:2px 8px;")
-            spread_row.addWidget(pill)
-        spread_row.addStretch()
-        root.addLayout(spread_row)
+                f"font-size:11px; font-weight:bold; padding:2px 4px;")
+            sr2.addWidget(pill)
+        sr2.addStretch()
+        lay.addLayout(sr2)
 
-        # ── Ability notes ─────────────────────────────────────────────────────
+        # Ability modifiers
         ab_notes = []
         for mon in self._party:
             if not mon.ability: continue
             ab_key = mon.ability.lower()
             if ab_key in _ABILITY_IMMUNITIES:
-                sp_name = mon.species.replace('SPECIES_','').replace('_',' ').title()
+                sp = mon.species.replace('SPECIES_','').replace('_',' ').title()
                 for t, m in _ABILITY_IMMUNITIES[ab_key].items():
                     desc = "immune to" if m == 0 else "½× vs"
-                    ab_notes.append(f"{sp_name} ({mon.ability}): {desc} {t.title()}")
+                    ab_notes.append(f"  •  {sp}  ({mon.ability})  {desc}  {t.title()}")
         if ab_notes:
-            root.addWidget(_sep())
-            ab_lbl = QLabel("Ability Modifiers")
-            ab_lbl.setStyleSheet("font-size:13px; font-weight:bold; color:#cdd6f4;")
-            root.addWidget(ab_lbl)
+            lay.addWidget(_sep())
+            ab_hdr = QLabel("Ability Modifiers")
+            ab_hdr.setStyleSheet("font-size:12px; font-weight:bold; color:#89b4fa;")
+            lay.addWidget(ab_hdr)
             for note in ab_notes:
-                n = QLabel(f"  • {note}")
-                n.setStyleSheet("font-size:11px; color:#a6adc8;")
-                root.addWidget(n)
+                n = QLabel(note); n.setStyleSheet("font-size:11px; color:#a6adc8;")
+                lay.addWidget(n)
+
+        return w
+
+    def _build_offensive_tab(self):
+        w   = QWidget()
+        lay = QVBoxLayout(w)
+        lay.setContentsMargins(14, 12, 14, 8)
+        lay.setSpacing(10)
+
+        coverage, holes, per_mon = self._calc_offensive()
+        covered  = [t for t in ALL_TYPES if t not in holes]
+        n_cover  = len(covered)
+
+        # Summary
+        sr = QHBoxLayout(); sr.setSpacing(8)
+        pct = int(n_cover / len(ALL_TYPES) * 100)
+        sr.addWidget(self._summary_pill(
+            f"{n_cover}/{len(ALL_TYPES)} types covered SE", "#a6e3a1"))
+        if holes:
+            sr.addWidget(self._summary_pill(
+                f"{len(holes)} coverage holes", "#f38ba8"))
+        sr.addStretch()
+        lay.addLayout(sr)
+
+        # ── Coverage grid — all 18 types ─────────────────────────────────────
+        grid_hdr = QLabel("Super-Effective Coverage  (can the team land a SE hit on each type?)")
+        grid_hdr.setStyleSheet("font-size:12px; font-weight:bold; color:#89b4fa;")
+        lay.addWidget(grid_hdr)
+
+        grid_w = QWidget()
+        grid_l = QGridLayout(grid_w)
+        grid_l.setHorizontalSpacing(6); grid_l.setVerticalSpacing(5)
+        grid_w.setStyleSheet("background:transparent;")
+
+        COLS = 6
+        for idx, t in enumerate(ALL_TYPES):
+            covered_t = t in coverage and bool(coverage[t])
+            tc = TYPE_HEX.get(t, "#585b70")
+            badge = QLabel(t.title())
+            badge.setFixedSize(88, 22)
+            badge.setAlignment(Qt.AlignCenter)
+            if covered_t:
+                badge.setStyleSheet(
+                    f"background:{tc}; color:#ffffff; border-radius:4px; "
+                    f"font-size:11px; font-weight:bold;")
+                # Build tooltip: who covers it?
+                sources = coverage[t][:4]
+                tip_lines = [f"{mn} via {src} ({at.title()})" for mn, src, at in sources]
+                if len(coverage[t]) > 4:
+                    tip_lines.append(f"…and {len(coverage[t])-4} more")
+                badge.setToolTip("\n".join(tip_lines))
+            else:
+                badge.setStyleSheet(
+                    f"background:#1e1e2e; color:#585b70; border:1px solid #313244; "
+                    f"border-radius:4px; font-size:11px; font-weight:bold;")
+                badge.setToolTip("No SE coverage — coverage hole!")
+            grid_l.addWidget(badge, idx // COLS, idx % COLS)
+
+        lay.addWidget(grid_w)
+
+        # ── Coverage holes ────────────────────────────────────────────────────
+        if holes:
+            lay.addWidget(_sep())
+            holes_hdr = QLabel(f"Coverage Holes  ({len(holes)} types with no SE attack)")
+            holes_hdr.setStyleSheet("font-size:12px; font-weight:bold; color:#f38ba8;")
+            lay.addWidget(holes_hdr)
+            hr = QHBoxLayout(); hr.setSpacing(4)
+            for t in holes:
+                hr.addWidget(self._type_badge(t))
+            hr.addStretch()
+            lay.addLayout(hr)
+
+        # ── Per-mon coverage ──────────────────────────────────────────────────
+        lay.addWidget(_sep())
+        pm_hdr = QLabel("Per-Pokémon Attacking Coverage")
+        pm_hdr.setStyleSheet("font-size:12px; font-weight:bold; color:#89b4fa;")
+        lay.addWidget(pm_hdr)
+
+        scroll = QScrollArea(); scroll.setWidgetResizable(True)
+        scroll.setFrameShape(QFrame.NoFrame)
+        scroll.setStyleSheet("QScrollArea { background:transparent; border:none; }")
+        pm_w = QWidget(); pm_w.setStyleSheet("background:transparent;")
+        pm_lay = QVBoxLayout(pm_w); pm_lay.setSpacing(4); pm_lay.setContentsMargins(0,0,0,0)
+
+        for mon in self._party:
+            mon_display = mon.species.replace('SPECIES_','').replace('_',' ').title()
+            data = per_mon.get(mon_display, {})
+            atk_types   = data.get('atk_types', set())
+            def_covered = data.get('def_covered', set())
+
+            row_w = QWidget()
+            row_w.setStyleSheet(
+                "background:#1e1e2e; border:1px solid #313244; border-radius:6px;")
+            row_l = QHBoxLayout(row_w)
+            row_l.setContentsMargins(10, 5, 10, 5); row_l.setSpacing(8)
+
+            name_lbl = QLabel(mon_display)
+            name_lbl.setFixedWidth(130)
+            name_lbl.setStyleSheet("color:#cdd6f4; font-size:12px; font-weight:bold;")
+            row_l.addWidget(name_lbl)
+
+            # Attacking types available
+            atk_lbl = QLabel("Atk types:")
+            atk_lbl.setStyleSheet("color:#6c7086; font-size:10px;")
+            row_l.addWidget(atk_lbl)
+            for t in sorted(atk_types):
+                row_l.addWidget(self._type_badge(t, height=18, pad="0 4px"))
+
+            row_l.addSpacing(12)
+            cov_lbl = QLabel(f"→  {len(def_covered)}/{len(ALL_TYPES)} SE")
+            cov_lbl.setStyleSheet(
+                f"color:{'#a6e3a1' if len(def_covered) >= 6 else '#f9e2af' if len(def_covered) >= 3 else '#f38ba8'}; "
+                f"font-size:11px; font-weight:bold;")
+            row_l.addWidget(cov_lbl)
+            row_l.addStretch()
+            pm_lay.addWidget(row_w)
+
+        pm_lay.addStretch()
+        scroll.setWidget(pm_w)
+        lay.addWidget(scroll, 1)
+
+        return w
+
+    # ── Main UI ───────────────────────────────────────────────────────────────
+
+    def _build_ui(self):
+        root = self._root_layout
+        root.setSpacing(8)
+
+        if not self._party:
+            root.addWidget(QLabel("No Pokémon in party yet."))
+            btn = QPushButton("Close"); btn.setFixedWidth(80)
+            btn.clicked.connect(self.accept)
+            root.addWidget(btn)
+            return
+
+        tabs = QTabWidget()
+        tabs.setStyleSheet(
+            "QTabWidget::pane { border:1px solid #313244; background:#1e1e2e; margin-top:-1px; }"
+            "QTabBar::tab { background:#181825; color:#a6adc8; padding:7px 20px; "
+            "  border:1px solid #313244; border-bottom:none; border-radius:6px 6px 0 0; "
+            "  margin-right:2px; font-size:12px; font-weight:bold; }"
+            "QTabBar::tab:selected { background:#1e1e2e; color:#cdd6f4; "
+            "  border-bottom:1px solid #1e1e2e; }"
+            "QTabBar::tab:hover:!selected { background:#252536; }"
+        )
+        tabs.addTab(self._build_defensive_tab(), "Defensive")
+        tabs.addTab(self._build_offensive_tab(), "Offensive")
+        root.addWidget(tabs, 1)
 
         close_btn = QPushButton("Close"); close_btn.setFixedWidth(90)
         close_btn.clicked.connect(self.accept)
@@ -2448,7 +3301,7 @@ class PartyCardsWidget(QWidget):
         scroll.setWidgetResizable(True)
         scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAsNeeded)
         scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        scroll.setFixedHeight(420)
+        scroll.setMinimumHeight(420)
 
         cards_w = QWidget()
         cards_lay = QHBoxLayout(cards_w)
@@ -2578,7 +3431,8 @@ class AIFlagsWidget(QGroupBox):
         for idx, (display, _const) in enumerate(AI_FLAGS_ORDERED):
             chk = QCheckBox(display)
             chk.setStyleSheet("font-size:9px; spacing:2px;")
-            chk.stateChanged.connect(self._update_profile_highlights)
+            chk.stateChanged.connect(
+                lambda state, d=display: self._on_individual_flag_toggled(d, state))
             grid.addWidget(chk, idx // 5, idx % 5)
             self._chks[display] = chk
         grid_outer.addLayout(grid)
@@ -2625,6 +3479,28 @@ class AIFlagsWidget(QGroupBox):
 
         for chk in self._chks.values(): chk.blockSignals(False)
         # Don't call _update_profile_highlights here — button states already set
+
+    # Exclusive flag groups — enabling a flag from one group clears the other group
+    _EXCLUSIVE_GROUPS = [
+        set(AI_PRESETS["Prediction"]),
+        set(AI_PRESETS["Smart Trainer"]),   # superset of Basic Trainer
+    ]
+
+    def _on_individual_flag_toggled(self, display_name, state):
+        """Enforce mutual exclusivity: flags from Prediction vs Basic/Smart cannot coexist."""
+        if state == Qt.Checked:
+            # Determine which exclusive group this flag belongs to
+            my_group  = next((g for g in self._EXCLUSIVE_GROUPS if display_name in g), None)
+            if my_group is not None:
+                # Uncheck all flags from every OTHER exclusive group
+                for other_group in self._EXCLUSIVE_GROUPS:
+                    if other_group is not my_group:
+                        for flag in other_group:
+                            if flag in self._chks:
+                                self._chks[flag].blockSignals(True)
+                                self._chks[flag].setChecked(False)
+                                self._chks[flag].blockSignals(False)
+        self._update_profile_highlights()
 
     def _update_profile_highlights(self):
         """Called when individual checkboxes change. Find best matching profile (most specific
@@ -2709,9 +3585,10 @@ class TrainerInfoCard(QWidget):
         self._name_edit = QLineEdit(); self._name_edit.setFixedWidth(120)
         row1.addWidget(self._name_edit)
         row1.addWidget(QLabel("Class:"))
-        self._class_cb = QComboBox(); self._class_cb.setEditable(True)
-        self._class_cb.addItems(self._classes)
-        self._class_cb.setFixedWidth(160)
+        self._class_cb = QComboBox()
+        self._class_cb.addItems(sorted(self._classes))
+        self._class_cb.setFixedWidth(180)
+        self._class_cb.setMaxVisibleItems(20)
         row1.addWidget(self._class_cb)
         row1.addWidget(QLabel("Pic:"))
         self._pic_btn = QPushButton("")
@@ -2824,8 +3701,11 @@ class TrainerInfoCard(QWidget):
         self._key_lbl.setText(t.key)
         self._name_edit.setText(t.name)
         ci = self._class_cb.findText(t.trainer_class, Qt.MatchFixedString | Qt.MatchCaseSensitive)
-        if ci >= 0: self._class_cb.setCurrentIndex(ci)
-        else: self._class_cb.setEditText(t.trainer_class)
+        if ci >= 0:
+            self._class_cb.setCurrentIndex(ci)
+        elif t.trainer_class:
+            self._class_cb.insertItem(0, t.trainer_class)
+            self._class_cb.setCurrentIndex(0)
         self._set_pic(t.pic)
         gi = GENDER_OPTIONS.index(t.gender) if t.gender in GENDER_OPTIONS else 0
         self._gender_cb.setCurrentIndex(gi)
@@ -3111,10 +3991,11 @@ class TrainerListPanel(QWidget):
                 if not has_sf:
                     continue   # hide rival variants for other starters
 
-            if q and q not in self._display_name(t).lower() and q not in t.key.lower():
-                continue
-
             loc = self._loc_map.get(t.key, 'Other')
+            if q and (q not in self._display_name(t).lower()
+                      and q not in t.key.lower()
+                      and q not in loc.lower()):
+                continue
             loc_map.setdefault(loc, []).append((i, t, ri))
 
         locations = sorted(loc_map.keys(), key=lambda x: ('ZZZ' if x == 'Other' else x))
@@ -3241,8 +4122,9 @@ class TitleBar(QWidget):
         lay.addStretch()
 
         # Window buttons
-        for symbol, tip, slot in [("─", "Minimize", self._minimize),
-                                   ("✕", "Close",    self._close)]:
+        for symbol, tip, slot in [("─", "Minimize",         self._minimize),
+                                   ("□", "Maximize/Restore", self._toggle_maximize),
+                                   ("✕", "Close",            self._close)]:
             btn = QPushButton(symbol)
             btn.setFixedSize(36, 36)
             btn.setToolTip(tip)
@@ -3265,8 +4147,12 @@ class TitleBar(QWidget):
             "border-top-right-radius:12px; }"
         )
 
-    def _minimize(self): self.window().showMinimized()
-    def _close(self):    self.window().close()
+    def _minimize(self):         self.window().showMinimized()
+    def _close(self):            self.window().close()
+    def _toggle_maximize(self):
+        w = self.window()
+        if w.isMaximized(): w.showNormal()
+        else:               w.showMaximized()
 
     def mousePressEvent(self, e):
         if e.button() == Qt.LeftButton:
@@ -3299,6 +4185,7 @@ class MainWindow(QMainWindow):
         self._trainer_map    = {t.key: t for t in trainers}
         self.setWindowTitle("Party God — Trainer Editor")
         self.resize(1440, 860)
+        self.setMinimumSize(1440, 700)
         self._build_ui()
 
     def _build_ui(self):
@@ -3349,6 +4236,9 @@ class MainWindow(QMainWindow):
         self._status_bar.showMessage(
             f"  {len(self._trainers)} trainers loaded from {PARTY_FILE}"
         )
+        _grip = QSizeGrip(self._status_bar)
+        _grip.setStyleSheet("background:transparent;")
+        self._status_bar.addPermanentWidget(_grip)
         outer_lay.addWidget(self._status_bar)
 
         self.setCentralWidget(outer)
@@ -3455,6 +4345,50 @@ class MainWindow(QMainWindow):
             self._editor.load_trainer(t)
             self._status_bar.showMessage(f"  {key}  ·  {t.name}  ·  {t.trainer_class}")
 
+    def changeEvent(self, event):
+        """Toggle border-radius on the outer container when the window is maximized/restored."""
+        from PyQt5.QtCore import QEvent
+        if event.type() == QEvent.WindowStateChange:
+            outer = self.centralWidget()
+            if outer:
+                if self.isMaximized():
+                    outer.setStyleSheet(
+                        "QWidget#pg_outer { background:#1e1e2e; border-radius:0; border:none; }"
+                    )
+                else:
+                    outer.setStyleSheet(
+                        "QWidget#pg_outer { background:#1e1e2e; border-radius:12px; "
+                        "border:1px solid #313244; }"
+                    )
+        super().changeEvent(event)
+
+    _BASE_W = 1440  # design-reference window width
+
+    def resizeEvent(self, event):
+        """Scale fonts proportionally as the window grows/shrinks."""
+        super().resizeEvent(event)
+        w = max(event.size().width(), self._BASE_W)
+        scale = w / self._BASE_W
+        # Clamp to a sensible range so things don't go wild
+        scale = max(1.0, min(scale, 2.5))
+        def _sp(base): return int(round(base * scale))
+        app = QApplication.instance()
+        if app:
+            scaled_style = f"""
+QWidget          {{ font-size:{_sp(12)}px; }}
+QPushButton      {{ font-size:{_sp(12)}px; padding:{_sp(4)}px {_sp(10)}px; }}
+QLineEdit, QSpinBox, QComboBox {{ padding:{_sp(3)}px {_sp(8)}px; min-height:{_sp(22)}px; font-size:{_sp(12)}px; }}
+QTabBar::tab     {{ padding:{_sp(5)}px {_sp(12)}px; font-size:{_sp(12)}px; }}
+QListWidget::item{{ padding:{_sp(2)}px {_sp(5)}px; }}
+QTreeWidget::item{{ padding:{_sp(2)}px {_sp(4)}px; }}
+QGroupBox        {{ margin-top:{_sp(5)}px; padding-top:{_sp(4)}px; font-size:{_sp(10)}px; }}
+QCheckBox        {{ font-size:{_sp(11)}px; }}
+QLabel           {{ font-size:{_sp(12)}px; }}
+QLabel#title     {{ font-size:{_sp(14)}px; }}
+QLabel#heading   {{ font-size:{_sp(9)}px; }}
+"""
+            app.setStyleSheet(DARK_STYLE + scaled_style)
+
     def _save_party_file(self):
         try:
             # Apply current editor state to model first
@@ -3480,6 +4414,8 @@ def main():
     load_moves(); load_items(); load_species()
     print("done.")
 
+    QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
+    QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)
     app = QApplication(sys.argv)
     app.setStyle("Fusion")
     # Compact overrides: 1px smaller text + tighter padding across board.

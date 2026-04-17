@@ -50,6 +50,51 @@ def _load_status():  return load_status(STATUS_FILE)
 def _save_status(d): return save_status(d, STATUS_FILE)
 
 
+# ── Suppress C-level stderr (libpng bKGD warnings, etc.) ─────────────────────
+import contextlib
+
+@contextlib.contextmanager
+def _quiet_stderr():
+    """Redirect fd 2 to /dev/null for the duration of the block.
+
+    libpng emits 'bKGD: invalid index' warnings directly to the C stderr
+    file descriptor when Qt loads indexed PNG sprites.  These are harmless
+    metadata warnings (invalid background-colour hint chunk) but flood the
+    console.  This suppresses them without touching Python's sys.stderr.
+    """
+    try:
+        null_fd  = os.open(os.devnull, os.O_WRONLY)
+        saved_fd = os.dup(2)
+        os.dup2(null_fd, 2)
+        try:
+            yield
+        finally:
+            os.dup2(saved_fd, 2)
+            os.close(saved_fd)
+            os.close(null_fd)
+    except Exception:
+        yield  # if fd ops fail (unusual), just run unguarded
+
+
+def _pixel_perfect(pix, target_w, target_h):
+    """Scale a pixmap using the largest integer multiplier that fits inside
+    target_w × target_h, then use nearest-neighbor (FastTransformation).
+
+    Integer-multiple nearest-neighbor is the only way to get crisp pixel art
+    from GBA sprites — bilinear (SmoothTransformation) blurs them.
+    Falls back to a plain FastTransformation fit if the source is already
+    larger than the target.
+    """
+    if pix.isNull():
+        return pix
+    sw, sh = pix.width(), pix.height()
+    if sw == 0 or sh == 0:
+        return pix
+    factor = max(1, min(target_w // sw, target_h // sh))
+    return pix.scaled(sw * factor, sh * factor,
+                      Qt.KeepAspectRatio, Qt.FastTransformation)
+
+
 # ══════════════════════════════════════════════════════════════════════════════
 # SORT FIELDS
 # ══════════════════════════════════════════════════════════════════════════════
@@ -209,8 +254,8 @@ try:
         QHeaderView, QStatusBar, QScrollArea, QAbstractItemView, QSizePolicy,
         QProgressBar, QTabWidget,
     )
-    from PyQt5.QtCore  import Qt, QTimer, QFileSystemWatcher
-    from PyQt5.QtGui   import QColor, QFont, QBrush, QPixmap
+    from PyQt5.QtCore  import Qt, QTimer, QFileSystemWatcher, QSize
+    from PyQt5.QtGui   import QColor, QFont, QBrush, QPixmap, QIcon
     HAS_QT = True
 except ImportError:
     HAS_QT = False
@@ -219,24 +264,26 @@ except ImportError:
 if HAS_QT:
 
     # ─── Column definitions ───────────────────────────────────────────────────
-    COL_NAME   =  0
-    COL_GEN    =  1
-    COL_TYPE1  =  2
-    COL_TYPE2  =  3
-    COL_STAGE  =  4
-    COL_HP     =  5
-    COL_ATK    =  6
-    COL_DEF    =  7
-    COL_SPA    =  8
-    COL_SPD    =  9
-    COL_SPE    = 10
-    COL_BST    = 11
-    COL_STATUS = 12
+    COL_SPRITE =  0   # front sprite icon (no header text)
+    COL_NAME   =  1
+    COL_GEN    =  2
+    COL_TYPE1  =  3
+    COL_TYPE2  =  4
+    COL_STAGE  =  5
+    COL_HP     =  6
+    COL_ATK    =  7
+    COL_DEF    =  8
+    COL_SPA    =  9
+    COL_SPD    = 10
+    COL_SPE    = 11
+    COL_BST    = 12
+    COL_STATUS = 13
 
     COLUMNS = [
-        ("Name",   160), ("Gen",  40), ("Type",  78), ("Type2", 78),
-        ("Stage",   66), ("HP",   46), ("Atk",   46), ("Def",   46),
-        ("SpA",     46), ("SpD",  46), ("Spe",   46), ("BST",   58),
+        ("",       68),   # sprite — no header text
+        ("Name",  160), ("Gen",  40), ("Type",  78), ("Type2", 78),
+        ("Stage",  66), ("HP",   46), ("Atk",   46), ("Def",   46),
+        ("SpA",    46), ("SpD",  46), ("Spe",   46), ("BST",   58),
         ("Status", 105),
     ]
 
@@ -789,9 +836,9 @@ if HAS_QT:
                 "  background:#1e1e2e; margin-top:-1px; }"
                 "QTabBar::tab { background:#181825; color:#a6adc8; padding:7px 18px; "
                 "  border:1px solid #313244; border-bottom:none; border-radius:6px 6px 0 0; "
-                "  margin-right:2px; font-size:12px; }"
+                "  margin-right:2px; font-size:12px; font-weight:bold; }"
                 "QTabBar::tab:selected { background:#1e1e2e; color:#cdd6f4; "
-                "  border-bottom:1px solid #1e1e2e; font-weight:bold; }"
+                "  border-bottom:1px solid #1e1e2e; }"
                 "QTabBar::tab:hover:!selected { background:#252536; }"
             )
 
@@ -1248,9 +1295,7 @@ if HAS_QT:
                     if raw.height() > raw.width():
                         raw = raw.copy(0, 0, raw.width(), raw.width())
                     raw = make_transparent_pixmap(raw)
-                    spr_lbl.setPixmap(
-                        raw.scaled(56, 56, Qt.KeepAspectRatio, Qt.SmoothTransformation)
-                    )
+                    spr_lbl.setPixmap(_pixel_perfect(raw, 56, 56))
             else:
                 spr_lbl.setText("?")
                 spr_lbl.setStyleSheet(
@@ -1337,8 +1382,8 @@ if HAS_QT:
             sub.setStyleSheet(
                 "QTabWidget::pane { border:none; background:#181825; }"
                 "QTabBar::tab { background:#181825; color:#a6adc8; padding:5px 14px; "
-                "  border:none; border-bottom:2px solid transparent; font-size:12px; }"
-                "QTabBar::tab:selected { color:#89b4fa; border-bottom-color:#89b4fa; font-weight:bold; }"
+                "  border:none; border-bottom:2px solid transparent; font-size:12px; font-weight:bold; }"
+                "QTabBar::tab:selected { color:#89b4fa; border-bottom-color:#89b4fa; }"
                 "QTabBar::tab:hover:!selected { background:#252536; }"
             )
 
@@ -1450,8 +1495,7 @@ if HAS_QT:
                     raw = make_transparent_pixmap(raw)
                     self._normal_pix = raw
                     self._render_sprite()
-                    self._hdr_sprite.setPixmap(
-                        raw.scaled(72, 72, Qt.KeepAspectRatio, Qt.SmoothTransformation))
+                    self._hdr_sprite.setPixmap(_pixel_perfect(raw, 72, 72))
             else:
                 self.front_img.setText("No sprite")
 
@@ -1460,8 +1504,7 @@ if HAS_QT:
                    else self._normal_pix)
             if pix:
                 self.front_img.setPixmap(
-                    pix.scaled(self.front_img.width(), self.front_img.height(),
-                               Qt.KeepAspectRatio, Qt.SmoothTransformation))
+                    _pixel_perfect(pix, self.front_img.width(), self.front_img.height()))
 
         def _toggle_shiny(self, checked):
             self._shiny = checked
@@ -1471,8 +1514,7 @@ if HAS_QT:
             self._render_sprite()
             if self._normal_pix:
                 pix_src = self._shiny_pix if (checked and self._shiny_pix) else self._normal_pix
-                self._hdr_sprite.setPixmap(
-                    pix_src.scaled(72, 72, Qt.KeepAspectRatio, Qt.SmoothTransformation))
+                self._hdr_sprite.setPixmap(_pixel_perfect(pix_src, 72, 72))
 
         def _cycle_status(self):
             self._status = cycle_status(self._status)
@@ -1531,6 +1573,7 @@ if HAS_QT:
             self.table.setEditTriggers(QAbstractItemView.NoEditTriggers)
             self.table.setSortingEnabled(True)
             self.table.setShowGrid(True)
+            self.table.setIconSize(QSize(56, 56))
 
             for i, (_, w) in enumerate(COLUMNS):
                 self.table.setColumnWidth(i, w)
@@ -1654,9 +1697,24 @@ if HAS_QT:
             self._visible_keys = []
 
             for row, p in enumerate(pokemon_list):
-                self.table.setRowHeight(row, 26)
+                self.table.setRowHeight(row, 64)
                 st = self.status_dict.get(p.key, 'UNTOUCHED')
                 self._visible_keys.append(p.key)
+
+                # Sprite column
+                spr_item = QTableWidgetItem()
+                spr_item.setFlags(Qt.ItemIsEnabled | Qt.ItemIsSelectable)
+                front, _ = find_sprite_for_key(p.key.lower())
+                if front and os.path.isfile(front):
+                    with _quiet_stderr():
+                        raw = QPixmap(front)
+                    if not raw.isNull():
+                        if raw.height() > raw.width():
+                            raw = raw.copy(0, 0, raw.width(), raw.width())
+                        raw = make_transparent_pixmap(raw)
+                        pix = _pixel_perfect(raw, 56, 56)
+                        spr_item.setIcon(QIcon(pix))
+                self.table.setItem(row, COL_SPRITE, spr_item)
 
                 marker = ('★' if p.is_legendary else '✦' if p.is_mythical else
                           '◆' if p.is_ultra_beast else '◈' if p.is_paradox else '')

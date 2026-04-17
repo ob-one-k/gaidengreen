@@ -1165,3 +1165,5 @@ EventScript_VsSeekerChargingDone::
 	.include "data/maps/WOODS_HIDEOUT/scripts.inc"
 
 	.include "data/maps/SLATEPORT_UNDERGROUND/scripts.inc"
+
+	.include "data/maps/Route135/scripts.inc"

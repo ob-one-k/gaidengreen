@@ -176,6 +176,17 @@ _SPRITE_SUFFIX_MAP = {
     'ALOLA': 'alola',  'GALAR': 'galar',    'HISUI': 'hisui',   'PALDEA': 'paldea',
     'MEGA_X': 'mega_x', 'MEGA_Y': 'mega_y',
 }
+# Maps canonical key suffix → Showdown hyphenated suffix (e.g. ALOLAN → Alola)
+_SUFFIX_TO_SHOWDOWN = {
+    'ALOLAN': 'Alola',   'ALOLA': 'Alola',
+    'GALARIAN': 'Galar', 'GALAR': 'Galar',
+    'HISUIAN': 'Hisui',  'HISUI': 'Hisui',
+    'PALDEAN': 'Paldea', 'PALDEA': 'Paldea',
+}
+# For get_dex_base_stats: expand short Showdown suffixes → canonical key suffixes
+_SHOWDOWN_EXPAND = {
+    'ALOLA': 'ALOLAN', 'GALAR': 'GALARIAN', 'HISUI': 'HISUIAN', 'PALDEA': 'PALDEAN',
+}
 _FORM_DISPLAY = {
     'MEGA_X':'Mega X','MEGA_Y':'Mega Y','LOW_KEY':'Low Key','AMPED':'Amped',
     'DUSK_MANE':'Dusk Mane','DAWN_WINGS':'Dawn Wings',
@@ -660,8 +671,14 @@ def load_all_pokemon():
                         t1, t2 = _type_macros[mr.group(1)]
                     else:
                         t1 = t2 = ''
-            form_lbl  = get_form_label(key, name)
-            disp_name = f"{name} ({form_lbl})" if form_lbl else name
+            # Build Showdown-format display name: "Meowth-Alola", "Toxtricity-Low-Key"
+            base_norm = name.upper().replace(' ','_').replace('-','_').replace('.','').replace("'","")
+            if key.startswith(base_norm + '_'):
+                suffix   = key[len(base_norm)+1:]
+                sd_sfx   = _SUFFIX_TO_SHOWDOWN.get(suffix) or suffix.replace('_','-').title()
+                disp_name = f"{name}-{sd_sfx}"
+            else:
+                disp_name = name
             results.append(Pokemon(
                 key=key, name=name, gen=gen,
                 type1=t1, type2=t2,
@@ -786,13 +803,72 @@ def load_items():
         key = m.group(1)
         if key == "ITEM_NONE": continue
         display = key[5:].replace('_', ' ').title()
-        # Try exact iconPic map first, then fall back to naive name
-        icon_file = icon_map.get(key) or (key[5:].lower() + '.png')
+        # Try exact iconPic map first, then fall back to naive name.
+        # TM/HM items have no iconPic in items.h → use the shared tm.png icon.
+        _is_tm_hm = key.startswith('ITEM_TM_') or key.startswith('ITEM_HM_')
+        icon_file = icon_map.get(key) or ('tm.png' if _is_tm_hm else key[5:].lower() + '.png')
         icon_path = os.path.join(ITEM_ICONS, icon_file)
         if not os.path.isfile(icon_path): icon_path = ""
         result.append((key, display, icon_path))
     _cache['items'] = result
     return result
+
+def load_item_descriptions():
+    """dict: ITEM_KEY → description string, parsed from src/data/items.h."""
+    if '_item_desc' in _cache: return _cache['_item_desc']
+    result = {}
+    try:
+        text = _read(ITEMS_DATA_FILE)
+        # Split into per-item blocks on [ITEM_XYZ] markers
+        pat_block = re.compile(r'\[(ITEM_[A-Z0-9_]+)\]\s*=\s*\{(.*?)\}', re.DOTALL)
+        pat_desc  = re.compile(r'\.description\s*=\s*COMPOUND_STRING\s*\((.*?)\)\s*[,\n]', re.DOTALL)
+        for m in pat_block.finditer(text):
+            key  = m.group(1)
+            body = m.group(2)
+            dm   = pat_desc.search(body)
+            if dm:
+                parts = re.findall(r'"([^"]*)"', dm.group(1))
+                desc  = ' '.join(p.replace('\\n', ' ').replace('\\p', ' ') for p in parts).strip()
+                if desc:
+                    result[key] = desc
+    except Exception:
+        pass
+    _cache['_item_desc'] = result
+    return result
+
+
+def load_item_stats():
+    """dict: ITEM_KEY → {'price': str, 'fling_power': int}
+    Parses .price (raw text, may be a ternary) and .flingPower from items.h.
+    Price is a display string; fling_power is 0 when not applicable."""
+    if '_item_stats' in _cache: return _cache['_item_stats']
+    result = {}
+    try:
+        text = _read(ITEMS_DATA_FILE)
+        pat_block = re.compile(r'\[(ITEM_[A-Z0-9_]+)\]\s*=\s*\{(.*?)\}', re.DOTALL)
+        pat_price = re.compile(r'\.price\s*=\s*([^,\n]+)')
+        pat_fling = re.compile(r'\.flingPower\s*=\s*(\d+)')
+        for m in pat_block.finditer(text):
+            key, body = m.group(1), m.group(2)
+            price_m = pat_price.search(body)
+            fling_m = pat_fling.search(body)
+            price_raw = price_m.group(1).strip() if price_m else ''
+            # Simplify ternary "(I_PRICE >= GEN_X) ? A : B" → show B (older-gen value)
+            price_display = ''
+            if price_raw:
+                simple = re.search(r'\?\s*(\d+)\s*:\s*(\d+)', price_raw)
+                if simple:
+                    price_display = simple.group(2)
+                elif re.fullmatch(r'\d+', price_raw):
+                    price_display = price_raw
+            fling_power = int(fling_m.group(1)) if fling_m else 0
+            if price_display or fling_power:
+                result[key] = {'price': price_display, 'fling_power': fling_power}
+    except Exception:
+        pass
+    _cache['_item_stats'] = result
+    return result
+
 
 def item_lookup(name_or_key):
     """(key, display, icon_path) for ITEM_ constant or display name.  None if not found."""
@@ -808,12 +884,17 @@ def item_lookup(name_or_key):
 
 def load_trainer_classes():
     if 'trainer_classes' in _cache: return _cache['trainer_classes']
+    _SKIP = {'COUNT', 'PKMN_TRAINER_1', 'PKMN_TRAINER_2'}
+    _RENAME = {
+        'COOLTRAINER':   'Cooltrainer M',
+        'COOLTRAINER_2': 'Cooltrainer F',
+    }
     pat = re.compile(r'#define TRAINER_CLASS_([A-Z0-9_]+)\s+0x[0-9a-fA-F]+')
     names = []
     for m in pat.finditer(_read(TRAINERS_CONST)):
         key = m.group(1)
-        if key in ('COUNT',): continue
-        names.append(key.replace('_',' ').title())
+        if key in _SKIP: continue
+        names.append(_RENAME.get(key, key.replace('_', ' ').title()))
     _cache['trainer_classes'] = names
     return names
 
@@ -1046,13 +1127,26 @@ def build_sprite_map(all_pokemon):
         if f: result[p.key] = (f, os.path.dirname(f))
     return result
 
+def _normalize_species_key(raw: str) -> str:
+    """Normalize any species display name or key to the lowercase underscore form
+    used by find_sprite_for_key and the dex cache (e.g. "Farfetch'd-Galar" → "farfetchd_galar",
+    "Mr. Mime" → "mr_mime", "Nidoran♀" → "nidoran_f", "Type: Null" → "type_null")."""
+    raw = raw.strip()
+    if raw.upper().startswith('SPECIES_'): raw = raw[8:]
+    # Gender symbols before anything else so they get proper separators
+    raw = raw.replace('♀', '_f').replace('♂', '_m')
+    # Strip characters that don't appear in directory names
+    raw = raw.replace("'", '').replace('.', '').replace(':', '')
+    # Separators → underscore
+    raw = raw.replace('-', '_').replace(' ', '_')
+    # Collapse any doubled underscores produced by the above
+    while '__' in raw:
+        raw = raw.replace('__', '_')
+    return raw.strip('_')
+
 def pokemon_sprite(species_display):
     """Return (front_path, back_path) for any species display name or SPECIES_ key."""
-    raw = species_display.strip()
-    if raw.upper().startswith('SPECIES_'): raw = raw[8:]
-    # Normalize PS hyphen-form (Raichu-Alola) to underscore-form for find_sprite_for_key
-    raw = raw.replace('-', '_')
-    return find_sprite_for_key(raw)
+    return find_sprite_for_key(_normalize_species_key(species_display))
 
 def _parse_jasc_pal(path):
     try:
@@ -1170,6 +1264,15 @@ def make_transparent_pixmap(pixmap):
                     visited[idx] = 1
                     queue.append((nx, ny))
 
+    # Second pass: remove encapsulated background pixels (closed regions not
+    # reachable from the border, e.g. inside loops of legs, wings, tails).
+    # GBA sprite background colors are chosen to not appear in the artwork, so
+    # removing every remaining pixel of that exact color is safe.
+    for y in range(h):
+        for x in range(w):
+            if not visited[y * w + x] and _matches(img.pixel(x, y)):
+                img.setPixel(x, y, 0)
+
     return _QPix.fromImage(img)
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -1180,6 +1283,14 @@ _IV_IDX = {'HP':0,'Atk':1,'Def':2,'SpA':3,'SpD':4,'Spe':5}
 
 
 def _parse_species_line(line):
+    """Parse a Showdown-style species line into (nickname, species, gender, held_item).
+
+    Handles regional/form-label species correctly:
+      - "Meowth (Alolan) (F) @ Life Orb"  → ("", "Meowth (Alolan)", "Female", "Life Orb")
+      - "Fluffy (Meowth (Alolan)) (M)"     → ("Fluffy", "Meowth (Alolan)", "Male", "")
+      - "Geodude @ Eviolite"               → ("", "Geodude", "", "Eviolite")
+      - "Ace (Ninetales) @ Leftovers"      → ("Ace", "Ninetales", "", "Leftovers")
+    """
     line = line.strip()
     nickname = ''; species = ''; gender = ''; held_item = ''
     if ' @ ' in line:
@@ -1189,10 +1300,35 @@ def _parse_species_line(line):
     if m_gender:
         gender = 'Male' if m_gender.group(1) == 'M' else 'Female'
         line   = line[:m_gender.start()].strip()
-    m_nick = re.match(r'^(.+?)\s+\(([^)]+)\)\s*$', line)
-    if m_nick:
-        nickname = m_nick.group(1).strip()
-        species  = m_nick.group(2).strip()
+
+    # If line ends with ')', find the matching '(' using paren counting and split there.
+    # This correctly handles nested parens for nicknamed regional variants like
+    # "Fluffy (Meowth (Alolan))" and avoids misreading "Meowth (Alolan)" as a nickname.
+    if line.endswith(')'):
+        depth = 0
+        paren_start = -1
+        for i in range(len(line) - 1, -1, -1):
+            if line[i] == ')':
+                depth += 1
+            elif line[i] == '(':
+                depth -= 1
+                if depth == 0:
+                    paren_start = i
+                    break
+        if paren_start > 0 and line[paren_start - 1] == ' ':
+            cand_nick    = line[:paren_start].strip()
+            cand_species = line[paren_start + 1:-1].strip()
+            # If the content inside the outer parens is a form-display label (e.g. "Alolan",
+            # "Galarian", "Mega") and NOT a real species name, treat the whole string as the
+            # species with no nickname.
+            _form_labels = set(_FORM_DISPLAY.values())
+            if cand_nick and cand_species not in _form_labels:
+                nickname = cand_nick
+                species  = cand_species
+            else:
+                species = line   # whole thing is the species (with form label)
+        else:
+            species = line
     else:
         species = line.strip()
     return nickname, species, gender, held_item
@@ -1656,9 +1792,19 @@ def get_dex_base_stats(species_key):
                 'type1': p.type1.upper() if p.type1 else '',
                 'type2': p.type2.upper() if p.type2 else '',
             }
-    key = species_key.upper().replace(' ','_').replace('-','_')
+    # Normalize: strip special chars, spaces/hyphens→underscores (handles display names
+    # like "Farfetch'd", "Mr. Mime-Galar", "Nidoran♀", "Type: Null")
+    key = _normalize_species_key(species_key).upper()
     if key.startswith('SPECIES_'): key = key[8:]
-    return _cache['_dex'].get(key)
+    result = _cache['_dex'].get(key)
+    if result: return result
+    # Try expanding Showdown short suffixes (ALOLA→ALOLAN, GALAR→GALARIAN, etc.)
+    parts = key.rsplit('_', 1)
+    if len(parts) == 2:
+        expanded = _SHOWDOWN_EXPAND.get(parts[1])
+        if expanded:
+            return _cache['_dex'].get(f"{parts[0]}_{expanded}")
+    return None
 
 # ══════════════════════════════════════════════════════════════════════════════
 # GEN 8 TYPE CHART + TEAM ANALYSIS

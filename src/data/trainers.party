@@ -65,16 +65,8 @@ Default IVs and Level can be changed in the "main" function of tools/trainerproc
 This file is processed with a custom preprocessor.
 */
 
-/*
-Comments can be added as C comment blocks
-// cannot be used as comments
-*/
-
-/*Comments can also be on a single line*/
-
-
 === TRAINER_NONE ===
-Name:
+Name: 
 Class: Pkmn Trainer 1
 Pic: Hiker
 Gender: Male
@@ -232,37 +224,33 @@ Double Battle: No
 AI: Smart Trainer
 
 Murkrow @ Eviolite
-Ability: Super Luck
 Level: 8
-Bashful Nature
 IVs: 31 HP / 31 Atk / 21 Def / 31 SpA / 25 SpD / 31 Spe
+Ability: Super Luck
 - Wing Attack
 - Mud Slap
 - Knock Off
 
 Shinx @ Dark Gem
-Ability: Static
 Level: 9
-Bold Nature
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Static
 - Bite
 - Nuzzle
 - Thunder Fang
 
 Phantump @ Leftovers
-Ability: Harvest
 Level: 10
-Relaxed Nature
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Harvest
 - Leech Seed
 - Shadow Sneak
 - Razor Leaf
 
 Impidimp @ Oran Berry
-Ability: Prankster
 Level: 11
-Jolly Nature
 IVs: 31 HP / 31 Atk / 11 Def / 21 SpA / 11 SpD / 31 Spe
+Ability: Prankster
 - Draining Kiss
 - Flatter
 - Snarl
@@ -273,9 +261,9 @@ Class: Cooltrainer
 Pic: Cooltrainer M
 Gender: Male
 Music: Cool
-Items: Hyper Potion
 Double Battle: No
 AI: Basic Trainer
+Items: Hyper Potion
 
 Manectric
 Level: 29
@@ -363,9 +351,9 @@ IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 - Toxic
 
 Carvanha @ Rocky Helmet
-Ability: Rough Skin
 Level: 19
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Rough Skin
 - Ice Fang
 - Poison Fang
 - Bite
@@ -452,9 +440,9 @@ IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 - Slash
 
 Koffing
-Ability: Neutralizing Gas
 Level: 27
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Neutralizing Gas
 - Toxic
 - Body Slam
 - Sludge
@@ -611,9 +599,9 @@ Class: Aqua Admin
 Pic: Aqua Admin M
 Gender: Male
 Music: Aqua
-Items: Super Potion
 Double Battle: No
 AI: Basic Trainer
+Items: Super Potion
 
 Mightyena
 Level: 34
@@ -676,9 +664,9 @@ Class: Aqua Leader
 Pic: Aqua Leader Archie
 Gender: Male
 Music: Aqua
-Items: Super Potion / Super Potion
 Double Battle: No
 AI: Basic Trainer
+Items: Super Potion / Super Potion
 
 Mightyena
 Level: 41
@@ -749,9 +737,9 @@ Class: Cooltrainer
 Pic: Cooltrainer M
 Gender: Male
 Music: Cool
-Items: Full Restore
 Double Battle: No
 AI: Basic Trainer
+Items: Full Restore
 
 Medicham
 Level: 43
@@ -1174,17 +1162,17 @@ Double Battle: No
 AI: Smart Trainer
 
 Clamperl
-Ability: Shell Armor
 Level: 24
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Shell Armor
 - Razor Shell
 - Whirlpool
 - Shell Smash
 
 Poliwhirl
-Ability: Water Absorb
 Level: 25
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Water Absorb
 - Force Palm
 - Bulk Up
 - Bubble Beam
@@ -1275,18 +1263,18 @@ IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 - Brine
 
 Marill
-Ability: Huge Power
 Level: 24
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Huge Power
 - Play Rough
 - Charm
 - Sweet Kiss
 - Bouncy Bubble
 
 Mantyke
-Ability: Hydration
 Level: 24
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Hydration
 - Screech
 - Air Cutter
 - Roost
@@ -1396,9 +1384,9 @@ Class: Cooltrainer
 Pic: Cooltrainer M
 Gender: Male
 Music: Cool
-Items: Hyper Potion
 Double Battle: No
 AI: Basic Trainer
+Items: Hyper Potion
 
 Swellow
 Level: 26
@@ -1413,9 +1401,9 @@ Class: Cooltrainer
 Pic: Cooltrainer M
 Gender: Male
 Music: Cool
-Items: Hyper Potion
 Double Battle: No
 AI: Basic Trainer
+Items: Hyper Potion
 
 Spinda
 Level: 26
@@ -1430,9 +1418,9 @@ Class: Cooltrainer
 Pic: Cooltrainer M
 Gender: Male
 Music: Cool
-Items: Hyper Potion
 Double Battle: No
 AI: Basic Trainer
+Items: Hyper Potion
 
 Slakoth @ Sitrus Berry
 Level: 26
@@ -1447,9 +1435,9 @@ Class: Cooltrainer
 Pic: Cooltrainer M
 Gender: Male
 Music: Cool
-Items: Hyper Potion
 Double Battle: No
 AI: Basic Trainer
+Items: Hyper Potion
 
 Vigoroth
 Level: 26
@@ -1463,9 +1451,9 @@ Class: Cooltrainer
 Pic: Cooltrainer M
 Gender: Male
 Music: Cool
-Items: Hyper Potion
 Double Battle: No
 AI: Basic Trainer
+Items: Hyper Potion
 
 Swellow
 Level: 28
@@ -1513,9 +1501,9 @@ Class: Cooltrainer
 Pic: Cooltrainer M
 Gender: Male
 Music: Cool
-Items: Full Restore
 Double Battle: No
 AI: Basic Trainer
+Items: Full Restore
 
 Sableye
 Level: 44
@@ -1535,9 +1523,9 @@ Class: Cooltrainer
 Pic: Cooltrainer M
 Gender: Male
 Music: Cool
-Items: Full Restore
 Double Battle: No
 AI: Basic Trainer
+Items: Full Restore
 
 Mawile
 Level: 46
@@ -1553,9 +1541,9 @@ Class: Cooltrainer
 Pic: Cooltrainer M
 Gender: Male
 Music: Cool
-Items: Super Potion
 Double Battle: No
 AI: Basic Trainer
+Items: Super Potion
 
 Electrike
 Level: 17
@@ -1575,9 +1563,9 @@ Class: Cooltrainer
 Pic: Cooltrainer M
 Gender: Male
 Music: Cool
-Items: Full Restore
 Double Battle: No
 AI: Basic Trainer
+Items: Full Restore
 
 Umbreon
 Level: 91
@@ -1633,9 +1621,9 @@ Class: Cooltrainer
 Pic: Cooltrainer M
 Gender: Male
 Music: Cool
-Items: Full Restore
 Double Battle: No
 AI: Basic Trainer
+Items: Full Restore
 
 Magneton
 Level: 43
@@ -1651,9 +1639,9 @@ Class: Cooltrainer
 Pic: Cooltrainer M
 Gender: Male
 Music: Cool
-Items: Full Restore
 Double Battle: No
 AI: Basic Trainer
+Items: Full Restore
 
 Swellow
 Level: 42
@@ -1673,9 +1661,9 @@ Class: Cooltrainer
 Pic: Cooltrainer M
 Gender: Male
 Music: Cool
-Items: Full Restore
 Double Battle: No
 AI: Basic Trainer
+Items: Full Restore
 
 Dodrio
 Level: 42
@@ -1699,9 +1687,9 @@ Class: Cooltrainer
 Pic: Cooltrainer M
 Gender: Male
 Music: Cool
-Items: Full Restore
 Double Battle: No
 AI: Basic Trainer
+Items: Full Restore
 
 Kecleon
 Level: 42
@@ -1721,9 +1709,9 @@ Class: Cooltrainer
 Pic: Cooltrainer M
 Gender: Male
 Music: Cool
-Items: Hyper Potion
 Double Battle: No
 AI: Basic Trainer
+Items: Hyper Potion
 
 Electrike
 Level: 26
@@ -1743,9 +1731,9 @@ Class: Cooltrainer
 Pic: Cooltrainer M
 Gender: Male
 Music: Cool
-Items: Hyper Potion
 Double Battle: No
 AI: Basic Trainer
+Items: Hyper Potion
 
 Manectric
 Level: 29
@@ -1765,9 +1753,9 @@ Class: Cooltrainer
 Pic: Cooltrainer M
 Gender: Male
 Music: Cool
-Items: Full Restore
 Double Battle: No
 AI: Basic Trainer
+Items: Full Restore
 
 Manectric
 Level: 32
@@ -1787,9 +1775,9 @@ Class: Cooltrainer
 Pic: Cooltrainer M
 Gender: Male
 Music: Cool
-Items: Full Restore
 Double Battle: No
 AI: Basic Trainer
+Items: Full Restore
 
 Manectric
 Level: 35
@@ -1809,9 +1797,9 @@ Class: Cooltrainer
 Pic: Cooltrainer M
 Gender: Male
 Music: Cool
-Items: Full Restore
 Double Battle: No
 AI: Basic Trainer
+Items: Full Restore
 
 Graveler
 Level: 33
@@ -1827,9 +1815,9 @@ Class: Cooltrainer
 Pic: Cooltrainer F
 Gender: Female
 Music: Cool
-Items: Hyper Potion
 Double Battle: No
 AI: Basic Trainer
+Items: Hyper Potion
 
 Delcatty
 Level: 26
@@ -1843,9 +1831,9 @@ Class: Cooltrainer
 Pic: Cooltrainer F
 Gender: Female
 Music: Cool
-Items: Hyper Potion
 Double Battle: No
 AI: Basic Trainer
+Items: Hyper Potion
 
 Wigglytuff
 Level: 26
@@ -1860,9 +1848,9 @@ Class: Cooltrainer
 Pic: Cooltrainer F
 Gender: Female
 Music: Cool
-Items: Hyper Potion
 Double Battle: No
 AI: Check Bad Move / Try To Faint / Force Setup First Turn
+Items: Hyper Potion
 
 Zangoose
 Level: 26
@@ -1876,9 +1864,9 @@ Class: Cooltrainer
 Pic: Cooltrainer F
 Gender: Female
 Music: Cool
-Items: Full Restore
 Double Battle: No
 AI: Check Bad Move / Try To Faint / Force Setup First Turn
+Items: Full Restore
 
 Mawile
 Level: 29
@@ -1910,9 +1898,9 @@ Class: Cooltrainer
 Pic: Cooltrainer F
 Gender: Female
 Music: Cool
-Items: Full Restore
 Double Battle: No
 AI: Check Bad Move / Try To Faint / Force Setup First Turn
+Items: Full Restore
 
 Lairon
 Level: 45
@@ -1928,9 +1916,9 @@ Class: Cooltrainer
 Pic: Cooltrainer F
 Gender: Female
 Music: Cool
-Items: Super Potion
 Double Battle: No
 AI: Basic Trainer
+Items: Super Potion
 
 Wingull
 Level: 17
@@ -1950,9 +1938,9 @@ Class: Cooltrainer
 Pic: Cooltrainer F
 Gender: Female
 Music: Cool
-Items: Full Restore
 Double Battle: No
 AI: Basic Trainer
+Items: Full Restore
 
 Sableye
 Level: 30
@@ -1964,9 +1952,9 @@ Class: Cooltrainer
 Pic: Cooltrainer F
 Gender: Female
 Music: Cool
-Items: Full Restore
 Double Battle: No
 AI: Basic Trainer
+Items: Full Restore
 
 Roselia
 Level: 45
@@ -1978,9 +1966,9 @@ Class: Cooltrainer
 Pic: Cooltrainer F
 Gender: Female
 Music: Cool
-Items: Full Restore
 Double Battle: No
 AI: Basic Trainer
+Items: Full Restore
 
 Claydol
 Level: 45
@@ -1992,9 +1980,9 @@ Class: Cooltrainer
 Pic: Cooltrainer F
 Gender: Female
 Music: Cool
-Items: Full Restore
 Double Battle: No
 AI: Basic Trainer
+Items: Full Restore
 
 Torkoal
 Level: 42
@@ -2014,9 +2002,9 @@ Class: Cooltrainer
 Pic: Cooltrainer F
 Gender: Female
 Music: Cool
-Items: Full Restore
 Double Battle: No
 AI: Basic Trainer
+Items: Full Restore
 
 Skarmory
 Level: 43
@@ -2032,9 +2020,9 @@ Class: Cooltrainer
 Pic: Cooltrainer F
 Gender: Female
 Music: Cool
-Items: Full Restore
 Double Battle: No
 AI: Basic Trainer
+Items: Full Restore
 
 Sandslash
 Level: 42
@@ -2054,9 +2042,9 @@ Class: Cooltrainer
 Pic: Cooltrainer F
 Gender: Female
 Music: Cool
-Items: Hyper Potion
 Double Battle: No
 AI: Basic Trainer
+Items: Hyper Potion
 
 Wingull
 Level: 26
@@ -2076,9 +2064,9 @@ Class: Cooltrainer
 Pic: Cooltrainer F
 Gender: Female
 Music: Cool
-Items: Hyper Potion
 Double Battle: No
 AI: Basic Trainer
+Items: Hyper Potion
 
 Pelipper
 Level: 29
@@ -2098,9 +2086,9 @@ Class: Cooltrainer
 Pic: Cooltrainer F
 Gender: Female
 Music: Cool
-Items: Full Restore
 Double Battle: No
 AI: Basic Trainer
+Items: Full Restore
 
 Pelipper
 Level: 32
@@ -2120,9 +2108,9 @@ Class: Cooltrainer
 Pic: Cooltrainer F
 Gender: Female
 Music: Cool
-Items: Full Restore
 Double Battle: No
 AI: Basic Trainer
+Items: Full Restore
 
 Pelipper
 Level: 34
@@ -2295,27 +2283,24 @@ Double Battle: No
 AI: Smart Trainer
 
 Swablu (F) @ Oran Berry
-Ability: Natural Cure
 Level: 8
-Careful Nature
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Natural Cure
 - Fly
 - Supersonic
 - Attract
 
 Chatot (M) @ Life Orb
-Ability: Big Pecks
 Level: 7
-Modest Nature
 IVs: 21 HP / 31 Atk / 31 Def / 21 SpA / 31 SpD / 31 Spe
+Ability: Big Pecks
 - Chatter
 - Echoed Voice
 
 Ducklett (F) @ Leftovers
-Ability: Serene Grace
 Level: 8
-Gentle Nature
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Serene Grace
 - Aerial Ace
 - Water Pulse
 - Mud-Slap
@@ -2327,9 +2312,9 @@ Class: Lady
 Pic: Lady
 Gender: Female
 Music: Female
-Items: Full Restore
 Double Battle: No
 AI: Check Bad Move
+Items: Full Restore
 
 Luvdisc @ Nugget
 Level: 39
@@ -2374,9 +2359,9 @@ Class: Lady
 Pic: Lady
 Gender: Female
 Music: Female
-Items: Full Restore
 Double Battle: No
 AI: Check Bad Move
+Items: Full Restore
 
 Zigzagoon @ Nugget
 Level: 11
@@ -2390,9 +2375,9 @@ Class: Lady
 Pic: Lady
 Gender: Female
 Music: Female
-Items: Full Restore
 Double Battle: No
 AI: Check Bad Move
+Items: Full Restore
 
 Seaking @ Nugget
 Level: 40
@@ -2404,9 +2389,9 @@ Class: Lady
 Pic: Lady
 Gender: Female
 Music: Female
-Items: Full Restore
 Double Battle: No
 AI: Check Bad Move
+Items: Full Restore
 
 Roselia @ Nugget
 Level: 45
@@ -2418,9 +2403,9 @@ Class: Lady
 Pic: Lady
 Gender: Female
 Music: Female
-Items: Full Restore
 Double Battle: No
 AI: Check Bad Move
+Items: Full Restore
 
 Linoone @ Nugget
 Level: 27
@@ -2432,9 +2417,9 @@ Class: Lady
 Pic: Lady
 Gender: Female
 Music: Female
-Items: Full Restore
 Double Battle: No
 AI: Check Bad Move
+Items: Full Restore
 
 Linoone @ Nugget
 Level: 30
@@ -2446,9 +2431,9 @@ Class: Lady
 Pic: Lady
 Gender: Female
 Music: Female
-Items: Full Restore
 Double Battle: No
 AI: Check Bad Move
+Items: Full Restore
 
 Linoone @ Nugget
 Level: 33
@@ -2460,9 +2445,9 @@ Class: Lady
 Pic: Lady
 Gender: Female
 Music: Female
-Items: Full Restore
 Double Battle: No
 AI: Check Bad Move
+Items: Full Restore
 
 Linoone @ Nugget
 Level: 36
@@ -2721,28 +2706,25 @@ Double Battle: No
 AI: Smart Trainer
 
 Tangela @ Occa Berry
-Ability: Grassy Surge
 Level: 10
-Jolly Nature
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Grassy Surge
 - Rock Smash
 - Leech Seed
 - Toxic
 
 Skiddo @ Coba Berry
-Ability: Grass Pelt
 Level: 10
-Hardy Nature
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Grass Pelt
 - Rock Smash
 - Grassy Glide
 - Bulldoze
 
 Rockruff @ Passho Berry
-Ability: Own Tempo
 Level: 10
-Lonely Nature
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Own Tempo
 - Rock Smash
 - Rock Slide
 - Thrash
@@ -2770,9 +2752,9 @@ Class: Rich Boy
 Pic: Rich Boy
 Gender: Male
 Music: Rich
-Items: Full Restore
 Double Battle: No
 AI: Check Bad Move
+Items: Full Restore
 
 Azumarill @ Nugget
 Level: 45
@@ -2784,9 +2766,9 @@ Class: Rich Boy
 Pic: Rich Boy
 Gender: Male
 Music: Rich
-Items: Full Restore
 Double Battle: No
 AI: Check Bad Move
+Items: Full Restore
 
 Linoone @ Nugget
 Level: 27
@@ -2798,9 +2780,9 @@ Class: Rich Boy
 Pic: Rich Boy
 Gender: Male
 Music: Rich
-Items: Full Restore
 Double Battle: No
 AI: Check Bad Move
+Items: Full Restore
 
 Linoone @ Nugget
 Level: 30
@@ -2812,9 +2794,9 @@ Class: Rich Boy
 Pic: Rich Boy
 Gender: Male
 Music: Rich
-Items: Full Restore
 Double Battle: No
 AI: Check Bad Move
+Items: Full Restore
 
 Linoone @ Nugget
 Level: 33
@@ -2826,9 +2808,9 @@ Class: Rich Boy
 Pic: Rich Boy
 Gender: Male
 Music: Rich
-Items: Full Restore
 Double Battle: No
 AI: Check Bad Move
+Items: Full Restore
 
 Linoone @ Nugget
 Level: 36
@@ -3608,9 +3590,9 @@ Double Battle: No
 AI: Smart Trainer
 
 Eelektross
-Ability: Levitate
 Level: 30
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Levitate
 - Super Fang
 - Toxic
 - Volt Switch
@@ -3633,9 +3615,9 @@ IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 0 Spe
 - Revenge
 
 Pawmot
-Ability: Iron Fist
 Level: 31
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Iron Fist
 - Thunder Punch
 - Drain Punch
 - Ice Punch
@@ -3681,27 +3663,27 @@ Double Battle: No
 AI: Smart Trainer
 
 Haunter @ Spell Tag
-Ability: Levitate
 Level: 30
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Levitate
 - Thunder Punch
 - Shadow Claw
 - Poison Jab
 - Toxic
 
 Luxray @ Air Balloon
-Ability: Intimidate
 Level: 30
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Intimidate
 - Night Slash
 - Nuzzle
 - Covet
 - Spark
 
 Rotom @ Sitrus Berry
-Ability: Levitate
 Level: 31
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Levitate
 - Extrasensory
 - Hex
 - Thunderbolt
@@ -4039,27 +4021,27 @@ Double Battle: No
 AI: Smart Trainer
 
 Vibrava
-Ability: Levitate
 Level: 34
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Levitate
 - Bug Buzz
 - Dragon Claw
 - Bulldoze
 - Fire Fang
 
 Druddigon
-Ability: Rough Skin
 Level: 34
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Rough Skin
 - Dragon Claw
 - Slash
 - Incinerate
 - Hone Claws
 
 Tyrantrum
-Ability: Rock Head
 Level: 34
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Rock Head
 - Dragon Claw
 - Stone Edge
 - Thunder Fang
@@ -4129,33 +4111,33 @@ IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 Name: BELLATRIX
 Class: Hex Maniac
 Pic: Hex Maniac
-Gender: Femal
+Gender: Female
 Music: Intense
 Double Battle: No
 AI: Smart Trainer
 
-Sableye
-Ability: Prankster
+Sableye @ Colbur Berry
 Level: 35
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Prankster
 - Confuse Ray
 - Night Shade
 - Mean Look
 - Shadow Claw
 
 Trevenant @ Sitrus Berry
-Ability: Harvest
 Level: 34
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Harvest
 - Horn Leech
 - Forest's Curse
 - Fire Punch
 - Phantom Force
 
 Honchkrow @ Razor Claw
-Ability: Super Luck
 Level: 34
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Super Luck
 - Aeroblast
 - Night Slash
 - Shadow Ball
@@ -4624,35 +4606,35 @@ Double Battle: No
 AI: Smart Trainer
 
 Meowstic (F)
-Ability: Infiltrator
 Level: 29
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Infiltrator
 - Psychic Terrain
 - Lovely Kiss
 - Psyshock
 - Role Play
 
 Seaking (M)
-Ability: Water Veil
 Level: 29
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Water Veil
 - Drill Peck
 - Play Rough
 - Liquidation
 
 Ninetales
-Ability: Flash Fire
 Level: 29
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Flash Fire
 - Flame Burst
 - Morning Sun
 - Will-O-Wisp
 - Dazzling Gleam
 
 Teddiursa @ Flame Orb
-Ability: Guts
 Level: 30
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Guts
 - Stomping Tantrum
 - Zen Headbutt
 - Facade
@@ -4963,9 +4945,9 @@ Class: Elite Four
 Pic: Elite Four Sidney
 Gender: Male
 Music: Elite Four
-Items: Full Restore / Full Restore
 Double Battle: No
 AI: Basic Trainer / Force Setup First Turn
+Items: Full Restore / Full Restore
 Mugshot: Purple
 
 Mightyena
@@ -5014,9 +4996,9 @@ Class: Elite Four
 Pic: Elite Four Phoebe
 Gender: Female
 Music: Elite Four
-Items: Full Restore / Full Restore
 Double Battle: No
 AI: Basic Trainer
+Items: Full Restore / Full Restore
 Mugshot: Green
 
 Dusclops
@@ -5065,9 +5047,9 @@ Class: Elite Four
 Pic: Elite Four Glacia
 Gender: Female
 Music: Elite Four
-Items: Full Restore / Full Restore
 Double Battle: No
 AI: Basic Trainer
+Items: Full Restore / Full Restore
 Mugshot: Pink
 
 Sealeo
@@ -5116,9 +5098,9 @@ Class: Elite Four
 Pic: Elite Four Drake
 Gender: Male
 Music: Elite Four
-Items: Full Restore / Full Restore
 Double Battle: No
 AI: Basic Trainer
+Items: Full Restore / Full Restore
 Mugshot: Blue
 
 Shelgon
@@ -5171,50 +5153,46 @@ Double Battle: No
 AI: Smart Trainer
 
 Bonsly (F) @ Rocky Helmet
-Ability: Sturdy
 Level: 15
-Careful Nature
-Shiny: Yes
 IVs: 20 HP / 27 Atk / 31 Def / 7 SpA / 31 SpD / 13 Spe
+Ability: Sturdy
+Shiny: Yes
 - Razor Leaf
 - Leech Seed
 - Rock Tomb
 - Reversal
 
 Archen (M) @ Eviolite
-Ability: Unnerve
 Level: 15
-Adamant Nature
 IVs: 29 HP / 31 Atk / 15 Def / 10 SpA / 22 SpD / 31 Spe
+Ability: Unnerve
 - Tailwind
 - Wing Attack
 - Glare
 - Ancient Power
 
 Corsola-Galar (F) @ Leftovers
-Ability: Cursed Body
 Level: 14
-Sassy Nature
 IVs: 31 HP / 12 Atk / 24 Def / 31 SpA / 31 SpD / 16 Spe
+Ability: Cursed Body
 - Protect
 - Confuse Ray
 - Hex
 - Toxic
 
 Growlithe-Hisui (M) @ Shuca Berry
-Ability: Intimidate
 Level: 16
 IVs: 31 HP / 31 Atk / 31 Def / 22 SpA / 31 SpD / 31 Spe
+Ability: Intimidate
 - Rock Slide
 - Flame Wheel
 - Quick Attack
 - Scorching Sands
 
 Diancie (F)
-Ability: Clear Body
 Level: 16
-Modest Nature
 IVs: 31 HP / 31 Atk / 31 Def / 27 SpA / 31 SpD / 25 Spe
+Ability: Clear Body
 - Dazzling Gleam
 - Calm Mind
 - Psybeam
@@ -5230,9 +5208,9 @@ Double Battle: No
 AI: Smart Trainer
 
 Hitmonchan @ Payapa Berry
-Ability: Iron Fist
 Level: 21
 IVs: 21 HP / 21 Atk / 31 Def / 31 SpA / 31 SpD / 21 Spe
+Ability: Iron Fist
 - Mach Punch
 - Thunder Punch
 - Shadow Punch
@@ -5247,36 +5225,36 @@ IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 - Bulldoze
 
 Jangmo-o @ Eviolite
-Ability: Bulletproof
 Level: 21
 IVs: 31 HP / 25 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Bulletproof
 - Dragon Tail
 - Rock Tomb
 - Iron Head
 - Low Sweep
 
 Lokix @ Black Glasses
-Ability: Swarm
 Level: 21
 IVs: 31 HP / 25 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Swarm
 - Pursuit
 - Lunge
 - Fake Out
 - Strength
 
 Sneasel-Hisui @ Air Balloon
-Ability: Inner Focus
 Level: 22
 IVs: 31 HP / 10 Atk / 31 Def / 31 SpA / 20 SpD / 0 Spe
+Ability: Inner Focus
 - Leer
 - Poison Jab
 - Shadow Claw
 - Force Palm
 
 Lucario @ Shuca Berry
-Ability: Steadfast
 Level: 23
 IVs: 21 HP / 10 Atk / 25 Def / 10 SpA / 25 SpD / 0 Spe
+Ability: Steadfast
 - Flash Cannon
 - Aura Sphere
 - Iron Defense
@@ -5308,28 +5286,28 @@ IVs: 31 HP / 24 Atk / 31 Def / 24 SpA / 31 SpD / 24 Spe
 - Thunder Wave
 
 Electrode-Hisui @ Focus Sash
-Ability: Aftermath
 Level: 31
 IVs: 26 HP / 26 Atk / 26 Def / 26 SpA / 26 SpD / 26 Spe
+Ability: Aftermath
 - Giga Drain
 - Thunderbolt
 - Sonic Boom
 - Metal Sound
 
 Rotom-Wash @ Life Orb
-Ability: Levitate
 Level: 30
 IVs: 26 HP / 26 Atk / 26 Def / 26 SpA / 26 SpD / 0 Spe
+Ability: Levitate
 - Surf
 - Discharge
 - Aqua Jet
 - Nasty Plot
 
 Arcanine @ Magnet
-Ability: Intimidate
 Level: 31
-Shiny: Yes
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 31 Spe
+Ability: Intimidate
+Shiny: Yes
 - Wild Charge
 - Morning Sun
 - Flare Blitz
@@ -5390,9 +5368,9 @@ Class: Leader
 Pic: Leader Norman
 Gender: Male
 Music: Male
-Items: Hyper Potion / Hyper Potion
 Double Battle: No
 AI: Basic Trainer
+Items: Hyper Potion / Hyper Potion
 
 Spinda
 Level: 27
@@ -5432,9 +5410,9 @@ Class: Leader
 Pic: Leader Winona
 Gender: Female
 Music: Female
-Items: Hyper Potion / Hyper Potion
 Double Battle: No
 AI: Basic Trainer / Risky
+Items: Hyper Potion / Hyper Potion
 
 Swablu
 Level: 29
@@ -5482,9 +5460,9 @@ Class: Leader
 Pic: Leader Tate And Liza
 Gender: Male
 Music: Female
-Items: Hyper Potion / Hyper Potion / Hyper Potion / Hyper Potion
 Double Battle: Yes
 AI: Basic Trainer
+Items: Hyper Potion / Hyper Potion / Hyper Potion / Hyper Potion
 
 Claydol
 Level: 41
@@ -5524,9 +5502,9 @@ Class: Leader
 Pic: Leader Juan
 Gender: Male
 Music: Male
-Items: Hyper Potion / Hyper Potion
 Double Battle: No
 AI: Basic Trainer
+Items: Hyper Potion / Hyper Potion
 
 Luvdisc
 Level: 41
@@ -6434,28 +6412,25 @@ Music: Male
 Double Battle: No
 AI: Smart Trainer
 
-Patrat @ Oran Berry  
-Ability: Guts
+Patrat @ Oran Berry
 Level: 6
-Jolly Nature
 IVs: 31 HP / 21 Atk / 31 Def / 0 SpA / 31 SpD / 31 Spe
+Ability: Guts
 - Super Fang
 - Quick Attack
 
 Poochyena @ Oran Berry
-Ability: Rattled
 Level: 7
-Impish Nature
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Rattled
 - Bite
 - Pursuit
 - Tackle
 
 Taillow @ Oran Berry
-Ability: Guts
 Level: 7
-Bashful Nature
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Guts
 - Dual Wingbeat
 - Quick Attack
 - Headbutt
@@ -6470,28 +6445,25 @@ Double Battle: No
 AI: Smart Trainer
 
 Vulpix @ Bright Powder
-Ability: Drought
 Level: 8
-Bold Nature
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Drought
 - Will-O-Wisp
 - Incinerate
 - Light Screen
 
 Cottonee @ Focus Sash
-Ability: Chlorophyll
 Level: 8
-Modest Nature
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Chlorophyll
 - Psybeam
 - Fairy Wind
 - Energy Ball
 
 Bulbasaur @ Oran Berry
-Ability: Chlorophyll
 Level: 8
-Sassy Nature
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Chlorophyll
 - Sludge
 - Mega Drain
 - Leech Seed
@@ -6561,9 +6533,9 @@ IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 - Bulldoze
 
 Tyrunt
-Ability: Strong Jaw
 Level: 15
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Strong Jaw
 - Dragon Claw
 - Thunder Fang
 - Fire Fang
@@ -6578,33 +6550,33 @@ Double Battle: No
 AI: Smart Trainer
 
 Magnemite @ Focus Sash
-Ability: Magnet Pull
 Level: 15
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Magnet Pull
 - Explosion
 - Sonic Boom
 - Spark
 
 Ekans (F) @ Black Sludge
-Ability: Intimidate
 Level: 14
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Intimidate
 - Poison Fang
 - Crunch
 - Dragon Tail
 
 Machop (M) @ Muscle Band
-Ability: Steadfast
 Level: 14
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Steadfast
 - Vital Throw
 - Rock Slide
 - Earthquake
 
 Flareon (M) @ Oran Berry
-Ability: Competitive
 Level: 14
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Competitive
 - Flamethrower
 - Shadow Ball
 - Sunny Day
@@ -6648,9 +6620,9 @@ Class: Cooltrainer
 Pic: Cooltrainer M
 Gender: Male
 Music: Cool
-Items: Full Restore
 Double Battle: No
 AI: Basic Trainer
+Items: Full Restore
 
 Slaking
 Level: 43
@@ -6674,9 +6646,9 @@ Class: Cooltrainer
 Pic: Cooltrainer F
 Gender: Female
 Music: Cool
-Items: Full Restore
 Double Battle: No
 AI: Basic Trainer
+Items: Full Restore
 
 Gardevoir
 Level: 43
@@ -6819,27 +6791,24 @@ Double Battle: No
 AI: Smart Trainer
 
 Sentret @ Oran Berry
-Ability: Thick Fat
 Level: 7
-Hardy Nature
 IVs: 21 HP / 21 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Thick Fat
 - Body Slam
 - Power-Up Punch
 
 Tyrogue (M) @ Toxic Orb
-Ability: Guts
 Level: 7
-Bold Nature
 IVs: 21 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Guts
 - Drain Punch
 - Thunder Punch
 - Mach Punch
 
 Zigzagoon @ Salac Berry
-Ability: Gluttony
 Level: 8
-Hardy Nature
 IVs: 31 HP / 21 Atk / 31 Def / 0 SpA / 31 SpD / 31 Spe
+Ability: Gluttony
 - Belly Drum
 - Headbutt
 
@@ -6853,25 +6822,25 @@ Double Battle: No
 AI: Smart Trainer
 
 Trumbeak @ Sharp Beak
-Ability: Skill Link
 Level: 29
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Skill Link
 - Rock Blast
 - Bullet Seed
 - Beak Blast
 
 Ambipom @ Scope Lens
-Ability: Skill Link
 Level: 29
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Skill Link
 - Double Slap
 - Tickle
 - Fury Attack
 
 Dubwool @ Rocky Helmet
-Ability: Fluffy
 Level: 29
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Fluffy
 - Body Press
 - Take Down
 - Steamroller
@@ -6965,28 +6934,25 @@ Double Battle: No
 AI: Smart Trainer
 
 Surskit @ Focus Sash
-Ability: Swarm
 Level: 12
-Timid Nature
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Swarm
 - Bubble Beam
 - Sticky Web
 - Infestation
 
 Binacle @ Oran Berry
-Ability: Tough Claws
 Level: 12
-Careful Nature
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Tough Claws
 - Stealth Rock
 - Strength
 - Waterfall
 
 Skrelp @ Lum Berry
-Ability: Adaptability
 Level: 11
-Hasty Nature
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Adaptability
 - Sludge
 - Bubble Beam
 - Supersonic
@@ -7060,9 +7026,9 @@ IVs: 1 HP / 1 Atk / 1 Def / 1 SpA / 1 SpD / 1 Spe
 - Thunder Wave
 
 Ferroseed @ Rocky Helmet
-Ability: Iron Barbs
 Level: 21
 IVs: 1 HP / 1 Atk / 1 Def / 1 SpA / 1 SpD / 1 Spe
+Ability: Iron Barbs
 - Vine Whip
 - Spiky Shield
 - Toxic
@@ -7078,36 +7044,36 @@ Double Battle: Yes
 AI: Smart Trainer
 
 Simipour @ Focus Sash
-Ability: Torrent
 Level: 29
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Torrent
 - Rain Dance
 - Scald
 - Helping Hand
 - Swift
 
 Basculin @ Mystic Water
-Ability: Reckless
 Level: 29
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Reckless
 - Take Down
 - Submission
 - Aqua Jet
 - Flip Turn
 
 Frillish @ Berry Juice
-Ability: Cursed Body
 Level: 30
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Cursed Body
 - Shadow Ball
 - Recover
 - Brine
 - Attract
 
 Drednaw @ Berry Juice
-Ability: Strong Jaw
 Level: 29
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Strong Jaw
 - Razor Shell
 - Rock Slide
 - Protect
@@ -8302,8 +8268,8 @@ Class: Cooltrainer
 Pic: Cooltrainer F
 Gender: Female
 Music: Cool
-Items: Full Restore
 Double Battle: No
+Items: Full Restore
 
 Claydol
 Level: 43
@@ -8533,27 +8499,27 @@ Double Battle: No
 AI: Smart Trainer
 
 Grimer @ Black Sludge
-Ability: Poison Touch
 Level: 22
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Poison Touch
 - Fire Punch
 - Ice Punch
 - Acid Armor
 - Drain Punch
 
 Tauros-Paldea-Aqua
-Ability: Anger Point
 Level: 21
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Anger Point
 - Double Kick
 - Trailblaze
 - Thief
 - Aqua Jet
 
 Heracross @ Loaded Dice
-Ability: Moxie
 Level: 22
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Moxie
 - Arm Thrust
 - Pin Missile
 - Rock Blast
@@ -8568,27 +8534,27 @@ Double Battle: No
 AI: Smart Trainer
 
 Pikachu-Libre @ Light Ball
-Ability: Static
 Level: 20
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Static
 - Volt Switch
 - Rock Smash
 - Grass Knot
 - Knock Off
 
 Magby
-Ability: Flame Body
 Level: 22
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Flame Body
 - Karate Chop
 - Flame Wheel
 - Bulk Up
 - Will-O-Wisp
 
 Clobbopus @ Water Gem
-Ability: Technician
 Level: 21
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Technician
 - Power-Up Punch
 - Whirlpool
 - Payback
@@ -8888,27 +8854,27 @@ Double Battle: No
 AI: Smart Trainer
 
 Vaporeon @ Assault Vest
-Ability: Drizzle
 Level: 23
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Drizzle
 - Muddy Water
 - Ice Beam
 - Safeguard
 - Mud Shot
 
 Ludicolo @ Leftovers
-Ability: Rain Dish
 Level: 23
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Rain Dish
 - Surf
 - Leaf Storm
 - Ice Beam
 - Leech Seed
 
 Starmie @ Sitrus Berry
-Ability: Swift Swim
 Level: 24
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Swift Swim
 - Thunder Wave
 - Psychic
 - Shadow Ball
@@ -9351,27 +9317,27 @@ Double Battle: No
 AI: Smart Trainer
 
 Wormadam-Sandy @ Focus Sash
-Ability: Overcoat
 Level: 35
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Overcoat
 - Psyshock
 - Razor Leaf
 - Captivate
 - Electroweb
 
 Ariados
-Ability: Swarm
 Level: 35
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Swarm
 - Spider Web
 - Bug Bite
 - Night Shade
 - Aurora Beam
 
 Yanmega
-Ability: Speed Boost
 Level: 35
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Speed Boost
 - Ancient Power
 - Air Cutter
 - Bug Buzz
@@ -9450,21 +9416,49 @@ IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 - Mirror Coat
 
 === TRAINER_IRENE ===
-Name: IRENE
+Name: EYELEEN
 Class: Picnicker
 Pic: Picnicker
 Gender: Female
 Music: Girl
 Double Battle: No
-AI: Check Bad Move
+AI: Smart Trainer
 
-Shroomish
-Level: 17
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Carbink @ Berry Juice
+Level: 35
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Clear Body
+- Power Gem
+- Reflect
+- Earth Power
+- Dazzling Gleam
 
-Marill
-Level: 17
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Dreepy @ Eviolite
+Level: 34
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Cursed Body
+- Bite
+- Dragon Tail
+- Grudge
+- Shadow Claw
+
+Lairon @ Covert Cloak
+Level: 34
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Rock Head
+- Iron Head
+- Take Down
+- Stone Edge
+- Iron Defense
+
+Mantyke @ Sitrus Berry
+Level: 35
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Thick Fat
+- Water Pulse
+- Air Slash
+- Aqua Ring
+- Mud Bomb
 
 === TRAINER_DIANA_2 ===
 Name: DIANA
@@ -9594,40 +9588,36 @@ Double Battle: Yes
 AI: Smart Trainer
 
 Cleffa (F) @ Focus Sash
-Ability: Cute Charm
 Level: 10
-Calm Nature
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Cute Charm
 - Fake Out
 - Follow Me
 - Sing
 - Fairy Wind
 
 Meltan (M) @ Oran Berry
-Ability: Sturdy
 Level: 10
-Docile Nature
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Sturdy
 - Light Screen
 - Reflect
 - Bulldoze
 - Flash Cannon
 
 Tinkatink (F) @ Oran Berry
-Ability: Own Tempo
 Level: 11
-Adamant Nature
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Own Tempo
 - Fake Out
 - Follow Me
 - Flatter
 - Covet
 
 Azurill (F) @ Oran Berry
-Ability: Huge Power
 Level: 11
-Lax Nature
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Huge Power
 - Ice Punch
 - Jet Punch
 - Body Slam
@@ -9764,36 +9754,36 @@ Double Battle: No
 AI: Smart Trainer
 
 Pelipper
-Ability: Drizzle
 Level: 25
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Drizzle
 - Tailwind
 - Brine
 - Steel Wing
 - Roost
 
 Croagunk
-Ability: Dry Skin
 Level: 26
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Dry Skin
 - Sucker Punch
 - Force Palm
 - Swagger
 - Poison Jab
 
 Anorith
-Ability: Swift Swim
 Level: 26
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Swift Swim
 - Ancient Power
 - Bug Bite
 - Mud Slap
 - Harden
 
 Heliolisk
-Ability: Dry Skin
 Level: 25
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Dry Skin
 - Quick Attack
 - Bulldoze
 - Parabolic Charge
@@ -9809,27 +9799,27 @@ Double Battle: No
 AI: Smart Trainer
 
 Vivillon
-Ability: Compound Eyes
 Level: 24
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Compound Eyes
 - Air Cutter
 - Sleep Powder
 - Infestation
 - Light Screen
 
 Fletchinder
-Ability: Flame Body
 Level: 25
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Flame Body
 - Flame Wheel
 - Quick Attack
 - Wing Attack
 - Whirlwind
 
 Braviary
-Ability: Sheer Force
 Level: 24
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Sheer Force
 - Aerial Ace
 - Feather Dance
 - Brick Break
@@ -10056,9 +10046,9 @@ Class: Cooltrainer 2
 Pic: Cooltrainer F
 Gender: Female
 Music: Cool
-Items: Hyper Potion
 Double Battle: No
 AI: Basic Trainer
+Items: Hyper Potion
 
 Absol
 Level: 27
@@ -10138,9 +10128,9 @@ Class: Cooltrainer
 Pic: Cooltrainer F
 Gender: Female
 Music: Cool
-Items: Hyper Potion
 Double Battle: No
 AI: Basic Trainer
+Items: Hyper Potion
 
 Manectric
 Level: 34
@@ -10207,18 +10197,18 @@ Double Battle: No
 AI: Smart Trainer
 
 Vikavolt @ Berry Juice
-Ability: Levitate
 Level: 29
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Levitate
 - Thunderbolt
 - Bug Buzz
 - Aerial Ace
 - Energy Ball
 
 Parasect @ Leftovers
-Ability: Shell Armor
 Level: 29
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Shell Armor
 - Spore
 - Leech Life
 - Petal Dance
@@ -10336,9 +10326,9 @@ Class: Rival
 Pic: Wally
 Gender: Male
 Music: Male
-Items: Full Restore / Full Restore
 Double Battle: No
 AI: Basic Trainer
+Items: Full Restore / Full Restore
 
 Altaria
 Level: 44
@@ -10403,18 +10393,18 @@ Double Battle: No
 AI: Smart Trainer
 
 Spiritomb @ Covert Cloak
-Ability: Pressure
 Level: 30
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Pressure
 - Sucker Punch
 - Night Shade
 - Curse
 - Sand Tomb
 
 Gliscor @ Toxic Orb
-Ability: Poison Heal
 Level: 30
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Poison Heal
 - Bulldoze
 - Brave Bird
 - Pursuit
@@ -10488,36 +10478,36 @@ Double Battle: No
 AI: Smart Trainer
 
 Mudsdale @ Berry Juice
-Ability: Stamina
 Level: 30
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 0 Spe
+Ability: Stamina
 - High Horsepower
 - Stealth Rock
 - Counter
 - Heavy Slam
 
 Ludicolo @ Leftovers
-Ability: Sheer Force
 Level: 30
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Sheer Force
 - Giga Drain
 - Muddy Water
 - Icy Wind
 - Leech Seed
 
 Golbat @ Black Sludge
-Ability: Inner Focus
 Level: 31
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Inner Focus
 - Poison Fang
 - Air Slash
 - Hypnosis
 - Mega Drain
 
 Luxray @ Black Glasses
-Ability: Intimidate
 Level: 30
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Intimidate
 - Crunch
 - Super Fang
 - Volt Switch
@@ -10575,36 +10565,36 @@ Double Battle: No
 AI: Smart Trainer
 
 Exeggutor @ Quick Claw
-Ability: Harvest
 Level: 30
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Harvest
 - Light Screen
 - Reflect
 - Psychic
 - Leech Seed
 
 Linoone-Galar @ Salac Berry
-Ability: Gluttony
 Level: 30
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Gluttony
 - Extreme Speed
 - Thief
 - Covet
 - Body Slam
 
 Golbat @ Black Sludge
-Ability: Inner Focus
 Level: 30
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Inner Focus
 - Poison Fang
 - Air Slash
 - Hypnosis
 - Mega Drain
 
 Litleo @ Eviolite
-Ability: Moxie
 Level: 31
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Moxie
 - Flamethrower
 - Hyper Voice
 - Will-O-Wisp
@@ -10662,18 +10652,18 @@ Double Battle: No
 AI: Smart Trainer
 
 Spiritomb @ Covert Cloak
-Ability: Pressure
 Level: 30
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Pressure
 - Sucker Punch
 - Night Shade
 - Curse
 - Sand Tomb
 
 Gliscor @ Toxic Orb
-Ability: Poison Heal
 Level: 30
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Poison Heal
 - Bulldoze
 - Brave Bird
 - Pursuit
@@ -10747,36 +10737,36 @@ Double Battle: No
 AI: Smart Trainer
 
 Mudsdale @ Berry Juice
-Ability: Stamina
 Level: 30
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 0 Spe
+Ability: Stamina
 - High Horsepower
 - Stealth Rock
 - Counter
 - Heavy Slam
 
 Ludicolo @ Leftovers
-Ability: Sheer Force
 Level: 30
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Sheer Force
 - Giga Drain
 - Muddy Water
 - Icy Wind
 - Leech Seed
 
 Golbat @ Black Sludge
-Ability: Inner Focus
 Level: 31
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Inner Focus
 - Poison Fang
 - Air Slash
 - Hypnosis
 - Mega Drain
 
 Luxray @ Black Glasses
-Ability: Intimidate
 Level: 30
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Intimidate
 - Crunch
 - Super Fang
 - Volt Switch
@@ -10834,36 +10824,36 @@ Double Battle: No
 AI: Smart Trainer
 
 Exeggutor @ Quick Claw
-Ability: Harvest
 Level: 30
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Harvest
 - Light Screen
 - Reflect
 - Psychic
 - Leech Seed
 
 Linoone-Galar @ Salac Berry
-Ability: Gluttony
 Level: 30
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Gluttony
 - Extreme Speed
 - Thief
 - Covet
 - Body Slam
 
 Golbat @ Black Sludge
-Ability: Inner Focus
 Level: 30
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Inner Focus
 - Poison Fang
 - Air Slash
 - Hypnosis
 - Mega Drain
 
 Litleo @ Eviolite
-Ability: Moxie
 Level: 31
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Moxie
 - Flamethrower
 - Hyper Voice
 - Will-O-Wisp
@@ -10915,8 +10905,8 @@ IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 
 Ditto @ Quick Claw
 Level: 31
-Nature: Hasty
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Nature: Hasty
 - Transform
 
 Sirfetchd @ Scope Lens
@@ -10926,7 +10916,6 @@ IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 - Dual Wingbeat
 - Leaf Blade
 - Swords Dance
-
 
 === TRAINER_DAVIS ===
 Name: DAVIS
@@ -11137,9 +11126,9 @@ Class: Cooltrainer
 Pic: Cooltrainer F
 Gender: Female
 Music: Cool
-Items: Full Restore
 Double Battle: No
 AI: Basic Trainer
+Items: Full Restore
 
 Sableye
 Level: 43
@@ -11300,9 +11289,9 @@ Class: Pkmn Ranger
 Pic: Pokemon Ranger M
 Gender: Male
 Music: Cool
-Items: Full Restore
 Double Battle: No
 AI: Basic Trainer
+Items: Full Restore
 
 Breloom
 Level: 27
@@ -11314,9 +11303,9 @@ Class: Pkmn Ranger
 Pic: Pokemon Ranger M
 Gender: Male
 Music: Cool
-Items: Full Restore
 Double Battle: No
 AI: Basic Trainer
+Items: Full Restore
 
 Seedot
 Level: 28
@@ -11336,9 +11325,9 @@ Class: Pkmn Ranger
 Pic: Pokemon Ranger M
 Gender: Male
 Music: Cool
-Items: Full Restore
 Double Battle: No
 AI: Basic Trainer
+Items: Full Restore
 
 Cacturne
 Level: 39
@@ -11350,9 +11339,9 @@ Class: Pkmn Ranger
 Pic: Pokemon Ranger M
 Gender: Male
 Music: Cool
-Items: Full Restore
 Double Battle: No
 AI: Check Bad Move / Try To Faint / Force Setup First Turn
+Items: Full Restore
 
 Breloom
 Level: 31
@@ -11364,9 +11353,9 @@ Class: Pkmn Ranger
 Pic: Pokemon Ranger M
 Gender: Male
 Music: Cool
-Items: Full Restore
 Double Battle: No
 AI: Basic Trainer
+Items: Full Restore
 
 Breloom
 Level: 34
@@ -11378,9 +11367,9 @@ Class: Pkmn Ranger
 Pic: Pokemon Ranger M
 Gender: Male
 Music: Cool
-Items: Full Restore
 Double Battle: No
 AI: Check Bad Move / Try To Faint / Force Setup First Turn
+Items: Full Restore
 
 Breloom
 Level: 37
@@ -11392,9 +11381,9 @@ Class: Pkmn Ranger
 Pic: Pokemon Ranger M
 Gender: Male
 Music: Cool
-Items: Full Restore
 Double Battle: No
 AI: Basic Trainer
+Items: Full Restore
 
 Kecleon
 Level: 39
@@ -11410,9 +11399,9 @@ Class: Pkmn Ranger
 Pic: Pokemon Ranger F
 Gender: Female
 Music: Cool
-Items: Full Restore
 Double Battle: No
 AI: Check Bad Move / Try To Faint / Force Setup First Turn
+Items: Full Restore
 
 Gloom
 Level: 26
@@ -11428,9 +11417,9 @@ Class: Pkmn Ranger
 Pic: Pokemon Ranger F
 Gender: Female
 Music: Cool
-Items: Full Restore
 Double Battle: No
 AI: Check Bad Move / Try To Faint / Force Setup First Turn
+Items: Full Restore
 
 Lotad
 Level: 28
@@ -11450,9 +11439,9 @@ Class: Pkmn Ranger
 Pic: Pokemon Ranger F
 Gender: Female
 Music: Cool
-Items: Full Restore
 Double Battle: No
 AI: Basic Trainer
+Items: Full Restore
 
 Swablu
 Level: 38
@@ -11468,9 +11457,9 @@ Class: Pkmn Ranger
 Pic: Pokemon Ranger F
 Gender: Female
 Music: Cool
-Items: Full Restore
 Double Battle: No
 AI: Check Bad Move / Try To Faint / Force Setup First Turn
+Items: Full Restore
 
 Gloom
 Level: 30
@@ -11486,9 +11475,9 @@ Class: Pkmn Ranger
 Pic: Pokemon Ranger F
 Gender: Female
 Music: Cool
-Items: Full Restore
 Double Battle: No
 AI: Basic Trainer
+Items: Full Restore
 
 Gloom
 Level: 33
@@ -11504,9 +11493,9 @@ Class: Pkmn Ranger
 Pic: Pokemon Ranger F
 Gender: Female
 Music: Cool
-Items: Full Restore
 Double Battle: No
 AI: Check Bad Move / Try To Faint / Force Setup First Turn
+Items: Full Restore
 
 Gloom
 Level: 36
@@ -11522,9 +11511,9 @@ Class: Pkmn Ranger
 Pic: Pokemon Ranger F
 Gender: Female
 Music: Cool
-Items: Full Restore
 Double Battle: No
 AI: Basic Trainer
+Items: Full Restore
 
 Bellossom
 Level: 39
@@ -11633,9 +11622,9 @@ IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 - Giga Drain
 
 Minior Meteor @ Focus Sash
-Ability: Shields Down
 Level: 14
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Shields Down
 - Acrobatics
 - Charge Beam
 - Light Screen
@@ -11658,27 +11647,27 @@ Double Battle: No
 AI: Smart Trainer
 
 Farfetchd @ Leek
-Ability: Defiant
 Level: 21
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Defiant
 - Circle Throw
 - Leer
 - Aerial Ace
 - Leaf Blade
 
 Timburr @ Salac Berry
-Ability: Sheer Force
 Level: 22
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Sheer Force
 - Chip Away
 - Low Sweep
 - Endure
 - Reversal
 
 Hariyama
-Ability: Thick Fat
 Level: 22
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Thick Fat
 - Whirlwind
 - Slack Off
 - Vital Throw
@@ -11693,17 +11682,17 @@ Double Battle: No
 AI: Smart Trainer
 
 Meditite @ Starf Berry
-Ability: Telepathy
 Level: 21
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Telepathy
 - Acrobatics
 - High Jump Kick
 - Thunder Punch
 
 Noibat @ Berry Juice
-Ability: Telepathy
 Level: 22
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Telepathy
 - Super Fang
 - Air Slash
 - Screech
@@ -11765,9 +11754,9 @@ Class: Cooltrainer
 Pic: Cooltrainer F
 Gender: Female
 Music: Cool
-Items: Hyper Potion
 Double Battle: No
 AI: Basic Trainer
+Items: Hyper Potion
 
 Manectric
 Level: 32
@@ -11986,9 +11975,9 @@ IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 - Leech Seed
 
 Golbat @ Black Sludge
-Ability: Inner Focus
 Level: 20
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Inner Focus
 - Leech Life
 - Wing Attack
 - Hypnosis
@@ -12020,9 +12009,9 @@ Double Battle: Yes
 AI: Smart Trainer
 
 Gligar @ Toxic Orb
-Ability: Poison Heal
 Level: 19
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Poison Heal
 - Bulldoze
 - Wing Attack
 - Pursuit
@@ -12130,9 +12119,9 @@ Class: Cooltrainer
 Pic: Cooltrainer M
 Gender: Male
 Music: Cool
-Items: Hyper Potion
 Double Battle: No
 AI: Check Bad Move / Try To Faint / Force Setup First Turn
+Items: Hyper Potion
 
 Kecleon
 Level: 33
@@ -12152,18 +12141,18 @@ Double Battle: No
 AI: Smart Trainer
 
 Linoone-Galar @ Salac Berry
-Ability: Gluttony
 Level: 20
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Gluttony
 - Leer
 - Thief
 - Covet
 - Body Slam
 
 Golbat @ Black Sludge
-Ability: Inner Focus
 Level: 19
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Inner Focus
 - Leech Life
 - Wing Attack
 - Hypnosis
@@ -12195,9 +12184,9 @@ Double Battle: No
 AI: Smart Trainer
 
 Gligar @ Toxic Orb
-Ability: Poison Heal
 Level: 19
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Poison Heal
 - Bulldoze
 - Wing Attack
 - Pursuit
@@ -12233,9 +12222,9 @@ Class: Magma Leader
 Pic: Magma Leader Maxie
 Gender: Male
 Music: Magma
-Items: Super Potion / Super Potion
 Double Battle: No
 AI: Basic Trainer
+Items: Super Potion / Super Potion
 
 Mightyena
 Level: 37
@@ -12255,9 +12244,9 @@ Class: Magma Leader
 Pic: Magma Leader Maxie
 Gender: Male
 Music: Magma
-Items: Super Potion / Super Potion
 Double Battle: No
 AI: Basic Trainer
+Items: Super Potion / Super Potion
 
 Mightyena
 Level: 24
@@ -12281,27 +12270,24 @@ Double Battle: No
 AI: Smart Trainer
 
 Snubbull @ Kebia Berry
-Ability: Intimidate
 Level: 8
-Serious Nature
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Intimidate
 - Stomp
 - Bite
 - Heart Stamp
 
 Buneary
-Ability: Limber
 Level: 7
-Adamant Nature
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Limber
 - Double Hit
 - Double Kick
 
 Igglybuff @ Oran Berry
-Ability: Cute Charm
 Level: 7
-Quiet Nature
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Cute Charm
 - Metronome
 
 === TRAINER_HALEY_1 ===
@@ -12314,28 +12300,25 @@ Double Battle: No
 AI: Smart Trainer
 
 Nidoran (F) @ Payapa Berry
-Ability: Poison Point
 Level: 11
-Sassy Nature
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Poison Point
 - Water Pulse
 - Poison Jab
 - Horn Attack
 
 Litwick @ Passho Berry
-Ability: Flash Fire
 Level: 11
-Modest Nature
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Flash Fire
 - Shadow Ball
 - Flamethrower
 - Confuse Ray
 
 Swirlix @ Weakness Policy
-Ability: Unburden
 Level: 10
-Timid Nature
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Unburden
 - Echoed Voice
 - Dazzling Gleam
 - Moonlight
@@ -12524,26 +12507,23 @@ Double Battle: No
 AI: Smart Trainer
 
 Wurmple @ Oran Berry
-Ability: Shield Dust
 Level: 9
-Hasty Nature
 IVs: 31 HP / 31 Atk / 31 Def / 0 SpA / 31 SpD / 31 Spe
+Ability: Shield Dust
 - Lunge
 
 Nincada @ Oran Berry
-Ability: Compound Eyes
 Level: 7
-Hasty Nature
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Compound Eyes
 - Vise Grip
 - Bone Rush
 - Rock Throw
 
 Venonat @ Lum Berry
-Ability: Tinted Lens  
 Level: 8
-Sassy Nature
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Tinted Lens
 - Confusion
 - Disable
 - Struggle Bug
@@ -12575,17 +12555,17 @@ IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 
 Beedrill @ Loaded Dice
 Level: 12
-Shiny: Yes
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Shiny: Yes
 - Fell Stinger
 - Twineedle
 - Bullet Seed
 - Poison Jab
 
 Ledyba @ Focus Sash
-Ability: Technician
 Level: 14
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Technician
 - Pursuit
 - Leech Life
 - Rock Smash
@@ -12601,19 +12581,18 @@ Double Battle: No
 AI: Smart Trainer
 
 Beautifly @ Sitrus Berry
-Ability: Compound Eyes
 Level: 17
-Hasty Nature
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Compound Eyes
 - Stun Spore
 - Supersonic
 - Constrict
 - Dazzling Gleam
 
 Butterfree @ Flying Gem
-Ability: Compound Eyes
 Level: 17
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Compound Eyes
 - Mega Drain
 - Air Slash
 - Sleep Powder
@@ -12684,28 +12663,25 @@ Double Battle: No
 AI: Smart Trainer
 
 Wimpod @ Mystic Water
-Ability: Wimp Out
 Level: 9
-Impish Nature
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Wimp Out
 - Twineedle
 - Aqua Cutter
 - Aqua Jet
 
 Grubbin @ Electric Gem
-Ability: Swarm
 Level: 8
-Adamant Nature
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Swarm
 - Spark
 - Thunder Wave
 - Bug Bite
 
 Larvesta @ Assault Vest
-Ability: Swarm
 Level: 9
-Calm Nature
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Swarm
 - Fire Pledge
 - Bug Buzz
 
@@ -12795,36 +12771,36 @@ Double Battle: Yes
 AI: Smart Trainer
 
 Rotom-Fan
-Ability: Levitate
 Level: 34
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Levitate
 - Electro Ball
 - Thunder Wave
 - Hex
 - Substitute
 
 Rotom-Mow
-Ability: Levitate
 Level: 34
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Levitate
 - Leaf Storm
 - Nasty Plot
 - Hyper Voice
 - Shock Wave
 
 Throh
-Ability: Inner Focus
 Level: 35
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Inner Focus
 - Vital Throw
 - Mega Punch
 - Bulk Up
 - Coaching
 
 Sawk
-Ability: Inner Focus
 Level: 35
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Inner Focus
 - Brick Break
 - Shadow Punch
 - Quick Guard
@@ -12934,25 +12910,25 @@ Double Battle: No
 AI: Smart Trainer
 
 Nosepass @ Oran Berry
-Ability: Sturdy
 Level: 12
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Sturdy
 - Seismic Toss
 - Sandstorm
 - Thunder Wave
 
 Zubat @ Flying Gem
-Ability: Insomnia
 Level: 12
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Insomnia
 - Acrobatics
 - Poison Fang
 - Mega Drain
 
 Tirtouga @ Lum Berry
-Ability: Solid Rock
 Level: 13
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Solid Rock
 - Razor Shell
 - Rock Slide
 - Aqua Jet
@@ -13269,9 +13245,9 @@ Class: Cooltrainer
 Pic: Cooltrainer M
 Gender: Male
 Music: Cool
-Items: Hyper Potion
 Double Battle: No
 AI: Basic Trainer
+Items: Hyper Potion
 
 Kecleon
 Level: 23
@@ -13495,9 +13471,9 @@ Class: Rival
 Pic: Wally
 Gender: Male
 Music: Male
-Items: Full Restore / Full Restore
 Double Battle: No
 AI: Basic Trainer
+Items: Full Restore / Full Restore
 
 Altaria
 Level: 47
@@ -13545,9 +13521,9 @@ Class: Rival
 Pic: Wally
 Gender: Male
 Music: Male
-Items: Full Restore / Full Restore
 Double Battle: No
 AI: Basic Trainer
+Items: Full Restore / Full Restore
 
 Altaria
 Level: 50
@@ -13595,9 +13571,9 @@ Class: Rival
 Pic: Wally
 Gender: Male
 Music: Male
-Items: Full Restore / Full Restore
 Double Battle: No
 AI: Basic Trainer
+Items: Full Restore / Full Restore
 
 Altaria
 Level: 53
@@ -13645,9 +13621,9 @@ Class: Rival
 Pic: Wally
 Gender: Male
 Music: Male
-Items: Full Restore / Full Restore
 Double Battle: No
 AI: Basic Trainer
+Items: Full Restore / Full Restore
 
 Altaria
 Level: 56
@@ -13904,9 +13880,9 @@ Class: Cooltrainer
 Pic: Cooltrainer F
 Gender: Female
 Music: Cool
-Items: Full Restore
 Double Battle: No
 AI: Basic Trainer
+Items: Full Restore
 
 Gloom
 Level: 34
@@ -13922,9 +13898,9 @@ Class: Cooltrainer
 Pic: Cooltrainer M
 Gender: Male
 Music: Cool
-Items: Hyper Potion
 Double Battle: No
 AI: Basic Trainer
+Items: Hyper Potion
 
 Shiftry
 Level: 34
@@ -14386,15 +14362,15 @@ Double Battle: No
 AI: Smart Trainer
 
 Zigzagoon-Galar @ Toxic Orb
-Ability: Quick Feet
 Level: 13
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Quick Feet
 - Fling
 
 Gastly @ Spell Tag
-Ability: Levitate
 Level: 13
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Levitate
 - Toxic
 - Hex
 - Confuse Ray
@@ -14444,28 +14420,25 @@ Double Battle: No
 AI: Smart Trainer
 
 Arrokuda @ Flying Gem
-Ability: Swift Swim
 Level: 9
-Adamant Nature
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Swift Swim
 - Aerial Ace
 - Aqua Jet
 - Rain Dance
 
 Wooper @ Focus Sash
-Ability: Water Absorb
 Level: 9
-Sassy Nature
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Water Absorb
 - Muddy Water
 - Mud Shot
 - Reversal
 
 Shellder @ Oran Berry
-Ability: Shell Armor
 Level: 8
-Sassy Nature
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Shell Armor
 - Toxic
 - Protect
 - Ice Shard
@@ -14481,27 +14454,27 @@ Double Battle: No
 AI: Smart Trainer
 
 Bruxish
-Ability: Strong Jaw
 Level: 24
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Strong Jaw
 - Psyshock
 - Disable
 - Bite
 - Ice Fang
 
 Ponyta-Galar
-Ability: Anticipation
 Level: 25
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Anticipation
 - Stomp
 - Fairy Wind
 - Tail Whip
 - Mystical Fire
 
 Bronzor
-Ability: Levitate
 Level: 25
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Levitate
 - Iron Defense
 - Gyro Ball
 - Extrasensory
@@ -14540,18 +14513,18 @@ Double Battle: No
 AI: Smart Trainer
 
 Nuzleaf @ Focus Band
-Ability: Early Bird
 Level: 29
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Early Bird
 - Explosion
 - Payback
 - Razor Leaf
 - Rock Tomb
 
 Linoone-Galar @ Kings Rock
-Ability: Quick Feet
 Level: 28
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Quick Feet
 - Extreme Speed
 - Night Slash
 - Fury Swipes
@@ -14575,18 +14548,18 @@ Double Battle: No
 AI: Smart Trainer
 
 Loudred @ Silk Scarf
-Ability: Soundproof
 Level: 29
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Soundproof
 - Hyper Voice
 - Supersonic
 - Fake Out
 - Helping Hand
 
 Swoobat @ Throat Spray
-Ability: Cloud Nine
 Level: 29
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Cloud Nine
 - Hyper Voice
 - Psybeam
 - Air Slash
@@ -14641,27 +14614,27 @@ Double Battle: No
 AI: Smart Trainer
 
 Hippowdon @ Chesto Berry
-Ability: Sand Stream
 Level: 34
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Sand Stream
 - Bulldoze
 - Ice Fang
 - Rock Slide
 - Rest
 
 Whiscash @ Rindo Berry
-Ability: Hydration
 Level: 34
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Hydration
 - Ice Beam
 - Future Sight
 - Hydro Pump
 - Earthquake
 
 Krokorok @ Muscle Band
-Ability: Intimidate
 Level: 35
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Intimidate
 - Crunch
 - Dig
 - Swagger
@@ -14677,27 +14650,27 @@ Double Battle: No
 AI: Smart Trainer
 
 Bellossom @ Occa Berry
-Ability: Chlorophyll
 Level: 34
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Chlorophyll
 - Sweet Scent
 - Petal Dance
 - Sleep Powder
 - Sunny Day
 
 Ursaring @ Assault Vest
-Ability: Unnerve
 Level: 34
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Unnerve
 - Earthquake
 - Cross Chop
 - Mega Punch
 - Sweet Scent
 
 Salandit @ Poison Barb
-Ability: Corrosion
 Level: 35
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Corrosion
 - Sludge Bomb
 - Blast Burn
 - Toxic
@@ -14713,9 +14686,9 @@ Double Battle: No
 AI: Smart Trainer
 
 Glimmora @ Payapa Berry
-Ability: Corrosion
 Level: 33
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Corrosion
 - Stealth Rock
 - Toxic Spikes
 - Earth Power
@@ -14729,18 +14702,18 @@ IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 - Shell Smash
 
 Sudowoodo
-Ability: Rock Head
 Level: 33
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Rock Head
 - Wood Hammer
 - Stone Edge
 - Stomping Tantrum
 - Double Edge
 
 Carkol @ Sitrus Berry
-Ability: Steam Engine
 Level: 34
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Steam Engine
 - Rock Slide
 - Incinerate
 - Rock Polish
@@ -14756,27 +14729,27 @@ Double Battle: No
 AI: Smart Trainer
 
 Centiskorch @ Wide Lens
-Ability: White Smoke
 Level: 34
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: White Smoke
 - Inferno
 - X-Scissor
 - Coil
 - Fire Fang
 
 Darumaka @ Muscle Band
-Ability: Inner Focus
 Level: 35
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Inner Focus
 - Flare Blitz
 - Work Up
 - Brick Break
 - Thrash
 
 Camerupt @ Passho Berry
-Ability: Simple
 Level: 34
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Simple
 - Lava Plume
 - Take Down
 - Bulldoze
@@ -15161,9 +15134,9 @@ Class: Cooltrainer
 Pic: Cooltrainer F
 Gender: Female
 Music: Cool
-Items: Hyper Potion
 Double Battle: No
 AI: Basic Trainer
+Items: Hyper Potion
 
 Pelipper
 Level: 33
@@ -15294,9 +15267,9 @@ Class: Cooltrainer
 Pic: Cooltrainer F
 Gender: Female
 Music: Cool
-Items: Hyper Potion
 Double Battle: No
 AI: Basic Trainer
+Items: Hyper Potion
 
 Manectric
 Level: 24
@@ -15324,9 +15297,9 @@ Level: 25
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 
 Combusken
-Ability: Speed Boost
 Level: 25
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Speed Boost
 
 Prinplup
 Level: 25
@@ -15393,18 +15366,18 @@ Double Battle: No
 AI: Smart Trainer
 
 Nidoqueen @ Air Balloon
-Ability: Poison Point
 Level: 35
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Poison Point
 - Ice Beam
 - Body Slam
 - Sludge Wave
 - Helping Hand
 
 Hitmonlee
-Ability: Limber
 Level: 35
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Limber
 - Rolling Kick
 - Blaze Kick
 - Mega Kick
@@ -15420,18 +15393,18 @@ Double Battle: No
 AI: Smart Trainer
 
 Nidoking @ Air Balloon
-Ability: Rivalry
 Level: 35
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Rivalry
 - Earthquake
 - Endure
 - Bite
 - Poison Tail
 
 Hitmontop
-Ability: Technician
 Level: 35
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Technician
 - Fake Out
 - Triple Axel
 - Triple Kick
@@ -15637,9 +15610,9 @@ Class: Expert
 Pic: Expert F
 Gender: Female
 Music: Intense
-Items: Hyper Potion
 Double Battle: No
 AI: Basic Trainer
+Items: Hyper Potion
 
 Roselia
 Level: 33
@@ -15698,9 +15671,9 @@ Class: Cooltrainer
 Pic: Cooltrainer M
 Gender: Male
 Music: Cool
-Items: Hyper Potion
 Double Battle: No
 AI: Basic Trainer
+Items: Hyper Potion
 
 Manectric
 Level: 30
@@ -15815,9 +15788,9 @@ Class: Cooltrainer
 Pic: Cooltrainer F
 Gender: Female
 Music: Cool
-Items: Hyper Potion
 Double Battle: No
 AI: Basic Trainer
+Items: Hyper Potion
 
 Loudred
 Level: 29
@@ -15845,9 +15818,9 @@ IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 - Leech Seed
 
 Golbat @ Black Sludge
-Ability: Inner Focus
 Level: 20
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Inner Focus
 - Leech Life
 - Wing Attack
 - Hypnosis
@@ -15879,18 +15852,18 @@ Double Battle: No
 AI: Smart Trainer
 
 Linoone-Galar @ Salac Berry
-Ability: Gluttony
 Level: 20
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Gluttony
 - Leer
 - Thief
 - Covet
 - Body Slam
 
 Golbat @ Black Sludge
-Ability: Inner Focus
 Level: 19
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Inner Focus
 - Leech Life
 - Wing Attack
 - Hypnosis
@@ -15918,9 +15891,9 @@ Class: Leader
 Pic: Leader Roxanne
 Gender: Female
 Music: Female
-Items: Full Restore / Full Restore / Full Restore
 Double Battle: Yes
 AI: Basic Trainer
+Items: Full Restore / Full Restore / Full Restore
 
 Golem
 Level: 32
@@ -15960,9 +15933,9 @@ Class: Leader
 Pic: Leader Roxanne
 Gender: Female
 Music: Female
-Items: Full Restore / Full Restore / Full Restore
 Double Battle: Yes
 AI: Basic Trainer
+Items: Full Restore / Full Restore / Full Restore
 
 Omanyte
 Level: 37
@@ -16010,9 +15983,9 @@ Class: Leader
 Pic: Leader Roxanne
 Gender: Female
 Music: Female
-Items: Full Restore / Full Restore / Full Restore
 Double Battle: Yes
 AI: Basic Trainer
+Items: Full Restore / Full Restore / Full Restore
 
 Omastar
 Level: 42
@@ -16060,9 +16033,9 @@ Class: Leader
 Pic: Leader Roxanne
 Gender: Female
 Music: Female
-Items: Full Restore / Full Restore / Full Restore
 Double Battle: Yes
 AI: Basic Trainer
+Items: Full Restore / Full Restore / Full Restore
 
 Aerodactyl
 Level: 47
@@ -16118,9 +16091,9 @@ Class: Leader
 Pic: Leader Brawly
 Gender: Male
 Music: Male
-Items: Full Restore / Full Restore / Full Restore
 Double Battle: Yes
 AI: Basic Trainer
+Items: Full Restore / Full Restore / Full Restore
 
 Machamp @ Sitrus Berry
 Level: 33
@@ -16160,9 +16133,9 @@ Class: Leader
 Pic: Leader Brawly
 Gender: Male
 Music: Male
-Items: Full Restore / Full Restore / Full Restore
 Double Battle: Yes
 AI: Basic Trainer
+Items: Full Restore / Full Restore / Full Restore
 
 Machamp @ Sitrus Berry
 Level: 38
@@ -16202,9 +16175,9 @@ Class: Leader
 Pic: Leader Brawly
 Gender: Male
 Music: Male
-Items: Full Restore / Full Restore / Full Restore
 Double Battle: Yes
 AI: Basic Trainer
+Items: Full Restore / Full Restore / Full Restore
 
 Hitmonchan
 Level: 40
@@ -16252,9 +16225,9 @@ Class: Leader
 Pic: Leader Brawly
 Gender: Male
 Music: Male
-Items: Full Restore / Full Restore / Full Restore
 Double Battle: Yes
 AI: Basic Trainer
+Items: Full Restore / Full Restore / Full Restore
 
 Hitmonlee
 Level: 46
@@ -16310,9 +16283,9 @@ Class: Leader
 Pic: Leader Wattson
 Gender: Male
 Music: Male
-Items: Full Restore / Full Restore / Full Restore
 Double Battle: Yes
 AI: Basic Trainer
+Items: Full Restore / Full Restore / Full Restore
 
 Mareep
 Level: 36
@@ -16352,9 +16325,9 @@ Class: Leader
 Pic: Leader Wattson
 Gender: Male
 Music: Male
-Items: Full Restore / Full Restore / Full Restore
 Double Battle: Yes
 AI: Basic Trainer
+Items: Full Restore / Full Restore / Full Restore
 
 Pikachu
 Level: 39
@@ -16402,9 +16375,9 @@ Class: Leader
 Pic: Leader Wattson
 Gender: Male
 Music: Male
-Items: Full Restore / Full Restore / Full Restore
 Double Battle: Yes
 AI: Basic Trainer
+Items: Full Restore / Full Restore / Full Restore
 
 Raichu
 Level: 44
@@ -16452,9 +16425,9 @@ Class: Leader
 Pic: Leader Wattson
 Gender: Male
 Music: Male
-Items: Full Restore / Full Restore / Full Restore
 Double Battle: Yes
 AI: Basic Trainer
+Items: Full Restore / Full Restore / Full Restore
 
 Electabuzz
 Level: 50
@@ -16510,9 +16483,9 @@ Class: Leader
 Pic: Leader Flannery
 Gender: Female
 Music: Female
-Items: Full Restore / Full Restore / Full Restore
 Double Battle: Yes
 AI: Basic Trainer
+Items: Full Restore / Full Restore / Full Restore
 
 Magcargo @ White Herb
 Level: 38
@@ -16552,9 +16525,9 @@ Class: Leader
 Pic: Leader Flannery
 Gender: Female
 Music: Female
-Items: Full Restore / Full Restore / Full Restore
 Double Battle: Yes
 AI: Basic Trainer
+Items: Full Restore / Full Restore / Full Restore
 
 Growlithe
 Level: 41
@@ -16602,9 +16575,9 @@ Class: Leader
 Pic: Leader Flannery
 Gender: Female
 Music: Female
-Items: Full Restore / Full Restore / Full Restore
 Double Battle: Yes
 AI: Basic Trainer
+Items: Full Restore / Full Restore / Full Restore
 
 Houndour
 Level: 46
@@ -16660,9 +16633,9 @@ Class: Leader
 Pic: Leader Flannery
 Gender: Female
 Music: Female
-Items: Full Restore / Full Restore / Full Restore
 Double Battle: Yes
 AI: Basic Trainer
+Items: Full Restore / Full Restore / Full Restore
 
 Arcanine
 Level: 51
@@ -16718,9 +16691,9 @@ Class: Leader
 Pic: Leader Norman
 Gender: Male
 Music: Male
-Items: Full Restore / Full Restore / Full Restore
 Double Battle: Yes
 AI: Basic Trainer
+Items: Full Restore / Full Restore / Full Restore
 
 Chansey
 Level: 42
@@ -16760,9 +16733,9 @@ Class: Leader
 Pic: Leader Norman
 Gender: Male
 Music: Male
-Items: Full Restore / Full Restore / Full Restore
 Double Battle: Yes
 AI: Basic Trainer
+Items: Full Restore / Full Restore / Full Restore
 
 Slaking @ Sitrus Berry
 Level: 47
@@ -16810,9 +16783,9 @@ Class: Leader
 Pic: Leader Norman
 Gender: Male
 Music: Male
-Items: Full Restore / Full Restore / Full Restore
 Double Battle: Yes
 AI: Basic Trainer
+Items: Full Restore / Full Restore / Full Restore
 
 Slaking @ Sitrus Berry
 Level: 52
@@ -16860,9 +16833,9 @@ Class: Leader
 Pic: Leader Norman
 Gender: Male
 Music: Male
-Items: Full Restore / Full Restore / Full Restore
 Double Battle: Yes
 AI: Basic Trainer
+Items: Full Restore / Full Restore / Full Restore
 
 Slaking @ Sitrus Berry
 Level: 57
@@ -16918,9 +16891,9 @@ Class: Leader
 Pic: Leader Winona
 Gender: Female
 Music: Female
-Items: Full Restore / Full Restore / Full Restore
 Double Battle: Yes
 AI: Basic Trainer / Risky
+Items: Full Restore / Full Restore / Full Restore
 
 Dratini @ Sitrus Berry
 Level: 40
@@ -16968,9 +16941,9 @@ Class: Leader
 Pic: Leader Winona
 Gender: Female
 Music: Female
-Items: Full Restore / Full Restore / Full Restore
 Double Battle: Yes
 AI: Basic Trainer / Risky
+Items: Full Restore / Full Restore / Full Restore
 
 Hoothoot
 Level: 43
@@ -17026,9 +16999,9 @@ Class: Leader
 Pic: Leader Winona
 Gender: Female
 Music: Female
-Items: Full Restore / Full Restore / Full Restore
 Double Battle: Yes
 AI: Basic Trainer / Risky
+Items: Full Restore / Full Restore / Full Restore
 
 Noctowl
 Level: 48
@@ -17084,9 +17057,9 @@ Class: Leader
 Pic: Leader Winona
 Gender: Female
 Music: Female
-Items: Full Restore / Full Restore / Full Restore
 Double Battle: Yes
 AI: Basic Trainer / Risky
+Items: Full Restore / Full Restore / Full Restore
 
 Noctowl
 Level: 53
@@ -17142,9 +17115,9 @@ Class: Leader
 Pic: Leader Tate And Liza
 Gender: Male
 Music: Female
-Items: Full Restore / Full Restore / Full Restore
 Double Battle: Yes
 AI: Basic Trainer
+Items: Full Restore / Full Restore / Full Restore
 
 Slowpoke
 Level: 48
@@ -17192,9 +17165,9 @@ Class: Leader
 Pic: Leader Tate And Liza
 Gender: Male
 Music: Female
-Items: Full Restore / Full Restore / Full Restore
 Double Battle: Yes
 AI: Basic Trainer
+Items: Full Restore / Full Restore / Full Restore
 
 Drowzee
 Level: 53
@@ -17250,9 +17223,9 @@ Class: Leader
 Pic: Leader Tate And Liza
 Gender: Male
 Music: Female
-Items: Full Restore / Full Restore / Full Restore
 Double Battle: Yes
 AI: Basic Trainer
+Items: Full Restore / Full Restore / Full Restore
 
 Hypno
 Level: 58
@@ -17308,9 +17281,9 @@ Class: Leader
 Pic: Leader Tate And Liza
 Gender: Male
 Music: Female
-Items: Full Restore / Full Restore / Full Restore
 Double Battle: Yes
 AI: Basic Trainer
+Items: Full Restore / Full Restore / Full Restore
 
 Hypno
 Level: 63
@@ -17366,9 +17339,9 @@ Class: Leader
 Pic: Leader Juan
 Gender: Male
 Music: Male
-Items: Full Restore / Full Restore / Full Restore
 Double Battle: Yes
 AI: Basic Trainer
+Items: Full Restore / Full Restore / Full Restore
 
 Poliwag
 Level: 46
@@ -17416,9 +17389,9 @@ Class: Leader
 Pic: Leader Juan
 Gender: Male
 Music: Male
-Items: Full Restore / Full Restore / Full Restore
 Double Battle: Yes
 AI: Basic Trainer
+Items: Full Restore / Full Restore / Full Restore
 
 Poliwhirl
 Level: 50
@@ -17466,9 +17439,9 @@ Class: Leader
 Pic: Leader Juan
 Gender: Male
 Music: Male
-Items: Full Restore / Full Restore / Full Restore
 Double Battle: Yes
 AI: Basic Trainer
+Items: Full Restore / Full Restore / Full Restore
 
 Lapras
 Level: 56
@@ -17524,9 +17497,9 @@ Class: Leader
 Pic: Leader Juan
 Gender: Male
 Music: Male
-Items: Full Restore / Full Restore / Full Restore
 Double Battle: Yes
 AI: Basic Trainer
+Items: Full Restore / Full Restore / Full Restore
 
 Lapras
 Level: 61
@@ -17636,9 +17609,9 @@ Class: Rival
 Pic: Steven
 Gender: Male
 Music: Male
-Items: Full Restore / Full Restore / Full Restore / Full Restore
 Double Battle: No
 AI: Basic Trainer
+Items: Full Restore / Full Restore / Full Restore / Full Restore
 
 Skarmory
 Level: 77
@@ -18109,9 +18082,9 @@ Class: Cooltrainer
 Pic: Cooltrainer F
 Gender: Female
 Music: Cool
-Items: Hyper Potion
 Double Battle: No
 AI: Basic Trainer
+Items: Hyper Potion
 
 Loudred
 Level: 35
@@ -18127,9 +18100,9 @@ Class: Cooltrainer
 Pic: Cooltrainer F
 Gender: Female
 Music: Cool
-Items: Hyper Potion
 Double Battle: No
 AI: Basic Trainer
+Items: Hyper Potion
 
 Spinda
 Level: 37
@@ -18149,9 +18122,9 @@ Class: Cooltrainer
 Pic: Cooltrainer F
 Gender: Female
 Music: Cool
-Items: Hyper Potion
 Double Battle: No
 AI: Basic Trainer
+Items: Hyper Potion
 
 Spinda
 Level: 39
@@ -18171,9 +18144,9 @@ Class: Cooltrainer
 Pic: Cooltrainer F
 Gender: Female
 Music: Cool
-Items: Hyper Potion
 Double Battle: No
 AI: Basic Trainer
+Items: Hyper Potion
 
 Spinda
 Level: 41
@@ -18661,26 +18634,26 @@ Double Battle: No
 AI: Smart Trainer
 
 Voltorb @ Air Balloon
-Ability: Aftermath
 Level: 12
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Ability: Aftermath
 - Thunder Wave
 - Volt Switch
 
 Rookidee @ King's Rock
-Ability: Unnerve
 Level: 13
-Shiny: Yes
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Ability: Unnerve
+Shiny: Yes
 - Aerial Ace
 - Headbutt
 - Circle Throw
 - Steel Wing
 
 Dreepy @ Assault Vest
-Ability: Cursed Body
 Level: 12
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Ability: Cursed Body
 - Dragon Pulse
 - Shadow Claw
 - Flame Wheel
@@ -18695,29 +18668,26 @@ Double Battle: No
 AI: Smart Trainer
 
 Treecko @ Focus Sash
-Ability: Unburden
 Level: 9
-Careful Nature
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Unburden
 - Aerial Ace
 - Razor Leaf
 - Zen Headbutt
 
 Diglett @ Lum Berry
-Ability: Arena Trap
 Level: 8
-Adamant Nature
 IVs: 31 HP / 21 Atk / 31 Def / 31 SpA / 31 SpD / 25 Spe
+Ability: Arena Trap
 - Magnitude
 - Rock Tomb
 - Rest
 - Sleep Talk
 
 Kubfu (M) @ Oran Berry
-Ability: Inner Focus
 Level: 8
-Lonely Nature
 IVs: 31 HP / 31 Atk / 31 Def / 21 SpA / 21 SpD / 31 Spe
+Ability: Inner Focus
 - Fake Out
 - Karate Chop
 - Rock Throw
