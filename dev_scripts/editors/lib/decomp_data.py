@@ -805,7 +805,7 @@ def load_items():
         display = key[5:].replace('_', ' ').title()
         # Try exact iconPic map first, then fall back to naive name.
         # TM/HM items have no iconPic in items.h → use the shared tm.png icon.
-        _is_tm_hm = key.startswith('ITEM_TM_') or key.startswith('ITEM_HM_')
+        _is_tm_hm = key.startswith('ITEM_TM') or key.startswith('ITEM_HM')
         icon_file = icon_map.get(key) or ('tm.png' if _is_tm_hm else key[5:].lower() + '.png')
         icon_path = os.path.join(ITEM_ICONS, icon_file)
         if not os.path.isfile(icon_path): icon_path = ""

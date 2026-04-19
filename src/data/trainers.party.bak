@@ -2821,33 +2821,17 @@ IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 - Sand Attack
 
 === TRAINER_STEVE_1 ===
-Name: STEVIE
-Class: Aroma Lady
-Pic: Aroma Lady
-Gender: Female
+Name: STEVE
+Class: Pokemaniac
+Pic: Pokemaniac
+Gender: Male
 Music: Suspicious
 Double Battle: No
-AI: Smart Trainer
+AI: Check Bad Move
 
-Scizor
-Level: 35
-IVs: 31 HP / 31 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
-Nature: Jolly
-Ability: Swarm
-- Iron Defense
-- Razor Wind
-- Fury Cutter
-- Bullet Punch
-
-Clodsire
-Level: 35
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Nature: Bold
-Ability: Unaware
-- Megahorn
-- Sludge Wave
-- Amnesia
-- Slam
+Aron
+Level: 19
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
 === TRAINER_THALIA_1 ===
 Name: THALIA
@@ -3434,65 +3418,28 @@ Pic: Black Belt
 Gender: Male
 Music: Intense
 Double Battle: No
-AI: Smart Trainer
+AI: Check Bad Move
 
-Chesnaught
-Level: 39
+Machop
+Level: 24
 IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
-Nature: Relaxed
-Ability: Bulletproof
-- Spiky Shield
-- Needle Arm
-- Mud Shot
-- Brick Break
 
-Decidueye
-Level: 40
-IVs: 31 HP / 31 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
-Nature: Naughty
-Ability: Long Reach
-- Synthesis
-- Pluck
-- Spirit Shackle
-- Shadow Sneak
+Machoke
+Level: 28
+IVs: 18 HP / 18 Atk / 18 Def / 18 SpA / 18 SpD / 18 Spe
 
 === TRAINER_NOB_1 ===
 Name: NOB
-Class: School Kid
-Pic: School Kid F
-Gender: Female
+Class: Black Belt
+Pic: Black Belt
+Gender: Male
 Music: Intense
 Double Battle: No
-AI: Smart Trainer
+AI: Check Bad Move
 
-Ninetales-Alola
-Level: 39
-IVs: 31 HP / 31 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
-Nature: Quiet
-Ability: Snow Cloak
-- Hail
-- Dazzling Gleam
-- Ice Beam
-- Confuse Ray
-
-Lickilicky
-Level: 40
-IVs: 31 HP / 31 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
-Nature: Naughty
-Ability: Own Tempo
-- Lick
-- Me First
-- Disable
-- Ice Punch
-
-Audino
-Level: 40
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Ability: Healer
-- Disarming Voice
-- Misty Terrain
-- Take Down
-- Secret Power
+Machop
+Level: 19
+IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
 
 === TRAINER_NOB_2 ===
 Name: NOB
@@ -3931,41 +3878,20 @@ IVs: 14 HP / 14 Atk / 14 Def / 14 SpA / 14 SpD / 14 Spe
 
 === TRAINER_BERNIE_1 ===
 Name: BERNIE
-Class: Bird Keeper
-Pic: Bird Keeper
+Class: Kindler
+Pic: Kindler
 Gender: Male
 Music: Hiker
 Double Battle: No
-AI: Smart Trainer
+AI: Check Bad Move
 
-Flamigo
-Level: 35
-IVs: 31 HP / 31 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
-Nature: Quirky
-Ability: Tangled Feet
-- Thrash
-- Dual Wingbeat
-- Brick Break
-- Double Team
+Slugma
+Level: 18
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
-Unfezant @ Focus Sash
-Level: 35
-IVs: 31 HP / 31 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
-Nature: Brave
-Ability: Big Pecks
-- Feather Dance
-- Air Cutter
-- Steel Wing
-- Quick Attack
-
-Swanna
-Level: 35
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Ability: Serene Grace
-- Hurricane
-- Water Pulse
-- Roost
-- Icy Wind
+Wingull
+Level: 18
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
 === TRAINER_BERNIE_2 ===
 Name: BERNIE
@@ -4123,39 +4049,20 @@ Ability: Rock Head
 
 === TRAINER_SHANE ===
 Name: SHANE
-Class: Sailor
-Pic: Sailor
+Class: Camper
+Pic: Camper
 Gender: Male
 Music: Male
 Double Battle: No
-AI: Smart Trainer
+AI: Check Bad Move
 
-Corviknight
-Level: 35
-IVs: 31 HP / 31 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
-Ability: Pressure
-- Drill Peck
-- Steel Wing
-- Metal Sound
-- Power Trip
-
-Golduck
+Sandshrew
 Level: 18
-IVs: 31 HP / 31 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
-Ability: Cloud Nine
-- Aqua Tail
-- Zen Headbutt
-- Mud Bomb
-- Soak
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
-Bewear
-Level: 35
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Ability: Fluffy
-- Hammer Arm
-- Payback
-- Brutal Swing
-- Double Team
+Nuzleaf
+Level: 18
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
 === TRAINER_JUSTIN ===
 Name: JUSTIN
@@ -5913,10 +5820,10 @@ IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 Name: ANNA & MEG
 Class: Sr And Jr
 Pic: Sr And Jr
-Gender: Female
+Gender: Male
 Music: Twins
 Double Battle: Yes
-AI: Smart Trainer
+AI: Check Bad Move
 
 Zigzagoon
 Level: 15
@@ -6320,37 +6227,11 @@ Pic: Expert M
 Gender: Male
 Music: Intense
 Double Battle: No
-AI: Smart Trainer
+AI: Basic Trainer
 
-Delcatty
-Level: 39
-IVs: 31 HP / 31 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
-Nature: Relaxed
-Ability: Wonder Skin
-- Attract
-- Zen Headbutt
-- Hidden Power
-- Echoed Voice
-
-Jellicent
-Level: 39
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Nature: Timid
-Ability: Water Absorb
-- Acid Armor
-- Giga Drain
-- Shadow Ball
-- Waterfall
-
-Torkoal
-Level: 40
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Nature: Hasty
-Ability: Shell Armor
-- Heat Wave
-- Sludge Bomb
-- Amnesia
-- Rock Tomb
+Hariyama
+Level: 27
+IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 
 === TRAINER_TIMOTHY_2 ===
 Name: TIMOTHY
@@ -6792,37 +6673,11 @@ Pic: Youngster
 Gender: Male
 Music: Male
 Double Battle: No
-AI: Smart Trainer
+AI: Check Bad Move
 
-Lopunny
-Level: 35
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Nature: Lonely
-Ability: Cute Charm
-- Dizzy Punch
-- Agility
-- Shadow Ball
-- Circle Throw
-
-Obstagoon
-Level: 35
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Nature: Naughty
-Ability: Guts
-- Scary Face
-- Ice Punch
-- Assurance
-- Shadow Claw
-
-Rufflet (M)
-Level: 35
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Nature: Brave
-Ability: Hustle
-- Fly
-- Slash
-- Zen Headbutt
-- Work Up
+Trapinch
+Level: 19
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
 === TRAINER_DILLON ===
 Name: DILLON
@@ -7104,49 +6959,24 @@ Ability: Adaptability
 
 === TRAINER_CLAUDE ===
 Name: CLAUDE
-Class: Gentleman
-Pic: Gentleman
+Class: Fisherman
+Pic: Fisherman
 Gender: Male
 Music: Hiker
 Double Battle: No
-AI: Smart Trainer
+AI: Check Bad Move
 
-Machoke
-Level: 35
-IVs: 31 HP / 31 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
-Ability: Guts
-- Submission
-- Vital Throw
-- Foresight
-- Fire Punch
+Magikarp
+Level: 16
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
-Wigglytuff
-Level: 35
-IVs: 31 HP / 31 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
-Ability: Cute Charm
-- Defense Curl
-- Sing
-- Play Rough
-- Dream Eater
+Goldeen
+Level: 17
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
-Raticate
-Level: 35
-IVs: 31 HP / 31 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
-Nature: Lax
-Ability: Hustle
-- Double-Edge
-- Super Fang
-- Sucker Punch
-- Scary Face
-
-Exeggutor
-Level: 35
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Ability: Chlorophyll
-- Sunny Day
-- Wood Hammer
-- Egg Bomb
-- Psyshock
+Barboach
+Level: 18
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
 === TRAINER_ELLIOT_1 ===
 Name: ELLIOT
@@ -7251,42 +7081,16 @@ Ability: Strong Jaw
 
 === TRAINER_NOLAN ===
 Name: NOLAN
-Class: Battle Girl
-Pic: Battle Girl
-Gender: Female
+Class: Fisherman
+Pic: Fisherman
+Gender: Male
 Music: Hiker
 Double Battle: No
-AI: Smart Trainer
+AI: Check Bad Move
 
-Medicham
-Level: 35
-IVs: 31 HP / 31 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
-Nature: Hasty
-Ability: Pure Power
-- Psych Up
-- Force Palm
-- Zen Headbutt
-- Thunder Punch
-
-Heracross
-Level: 35
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Nature: Impish
-Ability: Moxie
-- Close Combat
-- Pin Missile
-- Iron Defense
-- Horn Attack
-
-Tauros Paldea Aqua (M)
-Level: 35
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Nature: Serious
-Ability: Anger Point
-- Raging Bull
-- Liquidation
-- Stomping Tantrum
-- Work Up
+Barboach
+Level: 19
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
 === TRAINER_BARNY ===
 Name: BARNY
@@ -7720,12 +7524,12 @@ IVs: 4 HP / 4 Atk / 4 Def / 4 SpA / 4 SpD / 4 Spe
 
 === TRAINER_MARIA_1 ===
 Name: MARIA
-Class: Black Belt
-Pic: Black Belt
-Gender: Male
+Class: Triathlete
+Pic: Running Triathlete F
+Gender: Female
 Music: Female
 Double Battle: No
-AI: Smart Trainer
+AI: Check Bad Move
 
 Doduo
 Level: 17
@@ -8493,42 +8297,35 @@ IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
 === TRAINER_LAO_1 ===
 Name: LAO
-Class: Guitarist
-Pic: Guitarist
+Class: Ninja Boy
+Pic: Ninja Boy
 Gender: Male
 Music: Suspicious
 Double Battle: No
-AI: Smart Trainer
 
-Lanturn
-Level: 35
-IVs: 31 HP / 31 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
-Nature: Quirky
-Ability: Volt Absorb
-- Stockpile
-- Spit Up
-- Swallow
-- Discharge
+Koffing
+Level: 17
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+- Poison Gas
+- Tackle
+- Smog
+- Self Destruct
 
-Zebstrika
-Level: 35
-IVs: 31 HP / 31 Atk / 30 Def / 30 SpA / 31 SpD / 31 Spe
-Nature: Brave
-Ability: Sap Sipper
-- Stomp
-- Spark
-- Thunder Wave
-- Hidden Power
+Koffing
+Level: 17
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+- Poison Gas
+- Tackle
+- Smog
+- Self Destruct
 
-Boltund
-Level: 35
-IVs: 31 HP / 31 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
-Nature: Naughty
-Ability: Strong Jaw
-- Electrify
-- Crunch
-- Thunder Fang
-- Roar
+Koffing
+Level: 17
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+- Poison Gas
+- Tackle
+- Sludge
+- Self Destruct
 
 === TRAINER_LUNG ===
 Name: LUNG
@@ -8537,36 +8334,14 @@ Pic: Ninja Boy
 Gender: Male
 Music: Suspicious
 Double Battle: No
-AI: Smart Trainer
 
-Skorupi @ Poison Barb
-Level: 35
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Nature: Brave
-Ability: Battle Armor
-- Pin Missile
-- Cross Poison
-- Swords Dance
-- Toxic Spikes
+Koffing
+Level: 18
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
-Annihilape @ Focus Sash
-Level: 35
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Nature: Calm
-Ability: Defiant
-- Rage Fist
-- Bulk Up
-- Night Slash
-- Circle Throw
-
-Gourgeist-Large
-Level: 35
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Ability: Insomnia
-- Seed Bomb
-- Trick-or-Treat
-- Shadow Ball
-- Mystical Fire
+Ninjask
+Level: 18
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
 === TRAINER_LAO_2 ===
 Name: LAO
@@ -8795,42 +8570,20 @@ IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 
 === TRAINER_CYNDY_1 ===
 Name: CYNDY
-Class: Triathlete
-Pic: Swimming Triathlete F
+Class: Battle Girl
+Pic: Battle Girl
 Gender: Female
 Music: Intense
 Double Battle: No
-AI: Smart Trainer
+AI: Check Bad Move
 
-Kingler
-Level: 39
-IVs: 31 HP / 31 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
-Nature: Relaxed
-Ability: Hyper Cutter
-- Slam
-- Guillotine
-- Surf
-- Amnesia
+Meditite
+Level: 18
+IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
 
-Jumpluff
-Level: 39
-IVs: 31 HP / 31 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
-Nature: Rash
-Ability: Chlorophyll
-- Cotton Spore
-- Acrobatics
-- Mega Drain
-- Fairy Wind
-
-Steelix
-Level: 41
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Nature: Brave
-Ability: Rock Head
-- Stone Edge
-- Iron Tail
-- Dragon Breath
-- Autotomize
+Makuhita
+Level: 18
+IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
 
 === TRAINER_CORA ===
 Name: CORA
@@ -8928,42 +8681,20 @@ IVs: 17 HP / 17 Atk / 17 Def / 17 SpA / 17 SpD / 17 Spe
 
 === TRAINER_MADELINE_1 ===
 Name: MADELINE
-Class: Hex Maniac
-Pic: Hex Maniac
+Class: Parasol Lady
+Pic: Parasol Lady
 Gender: Female
 Music: Female
 Double Battle: No
-AI: Smart Trainer
+AI: Check Bad Move
 
-Jynx (F)
-Level: 35
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Nature: Bold
-Ability: Dry Skin
-- Lovely Kiss
-- Heart Stamp
-- Rain Dance
-- Water Pulse
-
-Samurott-Hisui
-Level: 35
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Nature: Careful
-Ability: Torrent
-- Ceaseless Edge
-- Aqua Jet
-- Swords Dance
-- Iron Tail
-
-Polteageist-Phony
-Level: 35
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Nature: Sassy
-Ability: Cursed Body
-- Aromatherapy
-- Sucker Punch
-- Phantom Force
-- Poltergeist
+Numel
+Level: 19
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+- Ember
+- Tackle
+- Magnitude
+- Sunny Day
 
 === TRAINER_CLARISSA ===
 Name: CLARISSA
@@ -9619,36 +9350,15 @@ Pic: Picnicker
 Gender: Female
 Music: Girl
 Double Battle: No
-AI: Smart Trainer
+AI: Check Bad Move
 
-Stoutland
-Level: 35
-IVs: 31 HP / 31 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
-Nature: Brave
-Ability: Intimidate
-- Ice Fang
-- Fire Fang
-- Take Down
-- Work Up
+Marill
+Level: 18
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
-Dachsbun @ Wide Lens
-Level: 35
-IVs: 31 HP / 31 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
-Ability: Well Baked Body
-- Play Rough
-- Snarl
-- Bounce
-- Psychic Fangs
-
-Houndstone
-Level: 35
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Nature: Careful
-Ability: Fluffy
-- Last Respects
-- Crunch
-- Ominous Wind
-- Charm
+Lombre
+Level: 18
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
 === TRAINER_MARTHA ===
 Name: MARTHA
@@ -10511,27 +10221,15 @@ Pic: Collector
 Gender: Male
 Music: Suspicious
 Double Battle: No
-AI: Smart Trainer
+AI: Check Bad Move
 
-Cinderace
-Level: 39
-IVs: 31 HP / 31 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
-Nature: Brave
-Ability: Libero
-- Pyro Ball
-- Snarl
-- Bounce
-- Helping Hand
+Zangoose
+Level: 18
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
-Skeledirge
-Level: 41
-IVs: 31 HP / 31 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
-Nature: Mild
-Ability: Unaware
-- Flamethrower
-- Bite
-- Shadow Ball
-- Scorching Sands
+Seviper
+Level: 18
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
 === TRAINER_TABITHA_MOSSDEEP ===
 Name: TABITHA
@@ -13154,56 +12852,15 @@ Pic: Hiker
 Gender: Male
 Music: Hiker
 Double Battle: No
-AI: Smart Trainer
+AI: Check Bad Move
 
-Typhlosion-Hisui
-Level: 35
+Geodude
+Level: 18
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
-Nature: Docile
-Ability: Blaze
-- Flame Charge
-- Smokescreen
-- Extrasensory
-- Swift
 
-Houndoom
-Level: 35
-IVs: 31 HP / 31 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
-Ability: Early Bird
-- Feint Attack
-- Fire Fang
-- Inferno
-- Nasty Plot
-
-Rotom Heat
-Level: 35
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Nature: Quiet
-Ability: Levitate
-- Will-O-Wisp
-- Hex
-- Shock Wave
-- Overheat
-
-Delphox
-Level: 35
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Nature: Rash
-Ability: Serene Grace
-- Mystical Fire
-- Psyshock
-- Light Screen
-- Shadow Ball
-
-Tauros Paldea Blaze (M)
-Level: 35
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Nature: Brave
-Ability: Intimidate
-- Raging Bull
-- Assurance
-- Flame Charge
-- Work Up
+Machop
+Level: 18
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
 === TRAINER_LUCAS_1 ===
 Name: LUCAS
@@ -13212,26 +12869,15 @@ Pic: Hiker
 Gender: Male
 Music: Hiker
 Double Battle: No
-AI: Smart Trainer
+AI: Check Bad Move
 
-Kleavor
-Level: 35
-IVs: 31 HP / 31 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
-Ability: Sheer Force
-- Stone Axe
-- Swords Dance
-- X-Scissor
-- Air Slash
+Geodude
+Level: 18
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
-Quagsire
-Level: 35
-IVs: 31 HP / 31 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
-Nature: Calm
-Ability: Unaware
-- Earthquake
-- Yawn
-- Mud Bomb
-- Scald
+Numel
+Level: 18
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
 === TRAINER_ALAN ===
 Name: ALAN
@@ -14352,47 +13998,15 @@ Pic: Twins
 Gender: Male
 Music: Twins
 Double Battle: Yes
-AI: Smart Trainer
+AI: Check Bad Move
 
-Huntail
-Level: 35
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Nature: Brave
-Ability: Water Veil
-- Ice Fang
-- Brine
-- Crunch
-- Scary Face
+Spinda
+Level: 19
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
-Gorebyss
-Level: 35
-IVs: 31 HP / 31 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
-Nature: Quiet
-Ability: Hydration
-- Rest
-- Dive
-- Psychic
-- Light Screen
-
-Umbreon
-Level: 35
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Nature: Rash
-Ability: Synchronize
-- Snarl
-- Double-Edge
-- Moonlight
-- Shadow Ball
-
-Espeon
-Level: 35
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Nature: Calm
-Ability: Magic Bounce
-- Morning Sun
-- Psybeam
-- Psychic Fangs
-- Light Screen
+Spinda
+Level: 19
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
 === TRAINER_KIM_AND_IRIS ===
 Name: KIM & IRIS
@@ -14426,44 +14040,23 @@ Pic: Sr And Jr
 Gender: Male
 Music: Twins
 Double Battle: Yes
-AI: Smart Trainer
+AI: Check Bad Move
 
-Oricorio-Pom-Pom
-Level: 35
-IVs: 31 HP / 31 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
-Nature: Bashful
-Ability: Dancer
-- Teeter Dance
-- Acrobatics
-- Shock Wave
-- Feather Dance
-
-Oricorio-Pau
-Level: 35
-IVs: 31 HP / 31 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
-Ability: Dancer
-- Quiver Dance
-- Teeter Dance
-- Acrobatics
-- Psybeam
-
-Wormadam-Sandy (F)
-Level: 35
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Ability: Overcoat
-- Rock Blast
-- Bug Bite
-- Psybeam
+Roselia
+Level: 18
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 - Growth
+- Stun Spore
+- Mega Drain
+- Leech Seed
 
-Wormadam-Trash (F)
-Level: 35
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Ability: Overcoat
-- Captivate
-- Psybeam
-- Mirror Coat
-- Signal Beam
+Graveler
+Level: 20
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+- Defense Curl
+- Rollout
+- Mud Sport
+- Rock Throw
 
 === TRAINER_MEL_AND_PAUL ===
 Name: MEL & PAUL
@@ -15164,81 +14757,37 @@ Ability: Simple
 
 === TRAINER_SOPHIE ===
 Name: SOPHIE
-Class: Triathlete
-Pic: Running Triathlete F
+Class: Picnicker
+Pic: Picnicker
 Gender: Female
 Music: Girl
 Double Battle: No
-AI: Smart Trainer
+AI: Check Bad Move
 
-Sealeo
-Level: 35
-IVs: 31 HP / 31 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
-Nature: Hasty
-Ability: Ice Body
-- Hail
-- Aurora Beam
-- Swagger
-- Body Slam
+Marill
+Level: 17
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
-Gogoat
-Level: 35
-IVs: 31 HP / 31 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
-Nature: Lonely
-Ability: Grass Pelt
-- Bulk Up
-- Seed Bomb
-- Bulldoze
-- Synthesis
-
-Copperajah
-Level: 35
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Nature: Impish
-Ability: Heavy Metal
-- Heavy Slam
-- Dig
-- Iron Defense
-- Stomping Tantrum
+Lombre
+Level: 19
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
 === TRAINER_COBY ===
 Name: COBY
-Class: Kindler
-Pic: Kindler
+Class: Bird Keeper
+Pic: Bird Keeper
 Gender: Male
 Music: Cool
 Double Battle: No
-AI: Smart Trainer
+AI: Check Bad Move
 
-Marowak-Alola
-Level: 35
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Nature: Brave
-Ability: Cursed Body
-- Shadow Bone
-- Bonemerang
-- Flame Wheel
-- Sunny Day
+Skarmory
+Level: 17
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
-Salazzle (F)
-Level: 35
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Nature: Lonely
-Ability: Corrosion
-- Flame Burst
-- Poison Jab
-- Snatch
-- Fake Out
-
-Combusken
-Level: 35
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Nature: Naughty
-Ability: Speed Boost
-- Bulk Up
-- Flame Charge
-- Reversal
-- Smelling Salts
+Swellow
+Level: 19
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
 === TRAINER_LAWRENCE ===
 Name: LAWRENCE
@@ -15247,47 +14796,15 @@ Pic: Camper
 Gender: Male
 Music: Male
 Double Battle: No
-AI: Smart Trainer
+AI: Check Bad Move
 
-Indeedee-F (F)
-Level: 35
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Nature: Mild
-Ability: Own Tempo
-- Psychic
-- Draining Kiss
-- Aromatherapy
-- Metronome
+Baltoy
+Level: 18
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
-Arboliva
-Level: 35
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Nature: Naive
-Ability: Harvest
-- Energy Ball
-- Mega Drain
-- Hyper Voice
-- Charm
-
-Grapploct
-Level: 35
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Nature: Lonely
-Ability: Technician
-- Octolock
-- Octazooka
-- Brick Break
-- Mega Punch
-
-Rhydon
-Level: 35
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Nature: Brave
-Ability: Rock Head
-- Drill Run
-- Take Down
-- Rock Blast
-- Thunder Punch
+Sandshrew
+Level: 18
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
 === TRAINER_WYATT ===
 Name: WYATT
@@ -15296,84 +14813,32 @@ Pic: Pokemaniac
 Gender: Male
 Music: Suspicious
 Double Battle: No
-AI: Smart Trainer
+AI: Check Bad Move
 
-Archen
-Level: 35
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Ability: Rock Head
-- Pluck
-- Tailwind
-- Crunch
-- Rock Slide
+Aron
+Level: 18
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
-Cranidos
-Level: 35
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Nature: Lonely
-Ability: Mold Breaker
-- Earthquake
-- Zen Headbutt
-- Scary Face
-- Chip Away
-
-Tyrunt
-Level: 35
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Nature: Naughty
-Ability: Sturdy
-- Dragon Claw
-- Crunch
-- Ancient Power
-- Charm
-
-Dracovish
-Level: 35
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Nature: Modest
-Ability: Sand Rush
-- Sandstorm
-- Dragon Breath
-- Brutal Swing
-- Rock Blast
+Aron
+Level: 18
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
 === TRAINER_ANGELINA ===
 Name: ANGELINA
-Class: Pkmn Ranger
-Pic: Pokemon Ranger F
+Class: Picnicker
+Pic: Picnicker
 Gender: Female
 Music: Girl
 Double Battle: No
-AI: Smart Trainer
+AI: Check Bad Move
 
-Metang
-Level: 35
-IVs: 31 HP / 31 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
-Ability: Clear Body
-- Bullet Punch
-- Agility
-- Psychic
-- Miracle Eye
+Lombre
+Level: 18
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
-Camerupt
-Level: 35
-IVs: 31 HP / 31 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
-Nature: Naughty
-Ability: Magma Armor
-- Lava Plume
-- Rock Slide
-- Curse
-- Magnitude
-
-Toxtricity-Amped
-Level: 35
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Nature: Quiet
-Ability: Punk Rock
-- Discharge
-- Venoshock
-- Hyper Voice
-- Swagger
+Marill
+Level: 18
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
 === TRAINER_KAI ===
 Name: KAI
@@ -15382,47 +14847,11 @@ Pic: Fisherman
 Gender: Male
 Music: Hiker
 Double Battle: No
-AI: Smart Trainer
+AI: Check Bad Move
 
-Lumineon
-Level: 35
-IVs: 31 HP / 31 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
-Nature: Jolly
-Ability: Swift Swim
-- Rain Dance
-- Aqua Ring
-- Aqua Tail
-- Aurora Beam
-
-Octillery
-Level: 35
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Nature: Rash
-Ability: Suction Cups
-- Ice Beam
-- Octazooka
-- Gunk Shot
-- Haze
-
-Seadra
-Level: 35
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Nature: Sassy
-Ability: Poison Point
-- Laser Focus
-- Water Pulse
-- Dragon Breath
-- Flip Turn
-
-Milotic @ Flame Orb
-Level: 5
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Nature: Lax
-Ability: Marvel Scale
-- Recover
-- Dragon Tail
-- Aqua Tail
-- Iron Tail
+Barboach
+Level: 19
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
 === TRAINER_CHARLOTTE ===
 Name: CHARLOTTE
@@ -16056,45 +15485,15 @@ Pic: Psychic F
 Gender: Female
 Music: Intense
 Double Battle: No
-AI: Smart Trainer
+AI: Check Bad Move
 
-Xatu
-Level: 39
-IVs: 31 HP / 31 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
-Ability: Magic Bounce
-- Psychic
-- Wish
-- Aerial Ace
-- Steel Wing
+Meditite
+Level: 18
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
-Raichu-Alola
-Level: 39
-IVs: 31 HP / 31 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
-Nature: Modest
-Ability: Surge Surfer
-- Thunderbolt
-- Calm Mind
-- Psychic
-- Thunder Punch
-
-Wobbuffet
-Level: 40
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Ability: Shadow Tag
-- Destiny Bond
-- Mirror Coat
-- Charm
-- Counter
-
-Malamar
-Level: 41
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Nature: Brave
-Ability: Infiltrator
-- Payback
-- Psycho Cut
-- Foul Play
-- Hypnosis
+Spoink
+Level: 18
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
 === TRAINER_DEVAN ===
 Name: DEVAN
@@ -16168,12 +15567,12 @@ IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
 === TRAINER_MELINA ===
 Name: MELINA
-Class: Ninja Boy
-Pic: Ninja Boy
-Gender: Male
+Class: Triathlete
+Pic: Running Triathlete F
+Gender: Female
 Music: Female
 Double Battle: No
-AI: Smart Trainer
+AI: Check Bad Move
 
 Doduo
 Level: 17

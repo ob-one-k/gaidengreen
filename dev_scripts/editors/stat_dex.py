@@ -254,14 +254,109 @@ try:
         QHeaderView, QStatusBar, QScrollArea, QAbstractItemView, QSizePolicy,
         QProgressBar, QTabWidget,
     )
-    from PyQt5.QtCore  import Qt, QTimer, QFileSystemWatcher, QSize
+    from PyQt5.QtCore  import Qt, QTimer, QFileSystemWatcher, QSize, QThread, pyqtSignal
     from PyQt5.QtGui   import QColor, QFont, QBrush, QPixmap, QIcon
     HAS_QT = True
 except ImportError:
     HAS_QT = False
 
 
+_sprite_icon_cache: dict = {}   # {species_key: QIcon}  — populated lazily, lives forever
+
+
+def _cached_sprite_icon(key: str) -> 'QIcon':
+    """Return a QIcon for the given species key, loading from disk at most once."""
+    if key in _sprite_icon_cache:
+        return _sprite_icon_cache[key]
+    icon = QIcon()
+    front, _ = find_sprite_for_key(key.lower())
+    if front and os.path.isfile(front):
+        with _quiet_stderr():
+            raw = QPixmap(front)
+        if not raw.isNull():
+            if raw.height() > raw.width():
+                raw = raw.copy(0, 0, raw.width(), raw.width())
+            raw = make_transparent_pixmap(raw)
+            pix = _pixel_perfect(raw, 56, 56)
+            icon = QIcon(pix)
+    _sprite_icon_cache[key] = icon
+    return icon
+
+
 if HAS_QT:
+
+    # ─── Background data-loader thread ───────────────────────────────────────
+    class _LoadThread(QThread):
+        progress = pyqtSignal(str, int)   # (message, percent)
+        done     = pyqtSignal(object, object)   # (all_pokemon, status_dict)
+
+        def run(self):
+            import traceback
+            try:
+                self.progress.emit("Loading Pokémon data…", 20)
+                pokemon = load_all_pokemon()
+                self.progress.emit("Loading status…", 80)
+                status  = load_status(STATUS_FILE)
+                self.progress.emit("Ready!", 100)
+                self.done.emit(pokemon, status)
+            except Exception:
+                traceback.print_exc()
+                self.progress.emit("Load failed — check console", -1)
+                self.done.emit([], {})
+
+    class _SplashDialog(QDialog):
+        """Minimal loading splash shown while data loads in background."""
+
+        def __init__(self, parent=None):
+            super().__init__(parent, Qt.FramelessWindowHint | Qt.Dialog)
+            self.setAttribute(Qt.WA_TranslucentBackground)
+            self.setFixedSize(380, 130)
+
+            outer = QWidget(self)
+            outer.setObjectName("sp_outer")
+            outer.setStyleSheet(
+                "QWidget#sp_outer { background:#1e1e2e; border-radius:12px; "
+                "border:1px solid #313244; }")
+            lay = QVBoxLayout(outer)
+            lay.setContentsMargins(28, 22, 28, 22)
+            lay.setSpacing(12)
+
+            title = QLabel("Stat Dex")
+            title.setStyleSheet(
+                "color:#89b4fa; font-size:16px; font-weight:bold; background:transparent;")
+            title.setAlignment(Qt.AlignCenter)
+            lay.addWidget(title)
+
+            self._lbl = QLabel("Initialising…")
+            self._lbl.setStyleSheet(
+                "color:#a6adc8; font-size:12px; background:transparent;")
+            self._lbl.setAlignment(Qt.AlignCenter)
+            lay.addWidget(self._lbl)
+
+            self._bar = QProgressBar()
+            self._bar.setRange(0, 100)
+            self._bar.setValue(0)
+            self._bar.setFixedHeight(5)
+            self._bar.setTextVisible(False)
+            self._bar.setStyleSheet(
+                "QProgressBar { background:#313244; border-radius:2px; border:none; }"
+                "QProgressBar::chunk { background:#89b4fa; border-radius:2px; }")
+            lay.addWidget(self._bar)
+
+            root = QVBoxLayout(self)
+            root.setContentsMargins(0, 0, 0, 0)
+            root.addWidget(outer)
+
+            screen = QApplication.desktop().availableGeometry()
+            self.move(screen.center() - self.rect().center())
+
+        def set_progress(self, msg: str, pct: int):
+            self._lbl.setText(msg)
+            if pct >= 0:
+                self._bar.setValue(pct)
+            print(f"\r  [{pct:3d}%] {msg}", end='', flush=True)
+            if pct >= 100:
+                print(flush=True)
 
     # ─── Column definitions ───────────────────────────────────────────────────
     COL_SPRITE =  0   # front sprite icon (no header text)
@@ -1692,28 +1787,25 @@ if HAS_QT:
                     pokemon_list = list(reversed(pokemon_list))
 
             self.table.setSortingEnabled(False)
+            self.table.setUpdatesEnabled(False)   # suppress per-row repaints
             self.table.setRowCount(0)
             self.table.setRowCount(len(pokemon_list))
             self._visible_keys = []
+
+            _stage_colors = {
+                'SINGLE': '#6c7086', 'BASIC':  '#a6e3a1',
+                'MIDDLE': '#f9e2af', 'FINAL':  '#cba6f7',
+            }
 
             for row, p in enumerate(pokemon_list):
                 self.table.setRowHeight(row, 64)
                 st = self.status_dict.get(p.key, 'UNTOUCHED')
                 self._visible_keys.append(p.key)
 
-                # Sprite column
+                # Sprite — loaded once from disk, then served from cache
                 spr_item = QTableWidgetItem()
                 spr_item.setFlags(Qt.ItemIsEnabled | Qt.ItemIsSelectable)
-                front, _ = find_sprite_for_key(p.key.lower())
-                if front and os.path.isfile(front):
-                    with _quiet_stderr():
-                        raw = QPixmap(front)
-                    if not raw.isNull():
-                        if raw.height() > raw.width():
-                            raw = raw.copy(0, 0, raw.width(), raw.width())
-                        raw = make_transparent_pixmap(raw)
-                        pix = _pixel_perfect(raw, 56, 56)
-                        spr_item.setIcon(QIcon(pix))
+                spr_item.setIcon(_cached_sprite_icon(p.key))
                 self.table.setItem(row, COL_SPRITE, spr_item)
 
                 marker = ('★' if p.is_legendary else '✦' if p.is_mythical else
@@ -1732,24 +1824,20 @@ if HAS_QT:
                 for col, tval in ((COL_TYPE1, p.type1), (COL_TYPE2, p.type2)):
                     display = tval.title() if tval else '—'
                     t_item  = QTableWidgetItem(display)
-                    color = TYPE_HEX.get(tval,'#585b70') if tval else '#585b70'
+                    color   = TYPE_HEX.get(tval, '#585b70') if tval else '#585b70'
                     t_item.setForeground(QBrush(QColor(color)))
                     t_item.setTextAlignment(Qt.AlignCenter)
                     self.table.setItem(row, col, t_item)
 
-                stage_colors = {
-                    'SINGLE':'#6c7086','BASIC':'#a6e3a1',
-                    'MIDDLE':'#f9e2af','FINAL':'#cba6f7',
-                }
                 stg_item = QTableWidgetItem(p.stage.title())
                 stg_item.setData(Qt.UserRole, STAGE_ORDER.get(p.stage, 9))
-                stg_item.setForeground(QBrush(QColor(stage_colors.get(p.stage,'#cdd6f4'))))
+                stg_item.setForeground(QBrush(QColor(_stage_colors.get(p.stage, '#cdd6f4'))))
                 stg_item.setTextAlignment(Qt.AlignCenter)
                 self.table.setItem(row, COL_STAGE, stg_item)
 
                 for col, val in zip(
-                    [COL_HP,COL_ATK,COL_DEF,COL_SPA,COL_SPD,COL_SPE],
-                    [p.hp, p.atk, p.def_, p.spa, p.spd, p.spe]
+                    [COL_HP, COL_ATK, COL_DEF, COL_SPA, COL_SPD, COL_SPE],
+                    [p.hp,   p.atk,  p.def_,  p.spa,   p.spd,   p.spe]
                 ):
                     si = NumItem(val)
                     si.setTextAlignment(Qt.AlignRight | Qt.AlignVCenter)
@@ -1763,6 +1851,7 @@ if HAS_QT:
 
                 self._set_status_item(row, st)
 
+            self.table.setUpdatesEnabled(True)    # single repaint of the whole table
             self.table.setSortingEnabled(True)
 
         def _set_status_item(self, row, status):
@@ -1883,7 +1972,8 @@ if HAS_QT:
             )
 
 
-    def gui_main(all_pokemon, status_dict):
+    def gui_main():
+        """Start the GUI with a background loader — no blocking before the window appears."""
         from PyQt5.QtGui import QIcon as _QIcon
         app = QApplication(sys.argv)
         app.setStyle("Fusion")
@@ -1891,6 +1981,33 @@ if HAS_QT:
         _icon_path = os.path.join(_HERE, "gfx", "stat_dex_icon.png")
         if os.path.isfile(_icon_path):
             app.setWindowIcon(_QIcon(_icon_path))
+
+        # Show splash while data loads in background
+        splash = _SplashDialog()
+        splash.show()
+        app.processEvents()
+
+        result: list = []   # [all_pokemon, status_dict]
+
+        thread = _LoadThread()
+        thread.progress.connect(lambda msg, pct: (splash.set_progress(msg, pct),
+                                                   app.processEvents()))
+        thread.done.connect(lambda poke, st: result.extend([poke, st]))
+        thread.start()
+
+        while thread.isRunning():
+            app.processEvents()
+            QThread.msleep(16)
+        thread.wait()
+        app.processEvents()   # flush queued done signal before reading result
+        splash.close()
+
+        all_pokemon, status_dict = result[0], result[1]
+        if not all_pokemon:
+            print(f"ERROR: No Pokémon data found in {DATA_DIR}", flush=True)
+            sys.exit(1)
+
+        print(f"  {len(all_pokemon)} Pokémon loaded.", flush=True)
         sprite_map = build_sprite_map(all_pokemon)
         win = MainWindow(all_pokemon, status_dict, sprite_map)
         win.show()
@@ -1934,19 +2051,19 @@ def main():
     args   = parser.parse_args()
     want_gui = not args.cli and HAS_QT
 
-    print("Loading Pokémon data...", end=' ', flush=True)
-    all_pokemon = load_all_pokemon()
-    status_dict = _load_status()
-    print(f"{len(all_pokemon)} loaded.")
-
-    if not all_pokemon:
-        print(f"ERROR: No data found in {DATA_DIR}"); sys.exit(1)
-
     if want_gui:
-        gui_main(all_pokemon, status_dict)
+        # GUI path: splash + background thread — no blocking print before window
+        gui_main()
     else:
+        # CLI path: load synchronously then print table
         if not HAS_QT and not args.cli:
             print("PyQt5 not found — falling back to CLI mode.")
+        print("Loading Pokémon data...", end=' ', flush=True)
+        all_pokemon = load_all_pokemon()
+        status_dict = _load_status()
+        print(f"{len(all_pokemon)} loaded.")
+        if not all_pokemon:
+            print(f"ERROR: No data found in {DATA_DIR}"); sys.exit(1)
         cli_main(args)
 
 
