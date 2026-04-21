@@ -93,7 +93,8 @@
     "Underwater_Route129",
     "Underwater_Route105",
     "Underwater_Route125",
-    "Route135"
+    "Route135",
+    "RustboroPoint"
   ],
   "gMapGroup_IndoorLittleroot": [
     "LittlerootTown_BrendansHouse_1F",
@@ -497,7 +498,8 @@
     "BattlePyramidSquare14",
     "BattlePyramidSquare15",
     "BattlePyramidSquare16",
-    "UnionRoom"
+    "UnionRoom",
+    "AnyStarterHouse"
   ],
   "gMapGroup_SpecialArea": [
     "SafariZone_Northwest",

@@ -83,6 +83,8 @@ MeteorFalls_1F_1R_EventScript_MagmaStealsMeteoriteScene::
 	removeobject LOCALID_METEOR_FALLS_ARCHIE
 	removeobject LOCALID_METEOR_FALLS_AQUA_GRUNT_1
 	removeobject LOCALID_METEOR_FALLS_AQUA_GRUNT_2
+	addvar VAR_PETALBURG_GYM_STATE, 1
+	call_if_eq VAR_PETALBURG_GYM_STATE, 6, Common_EventScript_ReadyPetalburgGymForBattle
 	setflag FLAG_HIDE_ROUTE_112_TEAM_MAGMA
 	setflag FLAG_MET_ARCHIE_METEOR_FALLS
 	setflag FLAG_HIDE_FALLARBOR_TOWN_BATTLE_TENT_SCOTT
@@ -229,6 +231,11 @@ MeteorFalls_1F_1R_EventScript_ProfCozmo::
 MeteorFalls_1F_1R_EventScript_MetCozmo::
 	msgbox MeteorFalls_1F_1R_Text_WhatsTeamMagmaDoingAtMtChimney, MSGBOX_DEFAULT
 	release
+	end
+
+Route118_EventScript_Deandre::
+	trainerbattle_single TRAINER_DEANDRE, Route118_Text_DeandreIntro, Route118_Text_DeandreDefeat
+	msgbox Route118_Text_DeandrePostBattle, MSGBOX_AUTOCLOSE
 	end
 
 MeteorFalls_1F_1R_Text_WithThisMeteorite:

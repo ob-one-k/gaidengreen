@@ -20524,7 +20524,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
             "Swings a huge hammer. Can't\n"
             "be used twice in a row."),
         .effect = EFFECT_HIT,
-        .power = 160,
+        .power = 150, //!
         .type = TYPE_STEEL,
         .accuracy = 100,
         .pp = 5,

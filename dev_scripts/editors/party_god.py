@@ -2295,6 +2295,8 @@ class MonSlotCard(QFrame):
     """A vertical card representing one party slot."""
     slot_double_clicked = pyqtSignal(int)   # emits slot_idx  (edit filled / add to empty)
     slot_cleared        = pyqtSignal(int)   # emits slot_idx
+    swap_left           = pyqtSignal(int)   # emits slot_idx — request swap with slot-1
+    swap_right          = pyqtSignal(int)   # emits slot_idx — request swap with slot+1
 
     def __init__(self, slot_idx: int, parent=None):
         super().__init__(parent)
@@ -2336,7 +2338,7 @@ class MonSlotCard(QFrame):
         hdr.addWidget(self._clear_btn)
         lay.addLayout(hdr)
 
-        # Sprite area
+        # Sprite area with left/right reorder arrows
         self._sprite_lbl = QLabel()
         self._sprite_lbl.setMinimumSize(64, 64)
         self._sprite_lbl.setAlignment(Qt.AlignCenter)
@@ -2345,13 +2347,37 @@ class MonSlotCard(QFrame):
         )
         self._sprite_lbl.setText("?")
         self._sprite_lbl.setCursor(Qt.PointingHandCursor)
+
+        _arrow_style = (
+            "QPushButton { background:transparent; border:none; color:#45475a; "
+            "  font-size:14px; font-weight:bold; padding:0; border-radius:4px; }"
+            "QPushButton:hover:enabled { color:#89b4fa; background:#313244; }"
+            "QPushButton:disabled { color:#313244; }"
+        )
+        self._left_arrow_btn = QPushButton("◀")
+        self._left_arrow_btn.setFixedSize(20, 48)
+        self._left_arrow_btn.setToolTip("Move left (earlier in party)")
+        self._left_arrow_btn.setStyleSheet(_arrow_style)
+        self._left_arrow_btn.clicked.connect(lambda: self.swap_left.emit(self._slot_idx))
+        self._left_arrow_btn.setEnabled(self._slot_idx > 0)
+
+        self._right_arrow_btn = QPushButton("▶")
+        self._right_arrow_btn.setFixedSize(20, 48)
+        self._right_arrow_btn.setToolTip("Move right (later in party)")
+        self._right_arrow_btn.setStyleSheet(_arrow_style)
+        self._right_arrow_btn.clicked.connect(lambda: self.swap_right.emit(self._slot_idx))
+        self._right_arrow_btn.setEnabled(self._slot_idx < 5)
+
         sprite_wrapper = QWidget()
         sprite_wrapper.setStyleSheet("background:transparent;")
         sw_lay = QHBoxLayout(sprite_wrapper)
         sw_lay.setContentsMargins(0, 0, 0, 0)
+        sw_lay.setSpacing(2)
+        sw_lay.addWidget(self._left_arrow_btn)
         sw_lay.addStretch()
         sw_lay.addWidget(self._sprite_lbl)
         sw_lay.addStretch()
+        sw_lay.addWidget(self._right_arrow_btn)
         lay.addWidget(sprite_wrapper)
 
         # Name + level (inline spinner for quick level edits)
@@ -2571,6 +2597,11 @@ class MonSlotCard(QFrame):
         """Single-click on an empty slot opens the add-mon dialog."""
         if event.button() == Qt.LeftButton:
             self.slot_double_clicked.emit(self._slot_idx)
+
+    def update_arrow_states(self, has_mon: bool):
+        """Enable/disable reorder arrows based on slot position and whether a mon is present."""
+        self._left_arrow_btn.setEnabled(has_mon and self._slot_idx > 0)
+        self._right_arrow_btn.setEnabled(has_mon and self._slot_idx < 5)
 
     def _confirm_remove(self):
         """Ask for confirmation before clearing a filled slot."""
@@ -3261,8 +3292,8 @@ class TeamTypeAnalysisDialog(_FramelessDialogBase):
         tabs = QTabWidget()
         tabs.setStyleSheet(
             "QTabWidget::pane { border:1px solid #313244; background:#1e1e2e; margin-top:-1px; }"
-            "QTabBar::tab { background:#181825; color:#a6adc8; padding:7px 20px; "
-            "  border:1px solid #313244; border-bottom:none; border-radius:6px 6px 0 0; "
+            "QTabBar::tab { background:#181825; color:#a6adc8; min-width:100px; padding:6px 16px; "
+            "  border:1px solid #313244; border-bottom:none; border-radius:4px 4px 0 0; "
             "  margin-right:2px; font-size:12px; font-weight:bold; }"
             "QTabBar::tab:selected { background:#1e1e2e; color:#cdd6f4; "
             "  border-bottom:1px solid #1e1e2e; }"
@@ -3312,6 +3343,8 @@ class PartyCardsWidget(QWidget):
             card = MonSlotCard(i)
             card.slot_double_clicked.connect(self._on_slot_double_clicked)
             card.slot_cleared.connect(self._on_slot_cleared)
+            card.swap_left.connect(self._on_swap_left)
+            card.swap_right.connect(self._on_swap_right)
             cards_lay.addWidget(card)
             self._cards.append(card)
         cards_lay.addStretch()
@@ -3339,12 +3372,33 @@ class PartyCardsWidget(QWidget):
         self._cards[slot_idx].load_mon(None)
         self.party_changed.emit()
 
+    def _on_swap_left(self, slot_idx):
+        self._swap_slots(slot_idx - 1, slot_idx)
+
+    def _on_swap_right(self, slot_idx):
+        self._swap_slots(slot_idx, slot_idx + 1)
+
+    def _swap_slots(self, a, b):
+        if 0 <= a < 6 and 0 <= b < 6:
+            self._mons[a], self._mons[b] = self._mons[b], self._mons[a]
+            self._cards[a].load_mon(self._mons[a])
+            self._cards[b].load_mon(self._mons[b])
+            self._refresh_arrow_states()
+            self.party_changed.emit()
+
+    def _refresh_arrow_states(self):
+        for i, card in enumerate(self._cards):
+            card.update_arrow_states(
+                self._mons[i] is not None and bool(getattr(self._mons[i], 'species', ''))
+            )
+
     def load_trainer(self, trainer):
         self._trainer = trainer
         self._mons = list(trainer.party) + [None] * (6 - len(trainer.party))
         self._mons = self._mons[:6]
         for i, card in enumerate(self._cards):
             card.load_mon(self._mons[i])
+        self._refresh_arrow_states()
 
     def get_party(self):
         return [m for m in self._mons if m is not None and m.species]
@@ -3355,6 +3409,7 @@ class PartyCardsWidget(QWidget):
 # ══════════════════════════════════════════════════════════════════════════════
 class AIFlagsWidget(QGroupBox):
     """AI flags editor with always-visible profile buttons and a collapsible individual-flags grid."""
+    modified = pyqtSignal()
 
     _PROFILE_NAMES = ("Basic Trainer", "Smart Trainer", "Prediction")
 
@@ -3478,6 +3533,7 @@ class AIFlagsWidget(QGroupBox):
                     self._chks[flag].setChecked(False)
 
         for chk in self._chks.values(): chk.blockSignals(False)
+        self.modified.emit()
         # Don't call _update_profile_highlights here — button states already set
 
     # Exclusive flag groups — enabling a flag from one group clears the other group
@@ -3501,6 +3557,7 @@ class AIFlagsWidget(QGroupBox):
                                 self._chks[flag].setChecked(False)
                                 self._chks[flag].blockSignals(False)
         self._update_profile_highlights()
+        self.modified.emit()
 
     def _update_profile_highlights(self):
         """Called when individual checkboxes change. Find best matching profile (most specific
@@ -3525,6 +3582,7 @@ class AIFlagsWidget(QGroupBox):
         for chk in self._chks.values(): chk.setChecked(False)
         for btn, _ in self._profile_buttons:
             btn.blockSignals(True); btn.setChecked(False); btn.blockSignals(False)
+        self.modified.emit()
 
     # ── Data API ──────────────────────────────────────────────────────────────
     def get_flags(self):
@@ -3564,13 +3622,20 @@ class AIFlagsWidget(QGroupBox):
 # TRAINER INFO CARD
 # ══════════════════════════════════════════════════════════════════════════════
 class TrainerInfoCard(QWidget):
+    modified = pyqtSignal()
+
     def __init__(self, parent=None):
         super().__init__(parent)
         self._classes = load_trainer_classes()
         self._pics    = load_trainer_pics()
         self._items   = load_items()
         self._item_btns = []
+        self._loading = False
         self._build_ui()
+
+    def _emit_modified(self):
+        if not self._loading:
+            self.modified.emit()
 
     def _build_ui(self):
         lay = QVBoxLayout(self)
@@ -3657,7 +3722,16 @@ class TrainerInfoCard(QWidget):
 
         # AI flags
         self._ai_widget = AIFlagsWidget()
+        self._ai_widget.modified.connect(self._emit_modified)
         lay.addWidget(self._ai_widget)
+
+        # Wire change signals for dirty tracking
+        self._name_edit.textChanged.connect(self._emit_modified)
+        self._class_cb.currentIndexChanged.connect(self._emit_modified)
+        self._gender_cb.currentIndexChanged.connect(self._emit_modified)
+        self._music_cb.currentIndexChanged.connect(self._emit_modified)
+        self._battle_cb.currentIndexChanged.connect(self._emit_modified)
+        self._mugshot_cb.currentIndexChanged.connect(self._emit_modified)
 
     def _open_pic_selector(self):
         current = self._pic_btn.toolTip()
@@ -3674,6 +3748,7 @@ class TrainerInfoCard(QWidget):
             self._pic_btn.setText("")
         else:
             self._pic_btn.setIcon(QIcon()); self._pic_btn.setText(display[:8])
+        self._emit_modified()
 
     def _open_item_selector(self, idx):
         current = self._item_btns[idx].toolTip()
@@ -3693,11 +3768,13 @@ class TrainerInfoCard(QWidget):
                 btn.setIcon(QIcon()); btn.setText(item_key[5:9] if item_key.startswith('ITEM_') else item_key[:4])
         else:
             btn.setIcon(QIcon()); btn.setText("—")
+        self._emit_modified()
 
     def _clear_item(self, idx):
         self._set_item_btn(idx, "")
 
     def load_trainer(self, t: Trainer):
+        self._loading = True
         self._key_lbl.setText(t.key)
         self._name_edit.setText(t.name)
         ci = self._class_cb.findText(t.trainer_class, Qt.MatchFixedString | Qt.MatchCaseSensitive)
@@ -3721,6 +3798,7 @@ class TrainerInfoCard(QWidget):
             self._set_item_btn(i, it)
         # AI
         self._ai_widget.set_flags(t.ai_flags)
+        self._loading = False
 
     def save_to_trainer(self, t: Trainer):
         t.name          = self._name_edit.text().strip()
@@ -3969,6 +4047,15 @@ class TrainerListPanel(QWidget):
         return nm or cls or t.key
 
     def _populate(self):
+        # Preserve which location sections are currently expanded
+        _expanded_locs = set()
+        _root = self.tree.invisibleRootItem()
+        for _i in range(_root.childCount()):
+            _it = _root.child(_i)
+            if _it.isExpanded():
+                import re as _re
+                _expanded_locs.add(_re.sub(r'\s+\(\d+\)\s*$', '', _it.text(0)).strip())
+
         q = self.search.text().strip().lower()
         sf = self._starter_filter   # e.g. 'TREECKO' or None
         self.tree.clear()
@@ -4007,7 +4094,7 @@ class TrainerListPanel(QWidget):
             parent_item.setForeground(0, QColor('#89b4fa'))
             font = parent_item.font(0); font.setBold(True)
             parent_item.setFont(0, font)
-            parent_item.setExpanded(False)
+            parent_item.setExpanded(loc in _expanded_locs)
 
             for orig_idx, t, ri in sorted(entries, key=lambda x: self._display_name(x[1])):
                 dname = self._display_name(t)
@@ -4183,6 +4270,7 @@ class MainWindow(QMainWindow):
         self._header_comment = header_comment
         self._trainers       = trainers
         self._trainer_map    = {t.key: t for t in trainers}
+        self._dirty          = False
         self.setWindowTitle("Party God — Trainer Editor")
         self.resize(1440, 860)
         self.setMinimumSize(1440, 700)
@@ -4283,6 +4371,10 @@ class MainWindow(QMainWindow):
         # Auto-select Youngster Calvin (or first visible trainer) on startup
         QTimer.singleShot(0, self._auto_select_first_trainer)
 
+        # Dirty tracking — mark unsaved changes
+        self._editor._party_panel.party_changed.connect(self._mark_dirty)
+        self._editor._info_card.modified.connect(self._mark_dirty)
+
     def _auto_select_first_trainer(self):
         """Select Youngster Calvin on startup, falling back to the first visible trainer."""
         trainers = self._trainers
@@ -4323,6 +4415,7 @@ class MainWindow(QMainWindow):
         # Re-load the selected trainer if it still exists
         if current_key and current_key in self._trainer_map:
             self._editor.load_trainer(self._trainer_map[current_key])
+        self._dirty = False
         self._status_bar.showMessage(
             f"  ✓  Reloaded {len(trainers)} trainers  (trainers.party updated on disk)"
         )
@@ -4389,6 +4482,28 @@ QLabel#heading   {{ font-size:{_sp(9)}px; }}
 """
             app.setStyleSheet(DARK_STYLE + scaled_style)
 
+    def _mark_dirty(self):
+        self._dirty = True
+
+    def closeEvent(self, event):
+        if self._dirty:
+            reply = QMessageBox.question(
+                self, "Unsaved Changes",
+                "You have unsaved changes that haven't been written to file.\n\n"
+                "Save before closing?",
+                QMessageBox.Save | QMessageBox.Discard | QMessageBox.Cancel,
+                QMessageBox.Save,
+            )
+            if reply == QMessageBox.Save:
+                self._save_party_file()
+                event.accept()
+            elif reply == QMessageBox.Discard:
+                event.accept()
+            else:
+                event.ignore()
+                return
+        super().closeEvent(event)
+
     def _save_party_file(self):
         try:
             # Apply current editor state to model first
@@ -4396,11 +4511,34 @@ QLabel#heading   {{ font-size:{_sp(9)}px; }}
                 self._editor._info_card.save_to_trainer(self._editor._trainer)
                 self._editor._trainer.party = self._editor._party_panel.get_party()
             write_trainers_party(self._trainers, self._header_comment)
+            self._dirty = False
             self._status_bar.showMessage(
                 f"  ✓  Saved {len(self._trainers)} trainers to {PARTY_FILE}"
             )
+            self._show_save_toast()
         except Exception as exc:
             QMessageBox.critical(self, "Save Error", str(exc))
+
+    def _show_save_toast(self):
+        toast = QDialog(self, Qt.ToolTip | Qt.FramelessWindowHint)
+        toast.setAttribute(Qt.WA_TranslucentBackground)
+        toast.setWindowFlags(Qt.ToolTip | Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint)
+        layout = QHBoxLayout(toast)
+        layout.setContentsMargins(16, 10, 16, 10)
+        label = QLabel("  ✓  Trainer saved successfully!")
+        label.setStyleSheet(
+            "background-color: #2d6a2d; color: #e8f5e8; border-radius: 6px;"
+            "padding: 6px 12px; font-weight: bold; font-size: 13px;"
+        )
+        layout.addWidget(label)
+        toast.adjustSize()
+        # Center over the main window
+        geo = self.geometry()
+        x = geo.x() + (geo.width() - toast.width()) // 2
+        y = geo.y() + geo.height() - 80
+        toast.move(x, y)
+        toast.show()
+        QTimer.singleShot(1800, toast.close)
 
 
 # ══════════════════════════════════════════════════════════════════════════════

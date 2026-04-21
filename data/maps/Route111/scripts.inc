@@ -565,6 +565,43 @@ Route111_EventScript_TrainerHillSign::
 	msgbox Route111_Text_TrainerHillSign, MSGBOX_SIGN
 	end
 
+Route111_EventScript_KirliaPC::
+    lock
+    faceplayer
+
+    msgbox Route111_Text_KirliaPC, MSGBOX_DEFAULT
+
+    goto EventScript_PC
+
+Route111_EventScript_HealNpc::
+	lock
+	faceplayer
+	msgbox Route111_Text_WouldYouLikeToHeal, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, Route111_EventScript_HealNpc_No
+
+	special HealPlayerParty
+	msgbox Route111_Text_HealNpc_Done, MSGBOX_DEFAULT
+	release
+	end
+
+Route111_EventScript_HealNpc_No:
+	msgbox Route111_Text_HealNpc_No, MSGBOX_DEFAULT
+	release
+	end
+
+Route111_Text_WouldYouLikeToHeal:
+	.string "Would you like to heal your POKéMON?$"
+
+Route111_Text_HealNpc_Done:
+	.string "Your POKéMON were fully healed.$"
+
+Route111_Text_HealNpc_No:
+	.string "Come back anytime.$"
+
+Route111_Text_KirliaPC:
+    .string "Kirlia tilts its head...\n"
+    .string "It seems to connect you to a PC.$"
+
 Route111_Text_BattleOurFamily:
 	.string "Hello! I take it you're a traveler.\p"
 	.string "How's this? What do you say to taking\n"

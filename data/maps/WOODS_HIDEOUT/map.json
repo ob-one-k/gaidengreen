@@ -3,7 +3,7 @@
   "name": "WOODS_HIDEOUT",
   "layout": "LAYOUT_WOODS_HIDEOUT",
   "music": "MUS_PETALBURG_WOODS",
-  "region_map_section": "MAPSEC_PETALBURG_WOODS",
+  "region_map_section": "MAPSEC_WOODS_HIDEOUT",
   "requires_flash": true,
   "weather": "WEATHER_FOG",
   "map_type": "MAP_TYPE_ROUTE",

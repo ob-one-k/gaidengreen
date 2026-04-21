@@ -238,11 +238,6 @@ Route118_EventScript_Chester::
 	msgbox Route118_Text_ChesterPostBattle, MSGBOX_AUTOCLOSE
 	end
 
-Route118_EventScript_Deandre::
-	trainerbattle_single TRAINER_DEANDRE, Route118_Text_DeandreIntro, Route118_Text_DeandreDefeat
-	msgbox Route118_Text_DeandrePostBattle, MSGBOX_AUTOCLOSE
-	end
-
 Route118_Text_StevenQuestions:
 	.string "STEVEN: Hi, {PLAYER}{KUN}!\p"
 	.string "It's me, STEVEN!\n"

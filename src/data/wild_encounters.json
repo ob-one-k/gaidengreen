@@ -11934,7 +11934,7 @@
               {
                 "min_level": 6,
                 "max_level": 7,
-                "species": "SPECIES_KLINK"
+                "species": "SPECIES_BELDUM"
               },
               {
                 "min_level": 6,
@@ -12367,63 +12367,63 @@
             "encounter_rate": 10,
             "mons": [
               {
-                "min_level": 5,
-                "max_level": 5,
+                "min_level": 30,
+                "max_level": 30,
                 "species": "SPECIES_LINOONE"
               },
               {
-                "min_level": 5,
-                "max_level": 5,
+                "min_level": 30,
+                "max_level": 30,
                 "species": "SPECIES_SKIDDO"
               },
               {
-                "min_level": 5,
-                "max_level": 5,
+                "min_level": 30,
+                "max_level": 30,
                 "species": "SPECIES_DEERLING_SUMMER"
               },
               {
-                "min_level": 5,
-                "max_level": 5,
+                "min_level": 30,
+                "max_level": 30,
                 "species": "SPECIES_DEERLING"
               },
               {
-                "min_level": 5,
-                "max_level": 5,
+                "min_level": 30,
+                "max_level": 30,
                 "species": "SPECIES_TEDDIURSA"
               },
               {
-                "min_level": 5,
-                "max_level": 5,
+                "min_level": 30,
+                "max_level": 30,
                 "species": "SPECIES_STANTLER"
               },
               {
-                "min_level": 5,
-                "max_level": 5,
+                "min_level": 30,
+                "max_level": 30,
                 "species": "SPECIES_TEDDIURSA"
               },
               {
-                "min_level": 5,
-                "max_level": 5,
+                "min_level": 30,
+                "max_level": 30,
                 "species": "SPECIES_LINOONE"
               },
               {
-                "min_level": 5,
-                "max_level": 5,
+                "min_level": 30,
+                "max_level": 30,
                 "species": "SPECIES_SLAKOTH"
               },
               {
-                "min_level": 5,
-                "max_level": 5,
+                "min_level": 30,
+                "max_level": 30,
                 "species": "SPECIES_PORYGON"
               },
               {
-                "min_level": 5,
-                "max_level": 5,
+                "min_level": 30,
+                "max_level": 30,
                 "species": "SPECIES_SLAKOTH"
               },
               {
-                "min_level": 5,
-                "max_level": 5,
+                "min_level": 30,
+                "max_level": 30,
                 "species": "SPECIES_PORYGON"
               }
             ]

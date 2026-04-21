@@ -4460,6 +4460,26 @@
       "secondary_tileset": "gTileset_Mauville",
       "border_filepath": "data/layouts/Route135/border.bin",
       "blockdata_filepath": "data/layouts/Route135/map.bin"
+    },
+    {
+      "id": "LAYOUT_RUSTBORO_POINT",
+      "name": "RustboroPoint_Layout",
+      "width": 20,
+      "height": 20,
+      "primary_tileset": "gTileset_General",
+      "secondary_tileset": "gTileset_Rustboro",
+      "border_filepath": "data/layouts/RustboroPoint/border.bin",
+      "blockdata_filepath": "data/layouts/RustboroPoint/map.bin"
+    },
+    {
+      "id": "LAYOUT_ANY_STARTER_HOUSE",
+      "name": "AnyStarterHouse_Layout",
+      "width": 12,
+      "height": 8,
+      "primary_tileset": "gTileset_General",
+      "secondary_tileset": "gTileset_GenericBuilding",
+      "border_filepath": "data/layouts/AnyStarterHouse/border.bin",
+      "blockdata_filepath": "data/layouts/AnyStarterHouse/map.bin"
     }
   ]
 }

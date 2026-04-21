@@ -1167,3 +1167,7 @@ EventScript_VsSeekerChargingDone::
 	.include "data/maps/SLATEPORT_UNDERGROUND/scripts.inc"
 
 	.include "data/maps/Route135/scripts.inc"
+
+	.include "data/maps/RustboroPoint/scripts.inc"
+
+	.include "data/maps/AnyStarterHouse/scripts.inc"

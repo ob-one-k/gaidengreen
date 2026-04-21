@@ -31,19 +31,6 @@
   ],
   "object_events": [
     {
-      "graphics_id": "OBJ_EVENT_GFX_NINJA_BOY",
-      "x": 70,
-      "y": 12,
-      "elevation": 3,
-      "movement_type": "MOVEMENT_TYPE_FACE_UP",
-      "movement_range_x": 1,
-      "movement_range_y": 0,
-      "trainer_type": "TRAINER_TYPE_BURIED",
-      "trainer_sight_or_berry_tree_id": "0",
-      "script": "Route113_EventScript_NinjaBoy",
-      "flag": "0"
-    },
-    {
       "graphics_id": "OBJ_EVENT_GFX_GENTLEMAN",
       "x": 36,
       "y": 10,
@@ -71,10 +58,10 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_HIKER",
-      "x": 18,
-      "y": 10,
+      "x": 71,
+      "y": 4,
       "elevation": 3,
-      "movement_type": "MOVEMENT_TYPE_FACE_DOWN_AND_LEFT",
+      "movement_type": "MOVEMENT_TYPE_FACE_UP",
       "movement_range_x": 0,
       "movement_range_y": 0,
       "trainer_type": "TRAINER_TYPE_NORMAL",
@@ -91,7 +78,7 @@
       "movement_range_x": 0,
       "movement_range_y": 0,
       "trainer_type": "TRAINER_TYPE_NORMAL",
-      "trainer_sight_or_berry_tree_id": "2",
+      "trainer_sight_or_berry_tree_id": "3",
       "script": "Route113_EventScript_Madeline",
       "flag": "0"
     },
@@ -122,15 +109,15 @@
       "flag": "FLAG_ITEM_ROUTE_113_SUPER_REPEL"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_NINJA_BOY",
+      "graphics_id": "OBJ_EVENT_GFX_MAN_5",
       "x": 40,
       "y": 4,
       "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_BURIED",
       "movement_range_x": 0,
       "movement_range_y": 0,
-      "trainer_type": "TRAINER_TYPE_BURIED",
-      "trainer_sight_or_berry_tree_id": "1",
+      "trainer_type": "TRAINER_TYPE_NORMAL",
+      "trainer_sight_or_berry_tree_id": "3",
       "script": "Route113_EventScript_Lao",
       "flag": "0"
     },
@@ -156,7 +143,7 @@
       "movement_range_x": 1,
       "movement_range_y": 1,
       "trainer_type": "TRAINER_TYPE_NORMAL",
-      "trainer_sight_or_berry_tree_id": "1",
+      "trainer_sight_or_berry_tree_id": "2",
       "script": "Route113_EventScript_Tori",
       "flag": "0"
     },
@@ -169,7 +156,7 @@
       "movement_range_x": 1,
       "movement_range_y": 1,
       "trainer_type": "TRAINER_TYPE_NORMAL",
-      "trainer_sight_or_berry_tree_id": "1",
+      "trainer_sight_or_berry_tree_id": "2",
       "script": "Route113_EventScript_Tia",
       "flag": "0"
     },
@@ -201,19 +188,19 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_CAMPER",
-      "x": 71,
-      "y": 4,
+      "x": 18,
+      "y": 10,
       "elevation": 3,
-      "movement_type": "MOVEMENT_TYPE_FACE_UP",
+      "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
       "movement_range_x": 1,
       "movement_range_y": 1,
       "trainer_type": "TRAINER_TYPE_NORMAL",
-      "trainer_sight_or_berry_tree_id": "1",
+      "trainer_sight_or_berry_tree_id": "4",
       "script": "Route113_EventScript_Lawrence",
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_PICNICKER",
+      "graphics_id": "OBJ_EVENT_GFX_WOMAN_1",
       "x": 14,
       "y": 9,
       "elevation": 3,
@@ -226,7 +213,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_MAN_5",
+      "graphics_id": "OBJ_EVENT_GFX_SAILOR",
       "x": 64,
       "y": 9,
       "elevation": 3,
@@ -234,8 +221,21 @@
       "movement_range_x": 1,
       "movement_range_y": 3,
       "trainer_type": "TRAINER_TYPE_NORMAL",
-      "trainer_sight_or_berry_tree_id": "6",
+      "trainer_sight_or_berry_tree_id": "4",
       "script": "Route113_EventScript_Coby",
+      "flag": "0"
+    },
+    {
+      "graphics_id": "OBJ_EVENT_GFX_MAN_5",
+      "x": 40,
+      "y": 4,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_BURIED",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NORMAL",
+      "trainer_sight_or_berry_tree_id": "3",
+      "script": "Route113_EventScript_Lao",
       "flag": "0"
     }
   ],

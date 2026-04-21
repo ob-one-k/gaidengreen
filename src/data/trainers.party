@@ -999,15 +999,27 @@ Pic: Interviewer
 Gender: Male
 Music: Interviewer
 Double Battle: Yes
-AI: Check Bad Move
+AI: Smart Trainer
 
-Magnemite
-Level: 17
+Heliolisk @ Bright Powder
+Level: 34
 IVs: 6 HP / 6 Atk / 6 Def / 6 SpA / 6 SpD / 6 Spe
+Ability: Dry Skin
+- Parabolic Charge
+- Volt Switch
 
-Whismur
-Level: 17
+Politoed
+Level: 34
 IVs: 6 HP / 6 Atk / 6 Def / 6 SpA / 6 SpD / 6 Spe
+Ability: Drizzle
+
+Armarouge
+Level: 35
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Weak Armor
+- Lava Plume
+- Ally Switch
+- Psyshock
 
 === TRAINER_GABBY_AND_TY_2 ===
 Name: GABBY & TY
@@ -1379,55 +1391,139 @@ IVs: 4 HP / 4 Atk / 4 Def / 4 SpA / 4 SpD / 4 Spe
 - Surf
 
 === TRAINER_RANDALL ===
-Name: RANDALL
+Name: ANDALEA
 Class: Cooltrainer
-Pic: Cooltrainer M
-Gender: Male
+Pic: Cooltrainer F
+Gender: Female
 Music: Cool
 Double Battle: No
-AI: Basic Trainer
-Items: Hyper Potion
+AI: Smart Trainer
 
-Swellow
-Level: 26
+Swellow @ Flame Orb
+Level: 41
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-- Quick Attack
-- Agility
-- Wing Attack
+Nature: Lonely
+Ability: Guts
+- Facade
+- Tailwind
+- Quick Guard
+- Brave Bird
+
+Rapidash-Galar @ Choice Scarf
+Level: 41
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Pastel Veil
+- Dazzling Gleam
+- Megahorn
+- Psycho Cut
+
+Dugtrio-Alola
+Level: 42
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Tangling Hair
+- Sucker Punch
+- Earth Power
+- Rock Slide
+- Sludge Bomb
+
+Lilligant-Hisui (F) @ Wide Lens
+Level: 42
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Chlorophyll
+- Sunny Day
+- Axe Kick
+- Leaf Blade
+- Sleep Powder
 
 === TRAINER_PARKER ===
-Name: PARKER
+Name: DEXTER
 Class: Cooltrainer
 Pic: Cooltrainer M
 Gender: Male
 Music: Cool
-Double Battle: No
-AI: Basic Trainer
-Items: Hyper Potion
+Double Battle: Yes
+AI: Smart Trainer
 
-Spinda
-Level: 26
+Dusclops
+Level: 43
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-- Teeter Dance
+Ability: Pressure
+- Confuse Ray
+- Future Sight
+- Shadow Punch
+- Will-O-Wisp
+
+Kecleon
+Level: 43
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Protean
+- Foul Play
+- Psybeam
+- Substitute
 - Dizzy Punch
-- Focus Punch
+
+Togekiss @ Wide Lens
+Level: 42
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Serene Grace
+- Thunderbolt
+- Sweet Kiss
+- Mystical Power
+- Air Slash
+
+Okidogi (M) @ Kings Rock
+Level: 42
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Toxic Chain
+- Superpower
+- Poison Jab
+- Crunch
+- Swagger
 
 === TRAINER_GEORGE ===
-Name: GEORGE
+Name: GEORGINA
 Class: Cooltrainer
-Pic: Cooltrainer M
-Gender: Male
+Pic: Cooltrainer F
+Gender: Female
 Music: Cool
-Double Battle: No
-AI: Basic Trainer
-Items: Hyper Potion
+Double Battle: Yes
+AI: Smart Trainer
 
-Slakoth @ Sitrus Berry
-Level: 26
+Clefable @ Leftovers
+Level: 42
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-- Slack Off
-- Counter
-- Shadow Ball
+Ability: Magic Guard
+- Moonlight
+- Life Dew
+- Heal Pulse
+- Cosmic Power
+
+Chimecho @ Sitrus Berry
+Level: 42
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Levitate
+- Heal Bell
+- Extrasensory
+- Icy Wind
+- Flash Cannon
+
+Mienshao @ Leftovers
+Level: 42
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Regenerator
+- Drain Punch
+- Fake Out
+- U-turn
+- Endure
+
+Alomomola @ Sitrus Berry
+Level: 43
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Healer
+- Wide Guard
+- Wish
+- Mirror Coat
+- Hydro Pump
 
 === TRAINER_BERKE ===
 Name: BERKE
@@ -1436,8 +1532,7 @@ Pic: Cooltrainer M
 Gender: Male
 Music: Cool
 Double Battle: No
-AI: Basic Trainer
-Items: Hyper Potion
+AI: Smart Trainer
 
 Vigoroth
 Level: 26
@@ -1810,37 +1905,94 @@ Level: 33
 IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
 
 === TRAINER_MARY ===
-Name: MARY
+Name: MARZIPAN
 Class: Cooltrainer
-Pic: Cooltrainer F
-Gender: Female
+Pic: Cooltrainer M
+Gender: Male
 Music: Cool
 Double Battle: No
-AI: Basic Trainer
-Items: Hyper Potion
+AI: Smart Trainer
 
-Delcatty
-Level: 26
+Staraptor @ Sitrus Berry
+Level: 42
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-- Feint Attack
-- Shock Wave
+Ability: Reckless
+- Take Down
+- Brave Bird
+- Double Team
+- Close Combat
+
+Durant @ Wide Lens
+Level: 41
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Hustle
+- Iron Head
+- First Impression
+- Hone Claws
+- Strength
+
+Beautifly
+Level: 43
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Compound Eyes
+- Morning Sun
+- Poison Powder
+- Bug Buzz
+- Dazzling Gleam
+
+Machoke
+Level: 42
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: No Guard
+- Earthquake
+- Dynamic Punch
+- Bulk Up
+- Mega Kick
 
 === TRAINER_ALEXIA ===
-Name: ALEXIA
+Name: CHARLIZE
 Class: Cooltrainer
 Pic: Cooltrainer F
 Gender: Female
 Music: Cool
-Double Battle: No
-AI: Basic Trainer
-Items: Hyper Potion
+Double Battle: Yes
+AI: Smart Trainer
 
-Wigglytuff
-Level: 26
+Dubwool @ Chople Berry
+Level: 42
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-- Defense Curl
-- Double Edge
+Ability: Fluffy
+- Thunder Wave
+- Body Press
+- Cotton Guard
+- Take Down
+
+Pecharunt @ Shuca Berry
+Level: 42
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Poison Puppeteer
+- Toxic
+- Parting Shot
+- Mean Look
 - Shadow Ball
+
+Grimmsnarl (M) @ Roseli Berry
+Level: 42
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Prankster
+- Reflect
+- Protect
+- Hammer Arm
+- Confide
+
+Mantine @ Wacan Berry
+Level: 42
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Water Veil
+- Light Screen
+- Air Slash
+- Hydro Pump
+- Roost
 
 === TRAINER_JODY ===
 Name: JODY
@@ -1849,8 +2001,7 @@ Pic: Cooltrainer F
 Gender: Female
 Music: Cool
 Double Battle: No
-AI: Check Bad Move / Try To Faint / Force Setup First Turn
-Items: Hyper Potion
+AI: Check Bad Move / Try To Faint / Check Viability / Force Setup First Turn / Smart Switching / Omniscient / Smart Mon Choices / Weigh Ability Prediction
 
 Zangoose
 Level: 26
@@ -2830,7 +2981,7 @@ Double Battle: No
 AI: Smart Trainer
 
 Scizor
-Level: 35
+Level: 36
 IVs: 31 HP / 31 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
 Nature: Jolly
 Ability: Swarm
@@ -2840,7 +2991,7 @@ Ability: Swarm
 - Bullet Punch
 
 Clodsire
-Level: 35
+Level: 37
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Nature: Bold
 Ability: Unaware
@@ -3437,7 +3588,7 @@ Double Battle: No
 AI: Smart Trainer
 
 Chesnaught
-Level: 39
+Level: 40
 IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
 Nature: Relaxed
 Ability: Bulletproof
@@ -3447,7 +3598,7 @@ Ability: Bulletproof
 - Brick Break
 
 Decidueye
-Level: 40
+Level: 41
 IVs: 31 HP / 31 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
 Nature: Naughty
 Ability: Long Reach
@@ -3465,8 +3616,8 @@ Music: Intense
 Double Battle: No
 AI: Smart Trainer
 
-Ninetales-Alola
-Level: 39
+Ninetales-Alola @ Lax Incense
+Level: 40
 IVs: 31 HP / 31 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
 Nature: Quiet
 Ability: Snow Cloak
@@ -3488,11 +3639,11 @@ Ability: Own Tempo
 Audino
 Level: 40
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Ability: Healer
+Ability: Regenerator
 - Disarming Voice
 - Misty Terrain
-- Take Down
-- Secret Power
+- Hyper Voice
+- Zen Headbutt
 
 === TRAINER_NOB_2 ===
 Name: NOB
@@ -3939,7 +4090,7 @@ Double Battle: No
 AI: Smart Trainer
 
 Flamigo
-Level: 35
+Level: 37
 IVs: 31 HP / 31 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
 Nature: Quirky
 Ability: Tangled Feet
@@ -3949,7 +4100,7 @@ Ability: Tangled Feet
 - Double Team
 
 Unfezant @ Focus Sash
-Level: 35
+Level: 36
 IVs: 31 HP / 31 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
 Nature: Brave
 Ability: Big Pecks
@@ -3959,7 +4110,7 @@ Ability: Big Pecks
 - Quick Attack
 
 Swanna
-Level: 35
+Level: 36
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Ability: Serene Grace
 - Hurricane
@@ -4113,7 +4264,7 @@ Ability: Rough Skin
 - Hone Claws
 
 Tyrantrum
-Level: 34
+Level: 35
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Ability: Rock Head
 - Dragon Claw
@@ -4131,7 +4282,7 @@ Double Battle: No
 AI: Smart Trainer
 
 Corviknight
-Level: 35
+Level: 36
 IVs: 31 HP / 31 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
 Ability: Pressure
 - Drill Peck
@@ -4140,7 +4291,7 @@ Ability: Pressure
 - Power Trip
 
 Golduck
-Level: 18
+Level: 37
 IVs: 31 HP / 31 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
 Ability: Cloud Nine
 - Aqua Tail
@@ -4149,13 +4300,23 @@ Ability: Cloud Nine
 - Soak
 
 Bewear
-Level: 35
+Level: 36
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Ability: Fluffy
 - Hammer Arm
 - Payback
 - Brutal Swing
 - Double Team
+
+Poliwrath
+Level: 36
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Nature: Brave
+Ability: Damp
+- Hypnosis
+- Brick Break
+- Ice Punch
+- Substitute
 
 === TRAINER_JUSTIN ===
 Name: JUSTIN
@@ -5243,11 +5404,12 @@ Pic: Leader Roxanne
 Gender: Female
 Music: Female
 Double Battle: No
-AI: Smart Trainer
+AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching / Ace Pokemon / Omniscient / Smart Mon Choices / Weigh Ability Prediction
 
 Bonsly (F) @ Rocky Helmet
 Level: 15
 IVs: 20 HP / 27 Atk / 31 Def / 7 SpA / 31 SpD / 13 Spe
+Nature: Calm
 Ability: Sturdy
 Shiny: Yes
 - Razor Leaf
@@ -5258,6 +5420,7 @@ Shiny: Yes
 Archen (M) @ Eviolite
 Level: 15
 IVs: 29 HP / 31 Atk / 15 Def / 10 SpA / 22 SpD / 31 Spe
+Nature: Jolly
 Ability: Unnerve
 - Tailwind
 - Wing Attack
@@ -5267,6 +5430,7 @@ Ability: Unnerve
 Corsola-Galar (F) @ Leftovers
 Level: 14
 IVs: 31 HP / 12 Atk / 24 Def / 31 SpA / 31 SpD / 16 Spe
+Nature: Docile
 Ability: Cursed Body
 - Protect
 - Confuse Ray
@@ -5276,15 +5440,17 @@ Ability: Cursed Body
 Growlithe-Hisui (M) @ Shuca Berry
 Level: 16
 IVs: 31 HP / 31 Atk / 31 Def / 22 SpA / 31 SpD / 31 Spe
+Nature: Lonely
 Ability: Intimidate
 - Rock Slide
 - Flame Wheel
 - Quick Attack
 - Scorching Sands
 
-Diancie (F)
+Diancie (F) @ Wise Glasses
 Level: 16
 IVs: 31 HP / 31 Atk / 31 Def / 27 SpA / 31 SpD / 25 Spe
+Nature: Modest
 Ability: Clear Body
 - Dazzling Gleam
 - Calm Mind
@@ -5298,11 +5464,12 @@ Pic: Leader Brawly
 Gender: Male
 Music: Male
 Double Battle: No
-AI: Smart Trainer
+AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching / Ace Pokemon / Omniscient / Smart Mon Choices / Weigh Ability Prediction
 
 Hitmonchan @ Payapa Berry
 Level: 21
 IVs: 21 HP / 21 Atk / 31 Def / 31 SpA / 31 SpD / 21 Spe
+Nature: Serious
 Ability: Iron Fist
 - Mach Punch
 - Thunder Punch
@@ -5312,6 +5479,8 @@ Ability: Iron Fist
 Pignite @ Normal Gem
 Level: 22
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Nature: Careful
+Ability: Blaze
 - Retaliate
 - Fire Punch
 - Vital Throw
@@ -5320,6 +5489,7 @@ IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Jangmo-o @ Eviolite
 Level: 21
 IVs: 31 HP / 25 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Nature: Naughty
 Ability: Bulletproof
 - Dragon Tail
 - Rock Tomb
@@ -5329,7 +5499,8 @@ Ability: Bulletproof
 Lokix @ Black Glasses
 Level: 21
 IVs: 31 HP / 25 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Ability: Swarm
+Nature: Quirky
+Ability: Tinted Lens
 - Pursuit
 - Lunge
 - Fake Out
@@ -5338,6 +5509,7 @@ Ability: Swarm
 Sneasel-Hisui @ Air Balloon
 Level: 22
 IVs: 31 HP / 10 Atk / 31 Def / 31 SpA / 20 SpD / 0 Spe
+Nature: Hasty
 Ability: Inner Focus
 - Leer
 - Poison Jab
@@ -5347,7 +5519,9 @@ Ability: Inner Focus
 Lucario @ Shuca Berry
 Level: 23
 IVs: 21 HP / 10 Atk / 25 Def / 10 SpA / 25 SpD / 0 Spe
+Nature: Mild
 Ability: Steadfast
+Shiny: Yes
 - Flash Cannon
 - Aura Sphere
 - Iron Defense
@@ -5360,11 +5534,13 @@ Pic: Leader Wattson
 Gender: Male
 Music: Male
 Double Battle: Yes
-AI: Smart Trainer
+AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching / Ace Pokemon / Omniscient / Smart Mon Choices / Weigh Ability Prediction
 
 Kilowattrel @ Rocky Helmet
 Level: 30
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
+Nature: Bold
+Ability: Competitive
 - Electro Ball
 - Air Slash
 - Tailwind
@@ -5373,6 +5549,8 @@ IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 Manectric @ Lum Berry
 Level: 30
 IVs: 31 HP / 24 Atk / 31 Def / 24 SpA / 31 SpD / 24 Spe
+Nature: Serious
+Ability: Lightning Rod
 - Flamethrower
 - Hyper Voice
 - Thunderbolt
@@ -5381,6 +5559,7 @@ IVs: 31 HP / 24 Atk / 31 Def / 24 SpA / 31 SpD / 24 Spe
 Electrode-Hisui @ Focus Sash
 Level: 31
 IVs: 26 HP / 26 Atk / 26 Def / 26 SpA / 26 SpD / 26 Spe
+Nature: Timid
 Ability: Aftermath
 - Giga Drain
 - Thunderbolt
@@ -5390,6 +5569,7 @@ Ability: Aftermath
 Rotom-Wash @ Life Orb
 Level: 30
 IVs: 26 HP / 26 Atk / 26 Def / 26 SpA / 26 SpD / 0 Spe
+Nature: Mild
 Ability: Levitate
 - Surf
 - Discharge
@@ -5399,6 +5579,7 @@ Ability: Levitate
 Arcanine @ Magnet
 Level: 31
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 31 Spe
+Nature: Adamant
 Ability: Intimidate
 Shiny: Yes
 - Wild Charge
@@ -5409,7 +5590,9 @@ Shiny: Yes
 Magnezone @ Sitrus Berry
 Level: 32
 IVs: 30 HP / 30 Atk / 30 Def / 30 SpA / 30 SpD / 0 Spe
-- Gyro Ball
+Nature: Calm
+Ability: Analytic
+- Flash Cannon
 - Discharge
 - Magnet Rise
 - Energy Ball
@@ -5421,7 +5604,7 @@ Pic: Leader Flannery
 Gender: Female
 Music: Female
 Double Battle: Yes
-AI: Smart Trainer
+AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching / Ace Pokemon / Omniscient / Smart Mon Choices / Weigh Ability Prediction
 
 Numel
 Level: 24
@@ -5431,7 +5614,7 @@ IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - Magnitude
 - Sunny Day
 
-Slugma
+Ninetales
 Level: 24
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - Overheat
@@ -5456,46 +5639,73 @@ IVs: 30 HP / 30 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
 - Attract
 
 === TRAINER_NORMAN_1 ===
-Name: NORMAN
+Name: ANDROMEDA
 Class: Leader
-Pic: Leader Norman
+Pic: Dome Ace Tucker
 Gender: Male
 Music: Male
 Double Battle: No
-AI: Basic Trainer
-Items: Hyper Potion / Hyper Potion
+AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching / Ace Pokemon / Omniscient / Smart Mon Choices / Weigh Ability Prediction
 
-Spinda
-Level: 27
+Tapu Fini @ Assault Vest
+Level: 41
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
-- Teeter Dance
-- Psybeam
-- Facade
-- Encore
+Nature: Relaxed
+Ability: Misty Surge
+- Nature's Madness
+- Moonblast
+- Muddy Water
+- Ice Beam
 
-Vigoroth
-Level: 27
+Ursaluna @ Rindo Berry
+Level: 42
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
-- Slash
-- Facade
-- Encore
-- Feint Attack
+Nature: Adamant
+Ability: Bulletproof
+- High Horsepower
+- Hammer Arm
+- Sleep Talk
+- Rest
 
-Linoone
-Level: 29
+Tinkaton (F) @ Lum Berry
+Level: 42
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
-- Slash
-- Belly Drum
-- Facade
-- Headbutt
+Nature: Docile
+Ability: Mold Breaker
+- Play Rough
+- Brick Break
+- Gigaton Hammer
+- Rock Slide
 
-Slaking @ Sitrus Berry
-Level: 31
+Sylveon @ Sitrus Berry
+Level: 43
 IVs: 30 HP / 30 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
-- Counter
-- Yawn
-- Facade
-- Feint Attack
+Nature: Hasty
+Ability: Cute Charm
+Shiny: Yes
+- Moonblast
+- Misty Terrain
+- Toxic
+- Psychic
+
+Gallade (M) @ Muscle Band
+Level: 42
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Sharpness
+- Psycho Cut
+- Sacred Sword
+- Leaf Blade
+- Thunder Punch
+
+Altaria @ Altarianite
+Level: 44
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Nature: Brave
+Ability: Pixilate
+- Hyper Voice
+- Flamethrower
+- Dragon Claw
+- Perish Song
 
 === TRAINER_WINONA_1 ===
 Name: WINONA
@@ -6323,34 +6533,28 @@ Double Battle: No
 AI: Smart Trainer
 
 Delcatty
-Level: 39
-IVs: 31 HP / 31 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
+Level: 40
+IVs: 31 HP / 31 Atk / 31 Def / 30 SpA / 30 SpD / 30 Spe
 Nature: Relaxed
 Ability: Wonder Skin
 - Attract
 - Zen Headbutt
 - Hidden Power
-- Echoed Voice
+- Body Slam
 
 Jellicent
-Level: 39
+Level: 40
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Nature: Timid
 Ability: Water Absorb
 - Acid Armor
 - Giga Drain
 - Shadow Ball
-- Waterfall
+- Brine
 
-Torkoal
+Torterra
 Level: 40
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Nature: Hasty
-Ability: Shell Armor
-- Heat Wave
-- Sludge Bomb
-- Amnesia
-- Rock Tomb
 
 === TRAINER_TIMOTHY_2 ===
 Name: TIMOTHY
@@ -6795,7 +6999,7 @@ Double Battle: No
 AI: Smart Trainer
 
 Lopunny
-Level: 35
+Level: 36
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Nature: Lonely
 Ability: Cute Charm
@@ -6815,7 +7019,7 @@ Ability: Guts
 - Shadow Claw
 
 Rufflet (M)
-Level: 35
+Level: 36
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Nature: Brave
 Ability: Hustle
@@ -6826,8 +7030,8 @@ Ability: Hustle
 
 === TRAINER_DILLON ===
 Name: DILLON
-Class: Youngster
-Pic: Youngster
+Class: Hiker
+Pic: Hiker
 Gender: Male
 Music: Male
 Double Battle: No
@@ -7112,7 +7316,7 @@ Double Battle: No
 AI: Smart Trainer
 
 Machoke
-Level: 35
+Level: 36
 IVs: 31 HP / 31 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
 Ability: Guts
 - Submission
@@ -7121,7 +7325,7 @@ Ability: Guts
 - Fire Punch
 
 Wigglytuff
-Level: 35
+Level: 36
 IVs: 31 HP / 31 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
 Ability: Cute Charm
 - Defense Curl
@@ -7130,7 +7334,7 @@ Ability: Cute Charm
 - Dream Eater
 
 Raticate
-Level: 35
+Level: 37
 IVs: 31 HP / 31 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
 Nature: Lax
 Ability: Hustle
@@ -7140,7 +7344,7 @@ Ability: Hustle
 - Scary Face
 
 Exeggutor
-Level: 35
+Level: 36
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Ability: Chlorophyll
 - Sunny Day
@@ -7250,7 +7454,7 @@ Ability: Strong Jaw
 - Ice Fang
 
 === TRAINER_NOLAN ===
-Name: NOLAN
+Name: NOLANDIA
 Class: Battle Girl
 Pic: Battle Girl
 Gender: Female
@@ -7259,7 +7463,7 @@ Double Battle: No
 AI: Smart Trainer
 
 Medicham
-Level: 35
+Level: 36
 IVs: 31 HP / 31 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
 Nature: Hasty
 Ability: Pure Power
@@ -7269,7 +7473,7 @@ Ability: Pure Power
 - Thunder Punch
 
 Heracross
-Level: 35
+Level: 36
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Nature: Impish
 Ability: Moxie
@@ -7279,7 +7483,7 @@ Ability: Moxie
 - Horn Attack
 
 Tauros Paldea Aqua (M)
-Level: 35
+Level: 36
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Nature: Serious
 Ability: Anger Point
@@ -8501,7 +8705,7 @@ Double Battle: No
 AI: Smart Trainer
 
 Lanturn
-Level: 35
+Level: 36
 IVs: 31 HP / 31 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
 Nature: Quirky
 Ability: Volt Absorb
@@ -8521,7 +8725,7 @@ Ability: Sap Sipper
 - Hidden Power
 
 Boltund
-Level: 35
+Level: 36
 IVs: 31 HP / 31 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
 Nature: Naughty
 Ability: Strong Jaw
@@ -8803,20 +9007,20 @@ Double Battle: No
 AI: Smart Trainer
 
 Kingler
-Level: 39
+Level: 40
 IVs: 31 HP / 31 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
 Nature: Relaxed
 Ability: Hyper Cutter
-- Slam
+- Crabhammer
 - Guillotine
-- Surf
+- Ice Beam
 - Amnesia
 
 Jumpluff
-Level: 39
+Level: 41
 IVs: 31 HP / 31 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
 Nature: Rash
-Ability: Chlorophyll
+Ability: Leaf Guard
 - Cotton Spore
 - Acrobatics
 - Mega Drain
@@ -8829,7 +9033,7 @@ Nature: Brave
 Ability: Rock Head
 - Stone Edge
 - Iron Tail
-- Dragon Breath
+- Earthquake
 - Autotomize
 
 === TRAINER_CORA ===
@@ -8936,7 +9140,7 @@ Double Battle: No
 AI: Smart Trainer
 
 Jynx (F)
-Level: 35
+Level: 36
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Nature: Bold
 Ability: Dry Skin
@@ -8956,7 +9160,7 @@ Ability: Torrent
 - Iron Tail
 
 Polteageist-Phony
-Level: 35
+Level: 36
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Nature: Sassy
 Ability: Cursed Body
@@ -9622,7 +9826,7 @@ Double Battle: No
 AI: Smart Trainer
 
 Stoutland
-Level: 35
+Level: 37
 IVs: 31 HP / 31 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
 Nature: Brave
 Ability: Intimidate
@@ -9632,7 +9836,7 @@ Ability: Intimidate
 - Work Up
 
 Dachsbun @ Wide Lens
-Level: 35
+Level: 37
 IVs: 31 HP / 31 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
 Ability: Well Baked Body
 - Play Rough
@@ -9641,7 +9845,7 @@ Ability: Well Baked Body
 - Psychic Fangs
 
 Houndstone
-Level: 35
+Level: 36
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Nature: Careful
 Ability: Fluffy
@@ -10514,12 +10718,12 @@ Double Battle: No
 AI: Smart Trainer
 
 Cinderace
-Level: 39
+Level: 40
 IVs: 31 HP / 31 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
 Nature: Brave
 Ability: Libero
 - Pyro Ball
-- Snarl
+- Darkest Lariat
 - Bounce
 - Helping Hand
 
@@ -10818,6 +11022,7 @@ Ability: Intimidate
 Torracat @ Eviolite
 Level: 31
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Intimidate
 - Force Palm
 - Glare
 - Fire Fang
@@ -13149,15 +13354,15 @@ IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
 === TRAINER_LENNY ===
 Name: LENNY
-Class: Hiker
-Pic: Hiker
+Class: Kindler
+Pic: Kindler
 Gender: Male
 Music: Hiker
 Double Battle: No
 AI: Smart Trainer
 
 Typhlosion-Hisui
-Level: 35
+Level: 36
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 Nature: Docile
 Ability: Blaze
@@ -13167,7 +13372,7 @@ Ability: Blaze
 - Swift
 
 Houndoom
-Level: 35
+Level: 37
 IVs: 31 HP / 31 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
 Ability: Early Bird
 - Feint Attack
@@ -13176,7 +13381,7 @@ Ability: Early Bird
 - Nasty Plot
 
 Rotom Heat
-Level: 35
+Level: 37
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Nature: Quiet
 Ability: Levitate
@@ -13186,7 +13391,7 @@ Ability: Levitate
 - Overheat
 
 Delphox
-Level: 35
+Level: 36
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Nature: Rash
 Ability: Serene Grace
@@ -13194,16 +13399,6 @@ Ability: Serene Grace
 - Psyshock
 - Light Screen
 - Shadow Ball
-
-Tauros Paldea Blaze (M)
-Level: 35
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Nature: Brave
-Ability: Intimidate
-- Raging Bull
-- Assurance
-- Flame Charge
-- Work Up
 
 === TRAINER_LUCAS_1 ===
 Name: LUCAS
@@ -13215,7 +13410,7 @@ Double Battle: No
 AI: Smart Trainer
 
 Kleavor
-Level: 35
+Level: 36
 IVs: 31 HP / 31 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
 Ability: Sheer Force
 - Stone Axe
@@ -13224,7 +13419,7 @@ Ability: Sheer Force
 - Air Slash
 
 Quagsire
-Level: 35
+Level: 37
 IVs: 31 HP / 31 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
 Nature: Calm
 Ability: Unaware
@@ -14355,7 +14550,7 @@ Double Battle: Yes
 AI: Smart Trainer
 
 Huntail
-Level: 35
+Level: 36
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Nature: Brave
 Ability: Water Veil
@@ -14365,7 +14560,7 @@ Ability: Water Veil
 - Scary Face
 
 Gorebyss
-Level: 35
+Level: 36
 IVs: 31 HP / 31 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
 Nature: Quiet
 Ability: Hydration
@@ -14429,7 +14624,7 @@ Double Battle: Yes
 AI: Smart Trainer
 
 Oricorio-Pom-Pom
-Level: 35
+Level: 36
 IVs: 31 HP / 31 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
 Nature: Bashful
 Ability: Dancer
@@ -14439,7 +14634,7 @@ Ability: Dancer
 - Feather Dance
 
 Oricorio-Pau
-Level: 35
+Level: 36
 IVs: 31 HP / 31 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
 Ability: Dancer
 - Quiver Dance
@@ -14448,7 +14643,7 @@ Ability: Dancer
 - Psybeam
 
 Wormadam-Sandy (F)
-Level: 35
+Level: 36
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Ability: Overcoat
 - Rock Blast
@@ -14457,7 +14652,7 @@ Ability: Overcoat
 - Growth
 
 Wormadam-Trash (F)
-Level: 35
+Level: 36
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Ability: Overcoat
 - Captivate
@@ -15172,7 +15367,7 @@ Double Battle: No
 AI: Smart Trainer
 
 Sealeo
-Level: 35
+Level: 37
 IVs: 31 HP / 31 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
 Nature: Hasty
 Ability: Ice Body
@@ -15182,7 +15377,7 @@ Ability: Ice Body
 - Body Slam
 
 Gogoat
-Level: 35
+Level: 36
 IVs: 31 HP / 31 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
 Nature: Lonely
 Ability: Grass Pelt
@@ -15192,7 +15387,7 @@ Ability: Grass Pelt
 - Synthesis
 
 Copperajah
-Level: 35
+Level: 36
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Nature: Impish
 Ability: Heavy Metal
@@ -15221,7 +15416,7 @@ Ability: Cursed Body
 - Sunny Day
 
 Salazzle (F)
-Level: 35
+Level: 36
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Nature: Lonely
 Ability: Corrosion
@@ -15280,7 +15475,7 @@ Ability: Technician
 - Mega Punch
 
 Rhydon
-Level: 35
+Level: 36
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Nature: Brave
 Ability: Rock Head
@@ -15298,8 +15493,8 @@ Music: Suspicious
 Double Battle: No
 AI: Smart Trainer
 
-Archen
-Level: 35
+Aerodactyl
+Level: 34
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Ability: Rock Head
 - Pluck
@@ -15317,15 +15512,15 @@ Ability: Mold Breaker
 - Scary Face
 - Chip Away
 
-Tyrunt
+Type: Null
 Level: 35
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Nature: Naughty
 Ability: Sturdy
 - Dragon Claw
 - Crunch
-- Ancient Power
-- Charm
+- Crush Claw
+- Air Slash
 
 Dracovish
 Level: 35
@@ -15347,7 +15542,7 @@ Double Battle: No
 AI: Smart Trainer
 
 Metang
-Level: 35
+Level: 37
 IVs: 31 HP / 31 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
 Ability: Clear Body
 - Bullet Punch
@@ -15356,7 +15551,7 @@ Ability: Clear Body
 - Miracle Eye
 
 Camerupt
-Level: 35
+Level: 37
 IVs: 31 HP / 31 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
 Nature: Naughty
 Ability: Magma Armor
@@ -15366,7 +15561,7 @@ Ability: Magma Armor
 - Magnitude
 
 Toxtricity-Amped
-Level: 35
+Level: 36
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Nature: Quiet
 Ability: Punk Rock
@@ -15374,6 +15569,15 @@ Ability: Punk Rock
 - Venoshock
 - Hyper Voice
 - Swagger
+
+Lapras @ Wide Lens
+Level: 36
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Nature: Modest
+- Surf
+- Whirlpool
+- Perish Song
+- Psychic
 
 === TRAINER_KAI ===
 Name: KAI
@@ -15385,7 +15589,7 @@ Double Battle: No
 AI: Smart Trainer
 
 Lumineon
-Level: 35
+Level: 36
 IVs: 31 HP / 31 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
 Nature: Jolly
 Ability: Swift Swim
@@ -15395,7 +15599,7 @@ Ability: Swift Swim
 - Aurora Beam
 
 Octillery
-Level: 35
+Level: 36
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Nature: Rash
 Ability: Suction Cups
@@ -15405,7 +15609,7 @@ Ability: Suction Cups
 - Haze
 
 Seadra
-Level: 35
+Level: 36
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Nature: Sassy
 Ability: Poison Point
@@ -15438,25 +15642,61 @@ Level: 19
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
 === TRAINER_DEANDRE ===
-Name: DEANDRE
-Class: Youngster
-Pic: Youngster
-Gender: Male
-Music: Male
-Double Battle: No
-AI: Check Bad Move
+Name: SHAYE
+Class: Team Magma
+Pic: Magma Grunt F
+Gender: Female
+Music: Intense
+Double Battle: Yes
+AI: Smart Trainer
 
-Zigzagoon
-Level: 14
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Torkoal
+Level: 36
+IVs: 31 HP / 31 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
+Nature: Relaxed
+Ability: Drought
+- Heat Wave
+- Protect
+- Power Gem
+- Solar Beam
 
-Aron
-Level: 14
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Exeggutor
+Level: 36
+IVs: 31 HP / 31 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
+Nature: Rash
+Ability: Chlorophyll
+- Giga Drain
+- Psychic
+- Synthesis
+- Signal Beam
 
-Electrike
-Level: 14
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Flapple @ Starf Berry
+Level: 37
+IVs: 31 HP / 31 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
+Nature: Adamant
+Ability: Gluttony
+- Grav Apple
+- Acrobatics
+- Dragon Rush
+- Recycle
+
+Ceruledge
+Level: 36
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Weak Armor
+- Ally Switch
+- Bitter Blade
+- Shadow Force
+- Swords Dance
+
+Liepard @ Liechi Berry
+Level: 38
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Unburden
+- Hone Claws
+- Night Slash
+- Torment
+- Thunder Wave
 
 === TRAINER_GRUNT_MAGMA_HIDEOUT_1 ===
 Name: GRUNT
@@ -16059,7 +16299,7 @@ Double Battle: No
 AI: Smart Trainer
 
 Xatu
-Level: 39
+Level: 40
 IVs: 31 HP / 31 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
 Ability: Magic Bounce
 - Psychic
@@ -16068,14 +16308,14 @@ Ability: Magic Bounce
 - Steel Wing
 
 Raichu-Alola
-Level: 39
+Level: 40
 IVs: 31 HP / 31 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
 Nature: Modest
 Ability: Surge Surfer
 - Thunderbolt
-- Calm Mind
+- Electric Terrain
 - Psychic
-- Thunder Punch
+- Shadow Ball
 
 Wobbuffet
 Level: 40
@@ -16090,8 +16330,8 @@ Malamar
 Level: 41
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Nature: Brave
-Ability: Infiltrator
-- Payback
+Ability: Contrary
+- Superpower
 - Psycho Cut
 - Foul Play
 - Hypnosis
