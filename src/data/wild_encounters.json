@@ -2789,7 +2789,7 @@
               {
                 "min_level": 21,
                 "max_level": 21,
-                "species": "SPECIES_CHERUBI"
+                "species": "SPECIES_SUNFLORA"
               },
               {
                 "min_level": 21,
@@ -2804,7 +2804,7 @@
               {
                 "min_level": 21,
                 "max_level": 21,
-                "species": "SPECIES_PINSIR"
+                "species": "SPECIES_CAPSAKID"
               },
               {
                 "min_level": 21,
@@ -2814,7 +2814,7 @@
               {
                 "min_level": 21,
                 "max_level": 21,
-                "species": "SPECIES_PINSIR"
+                "species": "SPECIES_CAPSAKID"
               }
             ]
           }
@@ -12425,6 +12425,75 @@
                 "min_level": 30,
                 "max_level": 30,
                 "species": "SPECIES_PORYGON"
+              }
+            ]
+          }
+        },
+        {
+          "map": "MAP_MT_CHIMNEY",
+          "base_label": "gMtChimney",
+          "land_mons": {
+            "encounter_rate": 20,
+            "mons": [
+              {
+                "min_level": 35,
+                "max_level": 35,
+                "species": "SPECIES_IRON_LEAVES"
+              },
+              {
+                "min_level": 35,
+                "max_level": 35,
+                "species": "SPECIES_IRON_CROWN"
+              },
+              {
+                "min_level": 35,
+                "max_level": 35,
+                "species": "SPECIES_IRON_BOULDER"
+              },
+              {
+                "min_level": 35,
+                "max_level": 35,
+                "species": "SPECIES_IRON_BOULDER"
+              },
+              {
+                "min_level": 35,
+                "max_level": 35,
+                "species": "SPECIES_IRON_HANDS"
+              },
+              {
+                "min_level": 35,
+                "max_level": 35,
+                "species": "SPECIES_IRON_THORNS"
+              },
+              {
+                "min_level": 35,
+                "max_level": 35,
+                "species": "SPECIES_IRON_JUGULIS"
+              },
+              {
+                "min_level": 35,
+                "max_level": 35,
+                "species": "SPECIES_IRON_TREADS"
+              },
+              {
+                "min_level": 35,
+                "max_level": 35,
+                "species": "SPECIES_IRON_TREADS"
+              },
+              {
+                "min_level": 35,
+                "max_level": 35,
+                "species": "SPECIES_IRON_MOTH"
+              },
+              {
+                "min_level": 35,
+                "max_level": 35,
+                "species": "SPECIES_IRON_JUGULIS"
+              },
+              {
+                "min_level": 35,
+                "max_level": 35,
+                "species": "SPECIES_IRON_MOTH"
               }
             ]
           }
