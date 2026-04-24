@@ -1,0 +1,309 @@
+[
+    {
+        "name": "Capranine",
+        "types": [
+            "Electric",
+            "Fairy"
+        ],
+        "abilities": [],
+        "stats": {
+            "HP": 85,
+            "Attack": 50,
+            "Defense": 72,
+            "Sp. Atk": 120,
+            "Sp. Def": 110,
+            "Speed": 105
+        },
+        "evolutions": [
+            "Capranine"
+        ],
+        "front_sprite": "capranine.png",
+        "back_sprite": "placeholder.png"
+    },
+    {
+        "name": "Equestolet",
+        "types": [
+            "Fairy"
+        ],
+        "abilities": [],
+        "stats": {
+            "HP": 50,
+            "Attack": 50,
+            "Defense": 50,
+            "Sp. Atk": 50,
+            "Sp. Def": 50,
+            "Speed": 50
+        },
+        "evolutions": [
+            "Equestolet",
+            "Vilostride"
+        ],
+        "front_sprite": "equestolet.png",
+        "back_sprite": "placeholder.png"
+    },
+    {
+        "name": "Vilostride",
+        "types": [
+            "Fairy"
+        ],
+        "abilities": [],
+        "stats": {
+            "HP": 50,
+            "Attack": 50,
+            "Defense": 50,
+            "Sp. Atk": 50,
+            "Sp. Def": 50,
+            "Speed": 50
+        },
+        "evolutions": [
+            "Equestolet",
+            "Vilostride"
+        ],
+        "front_sprite": "vilostride.png",
+        "back_sprite": "placeholder.png"
+    },
+    {
+        "name": "Dynahog",
+        "types": [
+            "Fire",
+            "Grass"
+        ],
+        "abilities": [],
+        "stats": {
+            "HP": 50,
+            "Attack": 50,
+            "Defense": 50,
+            "Sp. Atk": 50,
+            "Sp. Def": 50,
+            "Speed": 50
+        },
+        "evolutions": [],
+        "front_sprite": "dynahog.png",
+        "back_sprite": "placeholder.png"
+    },
+    {
+        "name": "Songlet",
+        "types": [
+            "Flying"
+        ],
+        "abilities": [],
+        "stats": {
+            "HP": 50,
+            "Attack": 50,
+            "Defense": 50,
+            "Sp. Atk": 50,
+            "Sp. Def": 50,
+            "Speed": 50
+        },
+        "evolutions": [
+            "Songlet",
+            "Chatot",
+            "Melowing"
+        ],
+        "front_sprite": "songlet.png",
+        "back_sprite": "placeholder.png"
+    },
+    {
+        "name": "Melowing",
+        "types": [
+            "Flying"
+        ],
+        "abilities": [],
+        "stats": {
+            "HP": 50,
+            "Attack": 50,
+            "Defense": 50,
+            "Sp. Atk": 50,
+            "Sp. Def": 50,
+            "Speed": 50
+        },
+        "evolutions": [
+            "Songlet",
+            "Chatot",
+            "Melowing"
+        ],
+        "front_sprite": "melowing.png",
+        "back_sprite": "placeholder.png"
+    },
+    {
+        "name": "Chatot",
+        "types": [
+            "Flying"
+        ],
+        "abilities": [],
+        "stats": {
+            "HP": 50,
+            "Attack": 50,
+            "Defense": 50,
+            "Sp. Atk": 50,
+            "Sp. Def": 50,
+            "Speed": 50
+        },
+        "evolutions": [
+            "Songlet",
+            "Chatot",
+            "Melowing"
+        ],
+        "front_sprite": "chatot.png",
+        "back_sprite": "placeholder.png"
+    },
+    {
+        "name": "Pyren",
+        "types": [
+            "Fire"
+        ],
+        "abilities": [],
+        "stats": {
+            "HP": 50,
+            "Attack": 50,
+            "Defense": 50,
+            "Sp. Atk": 50,
+            "Sp. Def": 50,
+            "Speed": 50
+        },
+        "evolutions": [
+            "Pyren",
+            "Scrapler",
+            "Titondire"
+        ],
+        "front_sprite": "pyren.png",
+        "back_sprite": "placeholder.png"
+    },
+    {
+        "name": "Scrapler",
+        "types": [
+            "Fire",
+            "Steel"
+        ],
+        "abilities": [],
+        "stats": {
+            "HP": 50,
+            "Attack": 50,
+            "Defense": 50,
+            "Sp. Atk": 50,
+            "Sp. Def": 50,
+            "Speed": 50
+        },
+        "evolutions": [
+            "Pyren",
+            "Scrapler",
+            "Titondire"
+        ],
+        "front_sprite": "scrapler.png",
+        "back_sprite": "placeholder.png"
+    },
+    {
+        "name": "Titondire",
+        "types": [
+            "Fire",
+            "Steel"
+        ],
+        "abilities": [],
+        "stats": {
+            "HP": 50,
+            "Attack": 50,
+            "Defense": 50,
+            "Sp. Atk": 50,
+            "Sp. Def": 50,
+            "Speed": 50
+        },
+        "evolutions": [
+            "Pyren",
+            "Scrapler",
+            "Titondire"
+        ],
+        "front_sprite": "titondire.png",
+        "back_sprite": "placeholder.png"
+    },
+    {
+        "name": "Strixen",
+        "types": [
+            "Fire",
+            "Dragon"
+        ],
+        "abilities": [],
+        "stats": {
+            "HP": 50,
+            "Attack": 50,
+            "Defense": 50,
+            "Sp. Atk": 50,
+            "Sp. Def": 50,
+            "Speed": 50
+        },
+        "evolutions": [
+            "Strixen",
+            "Serpixer",
+            "Flarazael"
+        ],
+        "front_sprite": "strixen.png",
+        "back_sprite": "placeholder.png"
+    },
+    {
+        "name": "Serpixer",
+        "types": [
+            "Fire",
+            "Dragon"
+        ],
+        "abilities": [],
+        "stats": {
+            "HP": 50,
+            "Attack": 50,
+            "Defense": 50,
+            "Sp. Atk": 50,
+            "Sp. Def": 50,
+            "Speed": 50
+        },
+        "evolutions": [
+            "Strixen",
+            "Serpixer",
+            "Flarazael"
+        ],
+        "front_sprite": "serpixer.png",
+        "back_sprite": "placeholder.png"
+    },
+    {
+        "name": "Flarazael",
+        "types": [
+            "Fire",
+            "Dragon"
+        ],
+        "abilities": [],
+        "stats": {
+            "HP": 50,
+            "Attack": 50,
+            "Defense": 50,
+            "Sp. Atk": 50,
+            "Sp. Def": 50,
+            "Speed": 50
+        },
+        "evolutions": [
+            "Strixen",
+            "Serpixer",
+            "Flarazael"
+        ],
+        "front_sprite": "flarazael.png",
+        "back_sprite": "placeholder.png"
+    },
+    {
+        "name": "test",
+        "types": [
+            "Normal"
+        ],
+        "abilities": [],
+        "stats": {
+            "HP": 50,
+            "Attack": 50,
+            "Defense": 50,
+            "Sp. Atk": 50,
+            "Sp. Def": 50,
+            "Speed": 50
+        },
+        "evolutions": [
+            "test",
+            "test",
+            "test"
+        ],
+        "front_sprite": "test_front.png",
+        "back_sprite": "test_back.png"
+    }
+]
