@@ -4658,8 +4658,8 @@ IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
 === TRAINER_DEREK ===
 Name: DEREK
-Class: Bug Maniac
-Pic: Bug Maniac
+Class: Ruin Maniac
+Pic: Ruin Maniac
 Gender: Male
 Music: Suspicious
 Double Battle: No
@@ -8023,8 +8023,8 @@ IVs: 4 HP / 4 Atk / 4 Def / 4 SpA / 4 SpD / 4 Spe
 
 === TRAINER_DYLAN_1 ===
 Name: DYLAN
-Class: Triathlete
-Pic: Running Triathlete M
+Class: Cooltrainer M
+Pic: Cooltrainer M
 Gender: Male
 Music: Male
 Double Battle: No
@@ -11582,25 +11582,38 @@ Music: Male
 Double Battle: No
 AI: Smart Trainer
 
-Quilava @ Shuca Berry
-Level: 31
+Sirfetchd @ Scope Lens
+Level: 30
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-- Burn Up
-- Last Resort
+Ability: Scrappy
+- Cross Chop
+- Dual Wingbeat
+- Leaf Blade
+- Swords Dance
 
 Ditto @ Quick Claw
 Level: 31
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Nature: Hasty
+Ability: Imposter
+Shiny: Yes
 - Transform
 
-Sirfetchd @ Scope Lens
+Quilava @ Shuca Berry
 Level: 31
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-- Cross Chop
-- Dual Wingbeat
-- Leaf Blade
-- Swords Dance
+Ability: Blaze
+- Burn Up
+- Last Resort
+
+Wartortle @ Wide Lens
+Level: 31
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Torrent
+- Mud Bomb
+- Iron Tail
+- Surf
+- Ice Beam
 
 === TRAINER_DAVIS ===
 Name: DAVIS
@@ -16677,8 +16690,8 @@ IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
 === TRAINER_BRANDI ===
 Name: BRANDI
-Class: Psychic
-Pic: Psychic F
+Class: Ninja Boy
+Pic: Ninja Boy
 Gender: Female
 Music: Intense
 Double Battle: No
@@ -16690,8 +16703,8 @@ IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
 === TRAINER_AISHA ===
 Name: AISHA
-Class: Battle Girl
-Pic: Battle Girl
+Class: Triathlete
+Pic: Running Triathlete F
 Gender: Female
 Music: Intense
 Double Battle: No
