@@ -1417,7 +1417,7 @@ AI: Smart Trainer
 Swellow @ Flame Orb
 Level: 41
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Nature: Lonely
+Nature: Hasty
 Ability: Guts
 - Facade
 - Tailwind
@@ -1427,14 +1427,16 @@ Ability: Guts
 Rapidash-Galar @ Choice Scarf
 Level: 41
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Nature: Lonely
 Ability: Pastel Veil
 - Dazzling Gleam
-- Megahorn
+- U-turn
 - Psycho Cut
 
-Dugtrio-Alola
+Dugtrio-Alola @ Rocky Helmet
 Level: 42
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Nature: Jolly
 Ability: Tangling Hair
 - Sucker Punch
 - Earth Power
@@ -1444,6 +1446,7 @@ Ability: Tangling Hair
 Lilligant-Hisui (F) @ Wide Lens
 Level: 42
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Nature: Jolly
 Ability: Chlorophyll
 - Sunny Day
 - Axe Kick
@@ -1451,7 +1454,7 @@ Ability: Chlorophyll
 - Sleep Powder
 
 === TRAINER_PARKER ===
-Name: DEXTER
+Name: BROSKI
 Class: Cooltrainer
 Pic: Cooltrainer M
 Gender: Male
@@ -1459,8 +1462,8 @@ Music: Cool
 Double Battle: Yes
 AI: Smart Trainer
 
-Dusclops
-Level: 43
+Dusclops @ Leftovers
+Level: 42
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Ability: Pressure
 - Confuse Ray
@@ -1468,12 +1471,12 @@ Ability: Pressure
 - Shadow Punch
 - Will-O-Wisp
 
-Kecleon
-Level: 43
+Kecleon @ Sitrus Berry
+Level: 42
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Ability: Protean
 - Foul Play
-- Psybeam
+- Shadow Claw
 - Substitute
 - Dizzy Punch
 
@@ -1507,20 +1510,12 @@ AI: Smart Trainer
 Clefable @ Leftovers
 Level: 41
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Nature: Modest
 Ability: Magic Guard
-- Moonlight
+- Heal Pulse
 - Life Dew
 - Fairy Wind
 - Cosmic Power
-
-Chimecho @ Sitrus Berry
-Level: 42
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Ability: Levitate
-- Heal Bell
-- Extrasensory
-- Icy Wind
-- Flash Cannon
 
 Mienshao @ Leftovers
 Level: 42
@@ -1531,17 +1526,26 @@ Ability: Regenerator
 - U-turn
 - Endure
 
-Alomomola @ Sitrus Berry
+Chimecho @ Sitrus Berry
 Level: 43
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Levitate
+- Heal Bell
+- Extrasensory
+- Icy Wind
+- Flash Cannon
+
+Alomomola @ Sitrus Berry
+Level: 42
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Ability: Healer
-- Wide Guard
-- Wish
+- Whirlpool
+- Healing Wish
 - Mirror Coat
 - Hydro Pump
 
 === TRAINER_BERKE ===
-Name: BERKE
+Name: SMIRK
 Class: Cooltrainer
 Pic: Cooltrainer M
 Gender: Male
@@ -1549,8 +1553,16 @@ Music: Cool
 Double Battle: No
 AI: Check Bad Move / Try To Faint / Check Viability / Smart Switching / Ace Pokemon / Omniscient / Smart Mon Choices / Weigh Ability Prediction
 
+Kangaskhan (F) @ Silk Scarf
+Level: 43
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Nature: Adamant
+Ability: Scrappy
+- Fake Out
+- Last Resort
+
 Ambipom @ Loaded Dice
-Level: 41
+Level: 42
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Ability: Technician
 - Baton Pass
@@ -1558,16 +1570,8 @@ Ability: Technician
 - Tail Slap
 - Swords Dance
 
-Kangaskhan (F)
+Rhydon @ Life Orb
 Level: 42
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Nature: Adamant
-Ability: Scrappy
-- Fake Out
-- Last Resort
-
-Rhydon
-Level: 41
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Ability: Reckless
 - Hammer Arm
@@ -1575,7 +1579,7 @@ Ability: Reckless
 - Earthquake
 - Avalanche
 
-Azumarill
+Azumarill @ Life Orb
 Level: 42
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Ability: Huge Power
@@ -1984,7 +1988,7 @@ Ability: Hustle
 - Hone Claws
 - Strength
 
-Beautifly
+Beautifly @ Lax Incense
 Level: 43
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Ability: Compound Eyes
@@ -1993,7 +1997,7 @@ Ability: Compound Eyes
 - Bug Buzz
 - Dazzling Gleam
 
-Machoke
+Machoke @ Bright Powder
 Level: 42
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Ability: No Guard
@@ -2021,7 +2025,7 @@ Ability: Fluffy
 - Take Down
 
 Pecharunt @ Shuca Berry
-Level: 42
+Level: 41
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Ability: Poison Puppeteer
 - Toxic
@@ -2048,7 +2052,7 @@ Ability: Water Veil
 - Roost
 
 === TRAINER_JODY ===
-Name: JODY
+Name: NAOMI
 Class: Cooltrainer
 Pic: Cooltrainer F
 Gender: Female
@@ -2056,7 +2060,7 @@ Music: Cool
 Double Battle: No
 AI: Check Bad Move / Try To Faint / Check Viability / Force Setup First Turn / Smart Switching / Ace Pokemon / Omniscient / Smart Mon Choices / Weigh Ability Prediction
 
-Poliwrath
+Poliwrath @ Expert Belt
 Level: 41
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Ability: Water Absorb
@@ -2065,7 +2069,7 @@ Ability: Water Absorb
 - Strength
 - Bulk Up
 
-Granbull
+Granbull @ Muscle Band
 Level: 42
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Ability: Intimidate
@@ -2074,7 +2078,7 @@ Ability: Intimidate
 - Power-Up Punch
 - Dig
 
-Ting-Lu
+Ting-Lu @ Sitrus Berry
 Level: 41
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Ability: Sturdy
@@ -2083,7 +2087,7 @@ Ability: Sturdy
 - Double-Edge
 - Knock Off
 
-Ledian
+Ledian @ Muscle Band
 Level: 42
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Ability: Iron Fist
@@ -2092,7 +2096,7 @@ Ability: Iron Fist
 - Swords Dance
 - Lunge
 
-Blastoise
+Blastoise @ Safety Goggles
 Level: 42
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Ability: Torrent
@@ -5774,7 +5778,7 @@ Ability: Bulletproof
 - Sleep Talk
 - Rest
 
-Tinkaton (F) @ Lum Berry
+Tinkaton (F) @ Covert Cloak
 Level: 42
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 Nature: Docile
@@ -5796,7 +5800,7 @@ Shiny: Yes
 - Psychic
 
 Gallade (M) @ Muscle Band
-Level: 42
+Level: 41
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Ability: Sharpness
 - Psycho Cut
@@ -12674,6 +12678,7 @@ Lombre @ Leftovers
 Level: 19
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Ability: Thick Fat
+Shiny: Yes
 - Mega Drain
 - Water Pulse
 - Icy Wind
@@ -12719,6 +12724,7 @@ Gligar @ Toxic Orb
 Level: 19
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Ability: Poison Heal
+Shiny: Yes
 - Bulldoze
 - Wing Attack
 - Pursuit
@@ -12847,7 +12853,7 @@ Class: Rival
 Pic: Brendan
 Gender: Male
 Music: Male
-Double Battle: No
+Double Battle: Yes
 AI: Smart Trainer
 
 Linoone-Galar @ Salac Berry
@@ -12863,9 +12869,10 @@ Golbat @ Black Sludge
 Level: 20
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Ability: Inner Focus
+Shiny: Yes
 - Leech Life
 - Wing Attack
-- Hypnosis
+- Poison Fang
 - Mega Drain
 
 Litleo @ Charcoal
@@ -12908,6 +12915,7 @@ Slowpoke @ Chesto Berry
 Level: 20
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Ability: Own Tempo
+Shiny: Yes
 - Psybeam
 - Water Pulse
 - Slack Off
@@ -16932,6 +16940,7 @@ Luxio @ Black Glasses
 Level: 20
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Ability: Rivalry
+Shiny: Yes
 - Pursuit
 - Super Fang
 - Spark
@@ -16968,6 +16977,7 @@ Linoone-Galar @ Salac Berry
 Level: 19
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Ability: Gluttony
+Shiny: Yes
 - Leer
 - Thief
 - Covet
@@ -16979,7 +16989,7 @@ IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Ability: Inner Focus
 - Leech Life
 - Wing Attack
-- Hypnosis
+- Poison Fang
 - Mega Drain
 
 Litleo @ Charcoal
