@@ -4465,7 +4465,7 @@
       "id": "LAYOUT_RUSTBORO_POINT",
       "name": "RustboroPoint_Layout",
       "width": 20,
-      "height": 20,
+      "height": 24,
       "primary_tileset": "gTileset_General",
       "secondary_tileset": "gTileset_Rustboro",
       "border_filepath": "data/layouts/RustboroPoint/border.bin",

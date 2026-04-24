@@ -52,8 +52,23 @@ Route113_EventScript_Jaylen::
 	end
 
 Route113_EventScript_Dillon::
-	trainerbattle_single TRAINER_DILLON, Route113_Text_DillonIntro, Route113_Text_DillonDefeat
+	goto_if_set FLAG_GOT_KOGA_REWARD, Koga_EventScript_RewardTrainer_PostBattleText
+	trainerbattle_single TRAINER_DILLON, Route113_Text_DillonIntro, Route113_Text_DillonDefeat, Koga_EventScript_RewardTrainer_AfterBattle
 	msgbox Route113_Text_DillonPostBattle, MSGBOX_AUTOCLOSE
+	end
+
+Koga_EventScript_RewardTrainer_AfterBattle::
+	giveitem ITEM_POISON_BARB
+	giveitem ITEM_BEEDRILLITE
+	giveitem ITEM_PECHA_BERRY, 50
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_BagIsFull
+	setflag FLAG_GOT_KOGA_REWARD
+	msgbox Koga_Text_TrainerRewardText, MSGBOX_DEFAULT
+	release
+	end
+
+Koga_EventScript_RewardTrainer_PostBattleText::
+	msgbox Koga_Text_TrainerPostBattle, MSGBOX_DEFAULT
 	end
 
 Route113_EventScript_Madeline::
@@ -132,6 +147,49 @@ Route113_EventScript_Wyatt::
 	trainerbattle_single TRAINER_WYATT, Route113_Text_WyattIntro, Route113_Text_WyattDefeat
 	msgbox Route113_Text_WyattPostBattle, MSGBOX_AUTOCLOSE
 	end
+
+Route113_EventScript_KirliaPC::
+    lock
+    faceplayer
+
+    msgbox Route113_Text_KirliaPC, MSGBOX_DEFAULT
+
+    goto EventScript_PC
+
+Route113_EventScript_HealNpc::
+	lock
+	faceplayer
+	msgbox Route113_Text_WouldYouLikeToHeal, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, Route113_EventScript_HealNpc_No
+
+	special HealPlayerParty
+	msgbox Route113_Text_HealNpc_Done, MSGBOX_DEFAULT
+	release
+	end
+
+Route113_EventScript_HealNpc_No:
+	msgbox Route113_Text_HealNpc_No, MSGBOX_DEFAULT
+	release
+	end
+
+Route113_Text_WouldYouLikeToHeal:
+	.string "Would you like to heal your POKéMON?$"
+
+Route113_Text_HealNpc_Done:
+	.string "Your POKéMON were fully healed.$"
+
+Route113_Text_HealNpc_No:
+	.string "Come back anytime.$"
+
+Route113_Text_KirliaPC:
+    .string "Kirlia tilts its head...\n"
+    .string "It seems to connect you to a PC.$"
+
+Koga_Text_TrainerRewardText:
+	.string "You earned this.$"
+
+Koga_Text_TrainerPostBattle:
+	.string "I already gave you my prize.$"
 
 Route113_Text_AshCanBeFashionedIntoGlass:
 	.string "Wahahaha! Today's technology is a\n"

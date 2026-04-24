@@ -231,11 +231,11 @@ Route103_EventScript_PotionKid::
 # 122 "data/maps/Route102/scripts.pory"
 	compare VAR_RESULT, 1
 	goto_if_ne Route103_EventScript_PotionKid_5
-# 126 "data/maps/Route102/scripts.pory"
+# 129 "data/maps/Route102/scripts.pory"
 	compare VAR_RESULT, 1
 	goto_if_eq Route103_EventScript_PotionKid_6
 Route103_EventScript_PotionKid_1:
-# 132 "data/maps/Route102/scripts.pory"
+# 138 "data/maps/Route102/scripts.pory"
 	release
 	end
 
@@ -250,15 +250,27 @@ Route103_EventScript_PotionKid_5:
 # 124 "data/maps/Route102/scripts.pory"
 	giveitem ITEM_PECHA_BERRY, 5
 # 125 "data/maps/Route102/scripts.pory"
+	giveitem ITEM_ORAN_BERRY, 10
+# 126 "data/maps/Route102/scripts.pory"
+	giveitem ITEM_POTION, 6
+# 127 "data/maps/Route102/scripts.pory"
+	giveitem ITEM_FRESH_WATER, 1
+# 128 "data/maps/Route102/scripts.pory"
 	setflag FLAG_SUPER_POTION_TALK
 	goto Route103_EventScript_PotionKid_1
 
 Route103_EventScript_PotionKid_6:
-# 127 "data/maps/Route102/scripts.pory"
+# 130 "data/maps/Route102/scripts.pory"
 	msgbox Route103_EventScript_PotionKid_Text_3
-# 128 "data/maps/Route102/scripts.pory"
+# 131 "data/maps/Route102/scripts.pory"
 	giveitem ITEM_PECHA_BERRY, 5
-# 129 "data/maps/Route102/scripts.pory"
+# 132 "data/maps/Route102/scripts.pory"
+	giveitem ITEM_ORAN_BERRY, 10
+# 133 "data/maps/Route102/scripts.pory"
+	giveitem ITEM_POTION, 6
+# 134 "data/maps/Route102/scripts.pory"
+	giveitem ITEM_FRESH_WATER, 1
+# 135 "data/maps/Route102/scripts.pory"
 	setflag FLAG_SUPER_POTION_TALK
 	goto Route103_EventScript_PotionKid_1
 
@@ -276,5 +288,5 @@ Route103_EventScript_PotionKid_Text_2:
 	.string "Here then you should have these!.$"
 
 Route103_EventScript_PotionKid_Text_3:
-# 127 "data/maps/Route102/scripts.pory"
+# 130 "data/maps/Route102/scripts.pory"
 	.string "Take these anyways...$"

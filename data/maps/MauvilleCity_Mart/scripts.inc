@@ -24,7 +24,7 @@ MauvilleCity_Mart_Pokemart:
 	.2byte ITEM_X_DEFENSE
 	.2byte ITEM_GUARD_SPEC
 	.2byte ITEM_DIRE_HIT
-	.2byte ITEM_SUPER_REPEL
+	.2byte ITEM_REPEL
 	pokemartlistend
 
 MauvilleCity_Mart_EventScript_ExpertM::

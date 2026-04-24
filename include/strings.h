@@ -2398,9 +2398,26 @@ extern const u8 gText_SamePkmnInPartyAlready[];
 extern const u8 gText_Cancel3[];
 
 //*
-extern const u8 gText_ChespinStarter[];
-extern const u8 gText_TepigStarter[];
-extern const u8 gText_PiplupStarter[];
+extern const u8 gText_SafariGrass[];
+extern const u8 gText_SafariFire[];
+extern const u8 gText_SafariWater[];
+extern const u8 gText_SafariDark[];
+extern const u8 gText_SafariPsychic[];
+extern const u8 gText_SafariFlying[];
+extern const u8 gText_SafariRock[];
+extern const u8 gText_SafariGround[];
+extern const u8 gText_SafariIce[];
+extern const u8 gText_SafariPoison[];
+extern const u8 gText_SafariGhost[];
+extern const u8 gText_SafariFairy[];
+extern const u8 gText_SafariSteel[];
+extern const u8 gText_SafariBug[];
+extern const u8 gText_SafariFighting[];
+extern const u8 gText_SafariElectric[];
+extern const u8 gText_SafariDragon[];
+extern const u8 gText_SafariNormal[];
+extern const u8 gText_SafariNextPage[];
+extern const u8 gText_SafariFirstPage[];
 
 // Naming Screen
 extern const u8 gText_MoveOkBack[];

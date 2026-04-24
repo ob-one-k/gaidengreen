@@ -123,8 +123,9 @@
 #define MULTI_FALLARBOR_TENT_RULES         112
 #define MULTI_TAG_MATCH_TYPE               113
 #define MULTI_BERRY_PLOT                   114
-#define MULTI_RUST_START_CHOICE            115 //*
-#define MULTI_HEART_SCALE_MART             116 //*
+#define MULTI_SAFARI_TYPES_PAGE_1          115 //*
+#define MULTI_SAFARI_TYPES_PAGE_2          116 //*
+#define MULTI_SAFARI_TYPES_PAGE_3          117 //*
 
 // Lilycove SS Tidal Multichoice Selections
 #define SSTIDAL_SELECTION_SLATEPORT        0

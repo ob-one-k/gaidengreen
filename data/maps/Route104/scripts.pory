@@ -259,7 +259,9 @@ Route104_EventScript_ExpertF::
 	faceplayer
 	goto_if_set FLAG_RECEIVED_CHESTO_BERRY_ROUTE_104, Route104_EventScript_ReceivedBerry
 	msgbox Route104_Text_PlantBerriesInSoilTakeThis, MSGBOX_DEFAULT
-	giveitem ITEM_CHESTO_BERRY, 3
+	giveitem ITEM_RAWST_BERRY, 20
+	giveitem ITEM_CHESTO_BERRY, 5
+	giveitem ITEM_PERSIM_BERRY, 10
 	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
 	setflag FLAG_RECEIVED_CHESTO_BERRY_ROUTE_104
 	msgbox Route104_Text_TrainersOftenMakeMonHoldBerries, MSGBOX_DEFAULT
@@ -1000,6 +1002,43 @@ Route104_EventScript_Kosta::
 	trainerbattle_single TRAINER_COOLTRAINER_KOSTA, Route104_Text_DarianIntro, Route104_Text_DarianDefeat
 	msgbox Route104_Text_DarianPostBattle, MSGBOX_AUTOCLOSE
 	end
+
+Route104_EventScript_KirliaPC::
+    lock
+    faceplayer
+
+    msgbox Route104_Text_KirliaPC, MSGBOX_DEFAULT
+
+    goto EventScript_PC
+
+Route104_EventScript_HealNpc::
+	lock
+	faceplayer
+	msgbox Route104_Text_WouldYouLikeToHeal, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, Route111_EventScript_HealNpc_No
+
+	special HealPlayerParty
+	msgbox Route104_Text_HealNpc_Done, MSGBOX_DEFAULT
+	release
+	end
+
+Route104_EventScript_HealNpc_No:
+	msgbox Route104_Text_HealNpc_No, MSGBOX_DEFAULT
+	release
+	end
+
+Route104_Text_WouldYouLikeToHeal:
+	.string "Would you like to heal your POKéMON?$"
+
+Route104_Text_HealNpc_Done:
+	.string "Your POKéMON were fully healed.$"
+
+Route104_Text_HealNpc_No:
+	.string "Come back anytime.$"
+
+Route104_Text_KirliaPC:
+    .string "Kirlia tilts its head...\n"
+    .string "It seems to connect you to a PC.$"
 
 Route104_Text_BrineyLivesInSeasideCottage:
 	.string "That seaside cottage is where\n"

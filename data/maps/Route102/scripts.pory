@@ -122,10 +122,16 @@ script Route103_EventScript_PotionKid {
 		if (var(VAR_RESULT) != 1) {
 			msgbox("Here then you should have these!.")
 			giveitem(ITEM_PECHA_BERRY, 5)
+			giveitem(ITEM_ORAN_BERRY, 10)
+			giveitem(ITEM_POTION, 6)
+			giveitem(ITEM_FRESH_WATER, 1)
 			setflag(FLAG_SUPER_POTION_TALK)
 		} elif (var(VAR_RESULT) == 1) {
 			msgbox("Take these anyways...")
 			giveitem(ITEM_PECHA_BERRY, 5)
+			giveitem(ITEM_ORAN_BERRY, 10)
+			giveitem(ITEM_POTION, 6)
+			giveitem(ITEM_FRESH_WATER, 1)
 			setflag(FLAG_SUPER_POTION_TALK)
 		}
     }

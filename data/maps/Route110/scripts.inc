@@ -459,6 +459,9 @@ Route110_EventScript_BrendanDefeated::
 
 Route110_EventScript_GiveItemfinder::
 	giveitem ITEM_DOWSING_MACHINE
+	giveitem ITEM_GREAT_BALL, 15
+	giveitem ITEM_ULTRA_BALL, 5
+	giveitem ITEM_REVIVE, 3
 	return
 
 Route110_EventScript_RivalExit::

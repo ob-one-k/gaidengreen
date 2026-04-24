@@ -811,24 +811,26 @@ OldDale_Gatekeeper_Event::
 # 430 "data/maps/OldaleTown/scripts.pory"
 	giveitem ITEM_RARE_CANDY, 1
 # 431 "data/maps/OldaleTown/scripts.pory"
-	giveitem ITEM_ORAN_BERRY, 20
-# 434 "data/maps/OldaleTown/scripts.pory"
-	msgbox OldDale_Gatekeeper_Event_Text_5
+	giveitem ITEM_ORAN_BERRY, 50
+# 432 "data/maps/OldaleTown/scripts.pory"
+	giveitem ITEM_EVERSTONE, 1
 # 435 "data/maps/OldaleTown/scripts.pory"
-	msgbox OldDale_Gatekeeper_Event_Text_6
+	msgbox OldDale_Gatekeeper_Event_Text_5
 # 436 "data/maps/OldaleTown/scripts.pory"
-	msgbox OldDale_Gatekeeper_Event_Text_7
+	msgbox OldDale_Gatekeeper_Event_Text_6
 # 437 "data/maps/OldaleTown/scripts.pory"
-	msgbox OldDale_Gatekeeper_Event_Text_8
+	msgbox OldDale_Gatekeeper_Event_Text_7
 # 438 "data/maps/OldaleTown/scripts.pory"
-	msgbox OldDale_Gatekeeper_Event_Text_9
+	msgbox OldDale_Gatekeeper_Event_Text_8
 # 439 "data/maps/OldaleTown/scripts.pory"
+	msgbox OldDale_Gatekeeper_Event_Text_9
+# 440 "data/maps/OldaleTown/scripts.pory"
 	msgbox OldDale_Gatekeeper_Event_Text_10
-# 444 "data/maps/OldaleTown/scripts.pory"
-	removeobject LOCALID_OLDALE_GATEKEEPER
 # 445 "data/maps/OldaleTown/scripts.pory"
+	removeobject LOCALID_OLDALE_GATEKEEPER
+# 446 "data/maps/OldaleTown/scripts.pory"
 	setvar VAR_GATEKEEPER_EVENT_COMPLETE, 1
-# 447 "data/maps/OldaleTown/scripts.pory"
+# 448 "data/maps/OldaleTown/scripts.pory"
 	release
 	end
 
@@ -854,25 +856,25 @@ OldDale_Gatekeeper_Event_Text_4:
 	.string "You might be our last hope!\nTake these...$"
 
 OldDale_Gatekeeper_Event_Text_5:
-# 434 "data/maps/OldaleTown/scripts.pory"
+# 435 "data/maps/OldaleTown/scripts.pory"
 	.string "These will aid you on your journey.$"
 
 OldDale_Gatekeeper_Event_Text_6:
-# 435 "data/maps/OldaleTown/scripts.pory"
+# 436 "data/maps/OldaleTown/scripts.pory"
 	.string "The real world is unforgiving,\nthere is often no break between battles.$"
 
 OldDale_Gatekeeper_Event_Text_7:
-# 436 "data/maps/OldaleTown/scripts.pory"
+# 437 "data/maps/OldaleTown/scripts.pory"
 	.string "Use the candies to be prepared,\nand held items to aid you.$"
 
 OldDale_Gatekeeper_Event_Text_8:
-# 437 "data/maps/OldaleTown/scripts.pory"
+# 438 "data/maps/OldaleTown/scripts.pory"
 	.string "Plan out your strategy,\nand never be caught off guard.$"
 
 OldDale_Gatekeeper_Event_Text_9:
-# 438 "data/maps/OldaleTown/scripts.pory"
+# 439 "data/maps/OldaleTown/scripts.pory"
 	.string "Most importantly,\nalways make sure you are up to level!$"
 
 OldDale_Gatekeeper_Event_Text_10:
-# 439 "data/maps/OldaleTown/scripts.pory"
+# 440 "data/maps/OldaleTown/scripts.pory"
 	.string "Good luck {PLAYER}...\nYour adventure awaits!$"

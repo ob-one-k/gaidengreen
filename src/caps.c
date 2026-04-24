@@ -19,6 +19,7 @@ u32 GetCurrentLevelCap(void)
         {FLAG_BADGE03_GET, 32},
         {FLAG_MET_ARCHIE_METEOR_FALLS, 38},
         {FLAG_BADGE04_GET, 44},
+        {FLAG_DEFEATED_EVIL_TEAM_MT_CHIMNEY, 48},
         {FLAG_BADGE05_GET, 52},
         {FLAG_BADGE06_GET, 61},
         {FLAG_BADGE07_GET, 72},

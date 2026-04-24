@@ -1,0 +1,31 @@
+Route103_EventScript_PotionKid::
+	lock
+	faceplayer
+	goto_if_set FLAG_SUPER_POTION_TALK, Route103_EventScript_PotionKid_AlreadyClaimed
+
+	msgbox Route103_Text_PotionKid_Question, MSGBOX_YESNO
+	msgbox Route103_Text_PotionKid_GiveItems, MSGBOX_DEFAULT
+	giveitem ITEM_PECHA_BERRY, 5
+	giveitem ITEM_ORAN_BERRY, 10
+	giveitem ITEM_POTION, 6
+	giveitem ITEM_FRESH_WATER, 1
+	setflag FLAG_SUPER_POTION_TALK
+	release
+	end
+
+Route103_EventScript_PotionKid_AlreadyClaimed::
+	msgbox Route103_Text_PotionKid_AlreadyClaimed, MSGBOX_DEFAULT
+	release
+	end
+
+Route103_Text_PotionKid_Question:
+	.string "Beware the road ahead.\n"
+	.string "Do you feel ready?$"
+
+Route103_Text_PotionKid_GiveItems:
+	.string "Take these anyway.\n"
+	.string "You may need them.$"
+
+Route103_Text_PotionKid_AlreadyClaimed:
+	.string "Good luck...\n"
+	.string "You're a brave soul!$"

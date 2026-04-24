@@ -784,11 +784,39 @@ static const struct MenuAction MultichoiceList_Exit[] =
 };
 
 //*
-static const struct MenuAction MultichoiceList_RustStarters[] =
+static const struct MenuAction MultichoiceList_Safari1[] =
 {
-    {gText_ChespinStarter}, 
-    {gText_TepigStarter}, 
-    {gText_PiplupStarter},
+    {gText_SafariGrass}, 
+    {gText_SafariFire}, 
+    {gText_SafariWater},
+    {gText_SafariNormal}, 
+    {gText_SafariFighting}, 
+    {gText_SafariGhost},
+    {gText_SafariNextPage},
+};
+
+//*
+static const struct MenuAction MultichoiceList_Safari2[] =
+{
+    {gText_SafariDark}, 
+    {gText_SafariPsychic}, 
+    {gText_SafariFairy},
+    {gText_SafariDragon}, 
+    {gText_SafariSteel}, 
+    {gText_SafariBug},
+    {gText_SafariNextPage},
+};
+
+//*
+static const struct MenuAction MultichoiceList_Safari3[] =
+{
+    {gText_SafariGround}, 
+    {gText_SafariRock}, 
+    {gText_SafariIce},
+    {gText_SafariPoison}, 
+    {gText_SafariElectric}, 
+    {gText_SafariFlying},
+    {gText_SafariFirstPage},
 };
 
 static const struct MenuAction MultichoiceList_HeartScaleMart[] =
@@ -922,8 +950,9 @@ static const struct MultichoiceListStruct sMultichoiceLists[] =
     [MULTI_FALLARBOR_TENT_RULES]       = MULTICHOICE(MultichoiceList_FallarborTentRules),
     [MULTI_TAG_MATCH_TYPE]             = MULTICHOICE(MultichoiceList_TagMatchType),
     [MULTI_BERRY_PLOT]                 = MULTICHOICE(MultichoiceList_BerryPlot),
-    [MULTI_RUST_START_CHOICE]          = MULTICHOICE(MultichoiceList_RustStarters),
-    [MULTI_HEART_SCALE_MART]           = MULTICHOICE(MultichoiceList_HeartScaleMart),
+    [MULTI_SAFARI_TYPES_PAGE_1]        = MULTICHOICE(MultichoiceList_Safari1), //*
+    [MULTI_SAFARI_TYPES_PAGE_2]        = MULTICHOICE(MultichoiceList_Safari2), //*
+    [MULTI_SAFARI_TYPES_PAGE_3]        = MULTICHOICE(MultichoiceList_Safari3), //*
 };
 
 const u8 *const gStdStrings[] =

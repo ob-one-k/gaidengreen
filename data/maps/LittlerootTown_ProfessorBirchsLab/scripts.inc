@@ -1057,7 +1057,7 @@ LittlerootTown_ProfessorBirchsLab_EventScript_MayGivePokeBalls::
 # 529 "data/maps/LittlerootTown_ProfessorBirchsLab/scripts.pory"
 	giveitem ITEM_POKE_BALL, 24
 # 530 "data/maps/LittlerootTown_ProfessorBirchsLab/scripts.pory"
-	giveitem ITEM_REVIVE, 1
+	giveitem ITEM_REVIVE, 3
 # 531 "data/maps/LittlerootTown_ProfessorBirchsLab/scripts.pory"
 	giveitem ITEM_GREAT_BALL, 1
 # 532 "data/maps/LittlerootTown_ProfessorBirchsLab/scripts.pory"
@@ -1077,7 +1077,7 @@ LittlerootTown_ProfessorBirchsLab_EventScript_BrendanGivePokeBalls::
 # 539 "data/maps/LittlerootTown_ProfessorBirchsLab/scripts.pory"
 	giveitem ITEM_POKE_BALL, 24
 # 540 "data/maps/LittlerootTown_ProfessorBirchsLab/scripts.pory"
-	giveitem ITEM_REVIVE, 1
+	giveitem ITEM_REVIVE, 3
 # 541 "data/maps/LittlerootTown_ProfessorBirchsLab/scripts.pory"
 	giveitem ITEM_GREAT_BALL, 1
 # 542 "data/maps/LittlerootTown_ProfessorBirchsLab/scripts.pory"

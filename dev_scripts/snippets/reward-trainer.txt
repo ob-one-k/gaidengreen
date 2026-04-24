@@ -1,0 +1,29 @@
+MyMap_EventScript_RewardTrainer::
+	goto_if_set FLAG_GOT_RICK_REWARD, MyMap_EventScript_RewardTrainer_PostBattleText
+	trainerbattle_single TRAINER_BUG_CATCHER_RICK, MyMap_Text_TrainerIntro, MyMap_Text_TrainerDefeat, MyMap_EventScript_RewardTrainer_AfterBattle
+	msgbox MyMap_Text_TrainerPostBattle, MSGBOX_AUTOCLOSE
+	end
+
+MyMap_EventScript_RewardTrainer_AfterBattle::
+	giveitem ITEM_RARE_CANDY
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_BagIsFull
+	setflag FLAG_GOT_RICK_REWARD
+	msgbox MyMap_Text_TrainerRewardText, MSGBOX_DEFAULT
+	release
+	end
+
+MyMap_EventScript_RewardTrainer_PostBattleText::
+	msgbox MyMap_Text_TrainerPostBattle, MSGBOX_DEFAULT
+	end
+
+MyMap_Text_TrainerIntro:
+	.string "Let me show you what I can do!$"
+
+MyMap_Text_TrainerDefeat:
+	.string "What? I lost?$"
+
+MyMap_Text_TrainerRewardText:
+	.string "You earned this.$"
+
+MyMap_Text_TrainerPostBattle:
+	.string "I already gave you my prize.$"

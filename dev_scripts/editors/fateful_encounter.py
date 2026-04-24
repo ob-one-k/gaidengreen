@@ -40,10 +40,11 @@ from PyQt5.QtWidgets import (
     QTreeWidget, QTreeWidgetItem, QTabWidget,
     QLabel, QPushButton, QFrame, QScrollArea,
     QSizePolicy, QLineEdit, QStackedWidget, QProgressBar,
+    QSizeGrip,
 )
-from PyQt5.QtCore import Qt, QSize, QPoint, QTimer
+from PyQt5.QtCore import Qt, QSize, QPoint, QTimer, QObject, QEvent, QThread, pyqtSignal
 from PyQt5.QtGui  import (
-    QPixmap, QColor, QPainter, QFont, QBrush, QPen, QIcon,
+    QPixmap, QColor, QPainter, QFont, QBrush, QPen, QIcon, QCursor,
 )
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -214,9 +215,9 @@ TABLE_ORDER = [
 ]
 
 ROD_ORDER = [
-    ("old_rod_mons",    "Old Rod"),
-    ("good_rod_mons",   "Good Rod"),
-    ("super_rod_mons",  "Super Rod"),
+    ("old_rod",    "Old Rod"),
+    ("good_rod",   "Good Rod"),
+    ("super_rod",  "Super Rod"),
 ]
 
 TABLE_COLOR = {
@@ -528,7 +529,9 @@ def _ensure_data_loaded():
 # Display helpers
 # ══════════════════════════════════════════════════════════════════════════════
 
-_sprite_cache: dict = {}
+_sprite_cache:       dict = {}
+_item_icon_cache:    dict = {}
+_trainer_pic_cache:  dict = {}
 
 def _get_sprite(species_key: str, size: int = 48) -> QPixmap:
     """Return a scaled, transparent QPixmap for the given SPECIES_ key."""
@@ -581,34 +584,75 @@ def _item_display(item_key: str) -> str:
     return item_key.replace('_', ' ').title()
 
 
+_TM_ICON_PATH = os.path.join(
+    os.path.dirname(os.path.abspath(__file__)),
+    '..', '..', 'graphics', 'items', 'icons', 'tm.png'
+)
+_TM_ICON_PATH = os.path.normpath(_TM_ICON_PATH)
+
 def _item_icon_pixmap(item_key: str, size: int = 28) -> QPixmap:
-    """Return a QPixmap for the item icon, or a blank pixmap if not found."""
-    tup = item_lookup(item_key)
+    """Return a cached QPixmap for the item icon.
+    All TM/HM keys (ITEM_TM*, ITEM_HM*) fall back to the shared tm.png."""
+    cache_key = (item_key, size)
+    if cache_key in _item_icon_cache:
+        return _item_icon_cache[cache_key]
     pix = QPixmap()
-    if tup and tup[2] and os.path.isfile(tup[2]):
-        raw = QPixmap(tup[2])
+    icon_path = ''
+    tup = item_lookup(item_key)
+    if tup and tup[2]:
+        icon_path = tup[2]
+    if not icon_path:
+        k = item_key.upper()
+        if k.startswith('ITEM_TM') or k.startswith('ITEM_HM'):
+            icon_path = _TM_ICON_PATH
+    if icon_path and os.path.isfile(icon_path):
+        raw = QPixmap(icon_path)
         if not raw.isNull():
             pix = raw.scaled(size, size, Qt.KeepAspectRatio, Qt.SmoothTransformation)
+    _item_icon_cache[cache_key] = pix
     return pix
 
 
-def _trainer_pic_pixmap(pic_name: str, size: int = 48) -> QPixmap:
-    """Find and return a trainer sprite pixmap."""
-    pix = QPixmap()
-    if not pic_name:
+def _pixel_perfect_scale(pix: QPixmap, target: int) -> QPixmap:
+    """Scale pixel-art sprite to target using nearest-neighbor at the largest
+    integer multiple that fits, giving a crisp upscale with no blur."""
+    if pix.isNull() or target <= 0:
         return pix
-    candidates = [
-        os.path.join(TRAINER_PICS, pic_name, 'front.png'),
-        os.path.join(TRAINER_PICS, pic_name.lower(), 'front.png'),
-        os.path.join(TRAINER_PICS, pic_name + '.png'),
-    ]
-    for p in candidates:
-        if os.path.isfile(p):
-            raw = QPixmap(p)
-            if not raw.isNull():
-                raw = make_transparent_pixmap(raw)
-                pix = raw.scaled(size, size, Qt.KeepAspectRatio, Qt.SmoothTransformation)
-                return pix
+    native = max(pix.width(), pix.height())
+    if native <= 0:
+        return pix
+    factor = max(1, target // native)
+    return pix.scaled(
+        native * factor, native * factor,
+        Qt.KeepAspectRatio, Qt.FastTransformation,
+    )
+
+
+def _trainer_pic_pixmap(pic_name: str, size: int = 48) -> QPixmap:
+    """Find and return a cached trainer sprite pixmap.
+
+    Pic field stores display names like 'Aqua Admin F'; actual files are
+    aqua_admin_f.png (lowercase, spaces→underscores) in TRAINER_PICS flat dir.
+    """
+    cache_key = (pic_name, size)
+    if cache_key in _trainer_pic_cache:
+        return _trainer_pic_cache[cache_key]
+    pix = QPixmap()
+    if pic_name:
+        fname = pic_name.lower().replace(' ', '_') + '.png'
+        candidates = [
+            os.path.join(TRAINER_PICS, fname),
+            os.path.join(TRAINER_PICS, pic_name.replace(' ', '_') + '.png'),
+            os.path.join(TRAINER_PICS, pic_name + '.png'),
+        ]
+        for p in candidates:
+            if os.path.isfile(p):
+                raw = QPixmap(p)
+                if not raw.isNull():
+                    raw = make_transparent_pixmap(raw)
+                    pix = _pixel_perfect_scale(raw, size)
+                    break
+    _trainer_pic_cache[cache_key] = pix
     return pix
 
 
@@ -1139,10 +1183,126 @@ class EncounterRowWidget(QWidget):
 
 
 # ══════════════════════════════════════════════════════════════════════════════
-# MonInfoCard — read-only party_god-style vertical card for one TrainerMon
+# _FancyTooltip — singleton dark overlay tooltip (ported from party_god)
+# ══════════════════════════════════════════════════════════════════════════════
+class _FancyTooltip(QWidget):
+    """Singleton dark-themed overlay tooltip. show_tip(title, body, accent, badges)."""
+    _instance = None
+
+    @classmethod
+    def instance(cls):
+        if cls._instance is None:
+            cls._instance = cls()
+        return cls._instance
+
+    def __init__(self):
+        super().__init__(None,
+            Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint | Qt.NoDropShadowWindowHint)
+        self.setAttribute(Qt.WA_TranslucentBackground)
+        self.setAttribute(Qt.WA_ShowWithoutActivating)
+        self._hide_timer = QTimer(self)
+        self._hide_timer.setSingleShot(True)
+        self._hide_timer.timeout.connect(self.hide)
+        self._embedded = False
+        self._build()
+
+    def _build(self):
+        self._frame = QFrame(self)
+        self._frame.setObjectName("ftip_frame")
+        outer = QVBoxLayout(self)
+        outer.setContentsMargins(0, 0, 0, 0)
+        outer.addWidget(self._frame)
+        lay = QVBoxLayout(self._frame)
+        lay.setContentsMargins(11, 8, 13, 8)
+        lay.setSpacing(4)
+        self._title_lbl  = QLabel(); self._title_lbl.setObjectName("ftip_title")
+        self._badges_lbl = QLabel(); self._badges_lbl.setObjectName("ftip_badges")
+        self._sep_ln = QFrame(); self._sep_ln.setFrameShape(QFrame.HLine)
+        self._sep_ln.setObjectName("ftip_sep")
+        self._body_lbl = QLabel(); self._body_lbl.setObjectName("ftip_body")
+        self._body_lbl.setWordWrap(True); self._body_lbl.setMaximumWidth(300)
+        lay.addWidget(self._title_lbl); lay.addWidget(self._badges_lbl)
+        lay.addWidget(self._sep_ln);    lay.addWidget(self._body_lbl)
+
+    def _try_embed(self):
+        if self._embedded:
+            return
+        win = QApplication.activeWindow()
+        if win and win is not self:
+            self.setParent(win)
+            self.setAttribute(Qt.WA_TranslucentBackground)
+            self.setAttribute(Qt.WA_ShowWithoutActivating)
+            self._embedded = True
+
+    def show_tip(self, title: str, body: str, accent: str = "#585b70", badges: str = ""):
+        self._hide_timer.stop()
+        self._frame.setStyleSheet(f"""
+            QFrame#ftip_frame {{
+                background: #181825; border: 1px solid #313244;
+                border-left: 3px solid {accent}; border-radius: 8px;
+            }}
+            QLabel#ftip_title  {{ color: {accent}; font-size: 13px; font-weight: bold;
+                                   background: transparent; padding: 0; }}
+            QLabel#ftip_badges {{ color: #bac2de; font-size: 11px;
+                                   background: transparent; padding: 0; }}
+            QFrame#ftip_sep    {{ background: #313244; border: none;
+                                   max-height: 1px; margin: 0; }}
+            QLabel#ftip_body   {{ color: #a6adc8; font-size: 11px;
+                                   background: transparent; padding: 0; }}
+        """)
+        self._title_lbl.setText(title)
+        self._badges_lbl.setText(badges);  self._badges_lbl.setVisible(bool(badges))
+        self._sep_ln.setVisible(bool(body)); self._body_lbl.setText(body)
+        self._body_lbl.setVisible(bool(body))
+        self._try_embed()
+        self.adjustSize()
+        w, h = self.sizeHint().width(), self.sizeHint().height()
+        self.setFixedSize(w, h)
+        if self._embedded and self.parent():
+            parent = self.parent()
+            local  = parent.mapFromGlobal(QCursor.pos())
+            x = max(4, min(local.x() + 18, parent.width()  - w - 4))
+            y = max(4, min(local.y() + 12, parent.height() - h - 4))
+        else:
+            pos = QCursor.pos()
+            x, y = pos.x() + 18, pos.y() + 12
+            scr = QApplication.primaryScreen().availableGeometry()
+            if x + w > scr.right():  x = pos.x() - w - 10
+            if y + h > scr.bottom(): y = pos.y() - h - 10
+        self.move(x, y); self.raise_(); self.show()
+
+    def schedule_hide(self, ms: int = 90):
+        self._hide_timer.start(ms)
+
+    def cancel_hide(self):
+        self._hide_timer.stop()
+
+
+def _install_tip(widget, content_fn):
+    """Install a hover tooltip on widget. content_fn() → (title, body, accent, badges) or None."""
+    class _Filter(QObject):
+        def eventFilter(self, obj, event):
+            tip = _FancyTooltip.instance()
+            t = event.type()
+            if t == QEvent.Enter:
+                result = content_fn()
+                if result:
+                    tip.cancel_hide(); tip.show_tip(*result)
+                else:
+                    tip.schedule_hide(90)
+            elif t in (QEvent.Leave, QEvent.Hide):
+                tip.schedule_hide(90)
+            return False
+    f = _Filter(widget)
+    widget.installEventFilter(f)
+    return f
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# MonInfoCard — read-only party card matching party_god's MonSlotCard exactly
 # ══════════════════════════════════════════════════════════════════════════════
 class MonInfoCard(QFrame):
-    """Read-only party_god-style vertical card for one TrainerMon."""
+    """Read-only party card styled identically to party_god's MonSlotCard."""
 
     _STAT_NAMES  = ["HP",  "Atk", "Def", "SpA", "SpD", "Spe"]
     _STAT_COLORS = ["#FF5959", "#F5AC78", "#FAE078", "#9DB7F5", "#A7DB8D", "#FA92B2"]
@@ -1152,59 +1312,74 @@ class MonInfoCard(QFrame):
         self._slot_idx   = slot_idx
         self._mon        = mon
         self._pokemon_db = pokemon_db
-        self.setFixedWidth(172)
-        self.setStyleSheet(
-            "MonInfoCard { background:#252536; border:1px solid #313244; border-radius:8px; }"
-        )
+        # resolved in _build_ui, stored for tooltip methods
+        self._sp_obj  = None
+        self._sp_name = ''
+        self._t1 = self._t2 = ''
+        self._tip_filters = []   # keep alive
         self._build_ui()
 
     def _build_ui(self):
+        sp_key    = self._mon.species
+        raw_key   = sp_key[8:] if sp_key.upper().startswith('SPECIES_') else sp_key
+        sp_db_key = raw_key.upper()
+        sp_obj    = self._pokemon_db.get(sp_db_key)
+        sp_name   = sp_obj.name if sp_obj else _species_display(sp_key)
+        self._sp_obj = sp_obj; self._sp_name = sp_name
+
+        # party_god-style: left border = type1 color, right border = type2 color
+        t1 = (getattr(sp_obj, 'type1', '') or '').upper() if sp_obj else ''
+        t2 = (getattr(sp_obj, 'type2', '') or '').upper() if sp_obj else ''
+        self._t1 = t1; self._t2 = t2
+        def _tc(t): return TYPE_HEX.get(t, '#313244') if t and t not in ('NONE', '???') else '#313244'
+        c1 = _tc(t1)
+        c2 = _tc(t2) if t2 and t2 not in ('NONE', '???') else c1
+        self.setStyleSheet(
+            "MonInfoCard { background:#252536; border-radius:8px; "
+            "border-top:1px solid #45475a; border-bottom:1px solid #45475a; "
+            f"border-left:3px solid {c1}; border-right:3px solid {c2}; }}"
+        )
+
         lay = QVBoxLayout(self)
-        lay.setContentsMargins(8, 8, 8, 8)
+        lay.setContentsMargins(6, 6, 6, 6)
         lay.setSpacing(3)
 
         # Slot label
+        hdr_row = QHBoxLayout(); hdr_row.setSpacing(4)
         slot_lbl = QLabel(f"Slot {self._slot_idx + 1}")
-        slot_lbl.setStyleSheet("color:#585b70; font-size:10px;")
-        lay.addWidget(slot_lbl)
+        slot_lbl.setStyleSheet("color:#585b70; font-size:11px;")
+        hdr_row.addWidget(slot_lbl); hdr_row.addStretch()
+        lay.addLayout(hdr_row)
 
-        # Sprite (80px, shiny if flagged)
-        sp_key = self._mon.species
-        pix = _get_sprite(sp_key, 80)
-        if self._mon.shiny:
-            raw_path = find_sprite_for_key(sp_key)
-            if raw_path:
-                raw_pix = make_shiny_pixmap(QPixmap(raw_path))
+        # Sprite
+        pix = _get_sprite(sp_key, 72)
+        if getattr(self._mon, 'shiny', False):
+            front, _ = find_sprite_for_key(raw_key)
+            if front and os.path.isfile(front):
+                raw_pix = make_shiny_pixmap(QPixmap(front))
                 if not raw_pix.isNull():
-                    pix = raw_pix.scaled(80, 80, Qt.KeepAspectRatio, Qt.SmoothTransformation)
-
+                    pix = raw_pix.scaled(72, 72, Qt.KeepAspectRatio, Qt.SmoothTransformation)
         sprite_lbl = QLabel()
-        sprite_lbl.setFixedSize(80, 80)
+        sprite_lbl.setFixedSize(72, 72)
         sprite_lbl.setAlignment(Qt.AlignCenter)
+        sprite_lbl.setCursor(Qt.WhatsThisCursor)
         sprite_lbl.setStyleSheet(
             "background:#181825; border-radius:6px; border:1px solid #313244; color:#585b70;")
         if not pix.isNull():
             sprite_lbl.setPixmap(pix)
         else:
             sprite_lbl.setText("?")
-        sprite_row = QHBoxLayout()
-        sprite_row.addStretch()
-        sprite_row.addWidget(sprite_lbl)
-        sprite_row.addStretch()
-        lay.addLayout(sprite_row)
+        sw = QHBoxLayout(); sw.addStretch(); sw.addWidget(sprite_lbl); sw.addStretch()
+        lay.addLayout(sw)
+        self._tip_filters.append(_install_tip(sprite_lbl, self._tip_sprite))
 
-        # Species lookup
-        sp_db_key = (sp_key[8:] if sp_key.upper().startswith('SPECIES_') else sp_key).upper()
-        sp_obj = self._pokemon_db.get(sp_db_key)
-        sp_name = sp_obj.name if sp_obj else _species_display(sp_key)
-
-        # Name (nickname or species)
+        # Name + nickname
         display_name = self._mon.nickname if self._mon.nickname else sp_name
         name_lbl = QLabel(display_name)
         name_lbl.setAlignment(Qt.AlignCenter)
-        name_lbl.setStyleSheet("color:#cdd6f4; font-size:12px; font-weight:bold;")
+        name_lbl.setStyleSheet("font-weight:bold; font-size:13px; color:#cdd6f4;")
         lay.addWidget(name_lbl)
-
+        self._tip_filters.append(_install_tip(name_lbl, self._tip_sprite))
         if self._mon.nickname:
             sub_lbl = QLabel(f"({sp_name})")
             sub_lbl.setAlignment(Qt.AlignCenter)
@@ -1219,166 +1394,283 @@ class MonInfoCard(QFrame):
 
         # Type badges
         if sp_obj:
-            type_row = QHBoxLayout()
-            type_row.setSpacing(4)
-            type_row.addStretch()
-            for t in filter(None, [getattr(sp_obj, 'type1', ''), getattr(sp_obj, 'type2', '')]):
-                if t and t.upper() not in ('NONE', '???', ''):
-                    tc = TYPE_HEX.get(t.upper(), '#585b70')
+            tr = QHBoxLayout(); tr.setSpacing(4); tr.addStretch()
+            for t in [t1, t2]:
+                if t and t not in ('NONE', '???', ''):
+                    tc = TYPE_HEX.get(t, '#585b70')
                     tl = QLabel(t.title())
                     tl.setStyleSheet(
-                        f"background:{tc}; color:#1e1e2e; font-size:9px; font-weight:bold; "
+                        f"background:{tc}; color:#ffffff; font-size:9px; font-weight:bold; "
                         "border-radius:3px; padding:1px 5px;")
-                    type_row.addWidget(tl)
-            type_row.addStretch()
-            lay.addLayout(type_row)
+                    tr.addWidget(tl)
+            tr.addStretch()
+            lay.addLayout(tr)
 
         lay.addWidget(_sep_line())
 
-        # Nature + Ability
-        nat_lbl = QLabel(self._mon.nature or "—")
-        nat_lbl.setAlignment(Qt.AlignCenter)
-        nat_lbl.setStyleSheet("color:#cba6f7; font-size:10px;")
-        lay.addWidget(nat_lbl)
+        # Item row — wrapped in a container widget for tooltip install
+        item_key = self._mon.held_item or ''
+        item_wrap = QWidget(); item_wrap.setStyleSheet("background:transparent;")
+        iw_lay = QHBoxLayout(item_wrap); iw_lay.setContentsMargins(0, 0, 0, 0); iw_lay.setSpacing(4)
+        if item_key and item_key not in ('ITEM_NONE', '', '0'):
+            icon_lbl = QLabel(); icon_lbl.setFixedSize(16, 16); icon_lbl.setAlignment(Qt.AlignCenter)
+            ipix = _item_icon_pixmap(item_key, 16)
+            if not ipix.isNull():
+                icon_lbl.setPixmap(ipix)
+            else:
+                icon_lbl.setText("•"); icon_lbl.setStyleSheet("color:#f9e2af; font-size:10px;")
+            inm = QLabel(_item_display(item_key))
+            inm.setStyleSheet("color:#f9e2af; font-size:10px;")
+            iw_lay.addStretch(); iw_lay.addWidget(icon_lbl); iw_lay.addWidget(inm); iw_lay.addStretch()
+        else:
+            ni = QLabel("— No Item —"); ni.setAlignment(Qt.AlignCenter)
+            ni.setStyleSheet("color:#45475a; font-size:10px;")
+            iw_lay.addWidget(ni)
+        lay.addWidget(item_wrap)
+        self._tip_filters.append(_install_tip(item_wrap, self._tip_item))
 
+        # Ability (cyan) + Nature (purple)
         ab_raw = self._mon.ability or ''
-        ab_display = (ab_raw.replace('ABILITY_', '').replace('_', ' ').title()
-                      if ab_raw else "—")
-        ab_lbl = QLabel(ab_display)
-        ab_lbl.setAlignment(Qt.AlignCenter)
+        ab_display = ab_raw.replace('ABILITY_', '').replace('_', ' ').title() if ab_raw else '—'
+        ab_lbl = QLabel(ab_display); ab_lbl.setAlignment(Qt.AlignCenter)
         ab_lbl.setWordWrap(True)
         ab_lbl.setStyleSheet("color:#89dceb; font-size:10px;")
         lay.addWidget(ab_lbl)
+        self._tip_filters.append(_install_tip(ab_lbl, self._tip_ability))
 
-        # Held item
-        item_key = self._mon.held_item or ''
-        if item_key and item_key not in ('ITEM_NONE', '', '0'):
-            item_row = QHBoxLayout()
-            item_row.setSpacing(4)
-            item_row.setContentsMargins(0, 0, 0, 0)
-            icon_lbl = QLabel()
-            icon_lbl.setFixedSize(16, 16)
-            icon_lbl.setAlignment(Qt.AlignCenter)
-            item_pix = _item_icon_pixmap(item_key, 16)
-            if not item_pix.isNull():
-                icon_lbl.setPixmap(item_pix)
-            else:
-                icon_lbl.setText("•")
-                icon_lbl.setStyleSheet("color:#f9e2af; font-size:10px;")
-            item_name_lbl = QLabel(_item_display(item_key))
-            item_name_lbl.setStyleSheet("color:#f9e2af; font-size:10px;")
-            item_row.addStretch()
-            item_row.addWidget(icon_lbl)
-            item_row.addWidget(item_name_lbl)
-            item_row.addStretch()
-            lay.addLayout(item_row)
+        nat_raw = self._mon.nature or ''
+        nat_lbl = QLabel(nat_raw or '—'); nat_lbl.setAlignment(Qt.AlignCenter)
+        nat_lbl.setStyleSheet("color:#cba6f7; font-size:10px;")
+        lay.addWidget(nat_lbl)
+        self._tip_filters.append(_install_tip(nat_lbl, self._tip_nature))
 
         lay.addWidget(_sep_line())
 
-        # IVs as compact colored bars
+        # IVs — 6-column grid: stat name above its value, perfectly aligned
         ivs = self._mon.ivs if self._mon.ivs else [31] * 6
-        for i, (sname, scolor) in enumerate(zip(self._STAT_NAMES, self._STAT_COLORS)):
-            iv_val = ivs[i] if i < len(ivs) else 31
-            row = QHBoxLayout()
-            row.setSpacing(3)
-            row.setContentsMargins(0, 0, 0, 0)
-
-            sn_lbl = QLabel(sname)
-            sn_lbl.setFixedWidth(26)
-            sn_lbl.setStyleSheet(f"color:{scolor}; font-size:9px; font-weight:bold;")
-
-            bar = QProgressBar()
-            bar.setRange(0, 31)
-            bar.setValue(iv_val)
-            bar.setFixedHeight(6)
-            bar.setTextVisible(False)
-            bar_color = ("#a6e3a1" if iv_val == 31
-                         else "#f9e2af" if iv_val >= 20 else "#f38ba8")
-            bar.setStyleSheet(
-                f"QProgressBar {{ background:#1e1e2e; border:none; border-radius:3px; }}"
-                f"QProgressBar::chunk {{ background:{bar_color}; border-radius:3px; }}"
-            )
-
-            iv_lbl = QLabel(str(iv_val))
-            iv_lbl.setFixedWidth(18)
-            iv_lbl.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
-            iv_lbl.setStyleSheet(f"color:{scolor}; font-size:9px;")
-
-            row.addWidget(sn_lbl)
-            row.addWidget(bar, 1)
-            row.addWidget(iv_lbl)
-            lay.addLayout(row)
+        iv_vals = [ivs[i] if i < len(ivs) else 31 for i in range(6)]
+        iv_grid_w = QWidget(); iv_grid_w.setStyleSheet("background:transparent;")
+        iv_grid = QGridLayout(iv_grid_w)
+        iv_grid.setContentsMargins(0, 0, 0, 0)
+        iv_grid.setHorizontalSpacing(0)
+        iv_grid.setVerticalSpacing(1)
+        for col, (sname, scolor, iv_val) in enumerate(
+                zip(self._STAT_NAMES, self._STAT_COLORS, iv_vals)):
+            h_lbl = QLabel(sname)
+            h_lbl.setAlignment(Qt.AlignCenter)
+            h_lbl.setStyleSheet(
+                f"color:{scolor}; font-size:9px; font-weight:bold; background:transparent;")
+            iv_grid.addWidget(h_lbl, 0, col)
+            qc = "#a6e3a1" if iv_val == 31 else "#f9e2af" if iv_val >= 20 else "#f38ba8"
+            v_lbl = QLabel(str(iv_val))
+            v_lbl.setAlignment(Qt.AlignCenter)
+            v_lbl.setStyleSheet(
+                f"color:{qc}; font-size:10px; font-weight:bold; background:transparent;")
+            iv_grid.addWidget(v_lbl, 1, col)
+        lay.addWidget(iv_grid_w)
 
         lay.addWidget(_sep_line())
 
-        # Moves (up to 4) with type badge + name
-        for move_key in (self._mon.moves or []):
+        # Moves — QPushButton (hover reactive) with full type-color background
+        for move_idx, move_key in enumerate(self._mon.moves or []):
             if not move_key or move_key in ('MOVE_NONE', ''):
+                btn = QPushButton("— —"); btn.setFixedHeight(22)
+                btn.setStyleSheet(
+                    "QPushButton { background:#313244; border:1px solid #45475a; border-radius:4px; "
+                    "font-size:10px; color:#585b70; }"
+                    "QPushButton:hover { background:#3d3f54; border-color:#585b70; }")
+                btn.setCursor(Qt.ArrowCursor)
+                lay.addWidget(btn)
+                self._tip_filters.append(
+                    _install_tip(btn, lambda idx=move_idx: self._tip_move(idx)))
                 continue
-            mv     = move_lookup(move_key)
+            mv = move_lookup(move_key)
             mv_name = mv.get('name', move_key.replace('MOVE_', '').replace('_', ' ').title())
-            mv_type = mv.get('type', '')
-
-            mv_row = QHBoxLayout()
-            mv_row.setSpacing(4)
-            mv_row.setContentsMargins(0, 0, 0, 0)
-
-            if mv_type:
-                tc = TYPE_HEX.get(mv_type.upper(), '#585b70')
-                t_lbl = QLabel(mv_type[:4].title())
-                t_lbl.setFixedWidth(34)
-                t_lbl.setAlignment(Qt.AlignCenter)
-                t_lbl.setStyleSheet(
-                    f"background:{tc}; color:#1e1e2e; font-size:8px; font-weight:bold; "
-                    "border-radius:3px; padding:1px 2px;")
-                mv_row.addWidget(t_lbl)
-
-            mv_lbl = QLabel(mv_name[:18])
-            mv_lbl.setStyleSheet("color:#cdd6f4; font-size:10px;")
-            mv_row.addWidget(mv_lbl, 1)
-            lay.addLayout(mv_row)
+            mv_type = (mv.get('type', '') or '').replace('TYPE_', '').strip().upper()
+            color   = TYPE_HEX.get(mv_type, '#585b70') if mv_type else '#585b70'
+            # darken color for hover by layering a semi-transparent white
+            btn = QPushButton(mv_name); btn.setFixedHeight(22)
+            btn.setStyleSheet(
+                f"QPushButton {{ background:{color}; border:none; border-radius:4px; "
+                f"font-size:10px; font-weight:bold; color:#ffffff; }}"
+                f"QPushButton:hover {{ background:{color}; border:1px solid #ffffff44; }}"
+            )
+            btn.setCursor(Qt.WhatsThisCursor)
+            lay.addWidget(btn)
+            self._tip_filters.append(
+                _install_tip(btn, lambda idx=move_idx: self._tip_move(idx)))
 
         lay.addStretch()
 
+    # ── Tooltip content ────────────────────────────────────────────────────────
+    def _tip_sprite(self):
+        sp_obj = self._sp_obj
+        if not sp_obj:
+            return (self._sp_name or "Unknown", "No data available.", "#585b70", "")
+        t1_str = self._t1.title() if self._t1 and self._t1 not in ('NONE', '???') else ''
+        t2_str = self._t2.title() if self._t2 and self._t2 not in ('NONE', '???', '') else ''
+        types  = f"{t1_str} / {t2_str}" if t2_str else t1_str
+        # BST from base stats if available
+        bs = getattr(sp_obj, 'base_stats', None)
+        if bs:
+            bst = sum(bs.values()) if isinstance(bs, dict) else 0
+            bst_str = f"  ·  BST {bst}" if bst else ''
+        else:
+            bst_str = ''
+        badges = f"{types}{bst_str}" if types else ''
+        shiny_note = "  ✨ Shiny" if getattr(self._mon, 'shiny', False) else ''
+        return (
+            f"{self._sp_name}{shiny_note}",
+            f"Lv. {self._mon.level}  ·  Slot {self._slot_idx + 1}",
+            TYPE_HEX.get(self._t1, '#89b4fa'),
+            badges,
+        )
+
+    def _tip_item(self):
+        item_key = self._mon.held_item or ''
+        if not item_key or item_key in ('ITEM_NONE', '', '0'):
+            return ("Held Item", "No item held.", "#f9e2af", "")
+        tup = item_lookup(item_key)
+        if not tup:
+            return (_item_display(item_key), "No description available.", "#f9e2af", "")
+        _, display, _ = tup
+        from decomp_data import load_item_descriptions
+        descs = load_item_descriptions()
+        desc = descs.get(item_key, '') or descs.get(item_key.replace('ITEM_', ''), '') or "No description available."
+        return (display, desc, "#f9e2af", "")
+
+    def _tip_ability(self):
+        ab_raw = self._mon.ability or ''
+        ab_display = ab_raw.replace('ABILITY_', '').replace('_', ' ').title() if ab_raw else '—'
+        if not ab_raw:
+            return ("Ability", "No ability assigned.", "#89dceb", "")
+        info = load_ability_info()
+        ab = info.get(ab_display.lower()) or info.get(ab_raw.lower())
+        if not ab:
+            return (ab_display, "No description available.", "#89dceb", "")
+        return (ab.get('name', ab_display), ab.get('desc') or "No description available.", "#89dceb", "")
+
+    def _tip_nature(self):
+        from decomp_data import NATURE_MODS
+        nat = self._mon.nature or ''
+        if not nat:
+            return ("Nature", "No nature assigned.", "#cba6f7", "")
+        bi, ri = NATURE_MODS.get(nat, (0, 0))
+        stat_short = ["", "Atk", "Def", "SpA", "SpD", "Spe"]
+        if bi and ri:
+            body = f"+10% {stat_short[bi]}  /  −10% {stat_short[ri]}"
+        else:
+            body = "Neutral — no stat modifications."
+        return (nat, body, "#cba6f7", "")
+
+    def _tip_move(self, move_idx: int):
+        moves = self._mon.moves or []
+        move_key = moves[move_idx] if move_idx < len(moves) else ''
+        if not move_key or move_key in ('MOVE_NONE', ''):
+            return (f"Move Slot {move_idx + 1}", "No move assigned.", "#585b70", "")
+        mv = move_lookup(move_key)
+        if not mv:
+            return (move_key, "Unknown move.", "#585b70", "")
+        t     = (mv.get('type', '') or '').replace('TYPE_', '').strip()
+        color = TYPE_HEX.get(t.upper(), '#585b70')
+        cat   = (mv.get('category', '') or '').replace('DAMAGE_CATEGORY_', '').title()
+        pwr   = mv.get('power',    0)
+        acc   = mv.get('accuracy', 0)
+        pp    = mv.get('pp',       0)
+        desc  = mv.get('description', '') or "No description available."
+        badges = (
+            f"{t.title() or '—'}  ·  {cat or '—'}  ·  "
+            f"Pwr: {pwr or '—'}  ·  Acc: {f'{acc}%' if acc else '—'}  ·  PP: {pp or '—'}"
+        )
+        return (mv.get('name', move_key), desc, color, badges)
+
+
+# Module-level singleton — only one TrainerTeamDialog open at a time
+_active_team_dialog: 'TrainerTeamDialog | None' = None
+
 
 # ══════════════════════════════════════════════════════════════════════════════
-# TrainerTeamDialog — party_god-style popup for a trainer's full party
+# TrainerTeamDialog — team popup, centered, sized to filled slots
 # ══════════════════════════════════════════════════════════════════════════════
 class TrainerTeamDialog(QDialog):
-    """Party_god-style read-only popup showing a trainer's full party."""
+    """Read-only team popup matching party_god style. Sized to filled slots, centered."""
+
+    _CARD_W   = 196
+    _CARD_GAP = 10
+    _PADDING  = 16
+    _HEADER_H = 152   # tall enough for 128px (2× pixel-perfect) sprite + padding
+    _BODY_H   = 430
 
     def __init__(self, trainer, pokemon_db: dict, parent=None):
-        super().__init__(parent, Qt.Dialog | Qt.FramelessWindowHint)
-        self.setAttribute(Qt.WA_TranslucentBackground, False)
+        super().__init__(None, Qt.Dialog | Qt.FramelessWindowHint)
+        self.setAttribute(Qt.WA_TranslucentBackground)
         self._trainer    = trainer
         self._pokemon_db = pokemon_db
         self._drag_pos   = None
         self._build_ui()
-        self.adjustSize()
+        self._center_on_screen()
+        self.finished.connect(self._on_dialog_closed)
+
+    def _center_on_screen(self):
+        screen = QApplication.desktop().availableGeometry()
+        self.move(
+            screen.x() + (screen.width()  - self.width())  // 2,
+            screen.y() + (screen.height() - self.height()) // 2,
+        )
+
+    def _on_dialog_closed(self):
+        global _active_team_dialog
+        _active_team_dialog = None
+        tip = _FancyTooltip._instance
+        if tip is not None:
+            try:
+                tip._embedded = False
+                tip.hide()
+                tip.setParent(None)
+            except RuntimeError:
+                _FancyTooltip._instance = None
 
     def _build_ui(self):
-        self.setStyleSheet(
-            "TrainerTeamDialog { background:#11111b; border:1px solid #45475a; border-radius:10px; }"
+        party = [m for m in (self._trainer.party or []) if m and getattr(m, 'species', '')]
+        n = max(1, len(party))
+
+        # Exact width to fit all n cards with no scroll
+        w = self._PADDING * 2 + n * self._CARD_W + (n - 1) * self._CARD_GAP
+        h = self._HEADER_H + 1 + self._BODY_H
+        self.setFixedSize(w, h)
+
+        # Outer rounded container
+        outer = QWidget()
+        outer.setObjectName("ttd_outer")
+        outer.setStyleSheet(
+            "QWidget#ttd_outer { background:#1e1e2e; border-radius:10px; border:1px solid #313244; }"
         )
+        outer_lay = QVBoxLayout(outer)
+        outer_lay.setContentsMargins(0, 0, 0, 0)
+        outer_lay.setSpacing(0)
+
         root = QVBoxLayout(self)
         root.setContentsMargins(0, 0, 0, 0)
         root.setSpacing(0)
+        root.addWidget(outer)
 
-        # Header
+        # Header — draggable, tall enough for 96px sprite
         header = QWidget()
-        header.setFixedHeight(64)
-        header.setStyleSheet("background:#11111b; border-radius:10px 10px 0 0;")
+        header.setFixedHeight(self._HEADER_H)
+        header.setStyleSheet(
+            "background:#181825; border-top-left-radius:10px; border-top-right-radius:10px;")
         header.mousePressEvent   = self._on_drag_press
         header.mouseMoveEvent    = self._on_drag_move
         header.mouseReleaseEvent = self._on_drag_release
         h_lay = QHBoxLayout(header)
-        h_lay.setContentsMargins(16, 8, 12, 8)
-        h_lay.setSpacing(14)
+        h_lay.setContentsMargins(16, 12, 12, 12)
+        h_lay.setSpacing(16)
 
+        # 96px sprite (3× the old 32px GBA sprite, pixel-perfect upscale)
         pic_lbl = QLabel()
-        pic_lbl.setFixedSize(48, 48)
+        pic_lbl.setFixedSize(128, 128)
         pic_lbl.setAlignment(Qt.AlignCenter)
-        pix = _trainer_pic_pixmap(self._trainer.pic or '', 48)
+        pix = _trainer_pic_pixmap(self._trainer.pic or '', 128)
         if not pix.isNull():
             pic_lbl.setPixmap(pix)
             pic_lbl.setStyleSheet("background:transparent;")
@@ -1390,16 +1682,17 @@ class TrainerTeamDialog(QDialog):
             }
             fb = cls_colors.get(self._trainer.trainer_class or '', '#313244')
             pic_lbl.setStyleSheet(
-                f"background:{fb}; border-radius:6px; color:#1e1e2e; "
-                "font-size:18px; font-weight:bold;")
+                f"background:{fb}; border-radius:8px; color:#1e1e2e; "
+                "font-size:28px; font-weight:bold;")
             pic_lbl.setText((self._trainer.name or '?')[:2].upper())
         h_lay.addWidget(pic_lbl)
 
         info = QVBoxLayout()
-        info.setSpacing(2)
+        info.setSpacing(4)
+        info.addStretch()
         name_lbl = QLabel(self._trainer.name or self._trainer.key)
         name_lbl.setStyleSheet(
-            "color:#cdd6f4; font-size:15px; font-weight:bold; background:transparent;")
+            "color:#cdd6f4; font-size:22px; font-weight:bold; background:transparent;")
         info.addWidget(name_lbl)
 
         cls_raw = (self._trainer.trainer_class or '').replace(
@@ -1407,58 +1700,48 @@ class TrainerTeamDialog(QDialog):
         meta_row = QHBoxLayout()
         meta_row.setSpacing(6)
         cls_lbl = QLabel(cls_raw)
-        cls_lbl.setStyleSheet("color:#6c7086; font-size:11px; background:transparent;")
+        cls_lbl.setStyleSheet("color:#6c7086; font-size:12px; background:transparent;")
         meta_row.addWidget(cls_lbl)
         if self._trainer.double_battle:
             meta_row.addWidget(_make_badge("DOUBLE", "#fab387"))
         meta_row.addStretch()
         info.addLayout(meta_row)
+        info.addStretch()
         h_lay.addLayout(info)
         h_lay.addStretch()
 
         close_btn = QPushButton("✕")
         close_btn.setFixedSize(28, 28)
         close_btn.setStyleSheet(
-            "QPushButton { background:transparent; border:none; color:#585b70; font-size:14px; }"
-            "QPushButton:hover { color:#f38ba8; }"
+            "QPushButton { background:transparent; border:none; border-radius:5px; "
+            "color:#a6adc8; font-size:13px; font-weight:bold; }"
+            "QPushButton:hover { background:#f38ba822; color:#f38ba8; }"
         )
         close_btn.clicked.connect(self.close)
         h_lay.addWidget(close_btn)
-        root.addWidget(header)
+        outer_lay.addWidget(header)
 
         # Divider
         div = QFrame()
         div.setFixedHeight(1)
-        div.setStyleSheet("background:#313244;")
-        root.addWidget(div)
+        div.setStyleSheet("background:#313244; border:none;")
+        outer_lay.addWidget(div)
 
-        # Party cards in horizontal scroll
-        scroll = QScrollArea()
-        scroll.setWidgetResizable(True)
-        scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAsNeeded)
-        scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        scroll.setStyleSheet(
-            "QScrollArea { border:none; background:#181825; }"
-            "QScrollBar:horizontal { height:6px; background:#1e1e2e; }"
-            "QScrollBar::handle:horizontal { background:#45475a; border-radius:3px; }"
-            "QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal { width:0; }"
-        )
-
+        # Party cards — direct layout, no scroll; dialog is sized to fit exactly
         cards_widget = QWidget()
-        cards_widget.setStyleSheet("background:#181825;")
+        cards_widget.setStyleSheet(
+            "background:#181825; border-bottom-left-radius:10px; border-bottom-right-radius:10px;")
         cards_lay = QHBoxLayout(cards_widget)
-        cards_lay.setContentsMargins(16, 16, 16, 16)
-        cards_lay.setSpacing(10)
+        cards_lay.setContentsMargins(self._PADDING, 12, self._PADDING, 12)
+        cards_lay.setSpacing(self._CARD_GAP)
 
-        party = self._trainer.party or []
-        for i, mon in enumerate(party):
-            cards_lay.addWidget(MonInfoCard(i, mon, self._pokemon_db))
+        for i, mon in enumerate(party):   # 'party' = filtered list from top of _build_ui
+            card = MonInfoCard(i, mon, self._pokemon_db)
+            card.setFixedWidth(self._CARD_W)
+            cards_lay.addWidget(card)
         cards_lay.addStretch()
 
-        scroll.setWidget(cards_widget)
-        root.addWidget(scroll)
-        self.setMinimumHeight(64 + 1 + 520)
-        self.setMaximumHeight(64 + 1 + 520)
+        outer_lay.addWidget(cards_widget, 1)
 
     def _on_drag_press(self, ev):
         if ev.button() == Qt.LeftButton:
@@ -1659,16 +1942,15 @@ class TrainerCard(QFrame):
         super().mousePressEvent(ev)
 
     def _open_team_dialog(self, global_pos: QPoint):
-        if self._detail_dlg and self._detail_dlg.isVisible():
-            self._detail_dlg.close()
+        global _active_team_dialog
+        try:
+            if _active_team_dialog is not None and _active_team_dialog.isVisible():
+                _active_team_dialog.close()
+        except RuntimeError:
+            _active_team_dialog = None
         dlg = TrainerTeamDialog(self._trainer, self._pokemon_db, parent=self)
-        screen_geo = QApplication.desktop().availableGeometry(global_pos)
-        x = max(screen_geo.left(), min(global_pos.x() - dlg.width() // 2,
-                                        screen_geo.right() - dlg.width()))
-        y = max(screen_geo.top(), min(global_pos.y() - dlg.height() // 2,
-                                       screen_geo.bottom() - dlg.height()))
-        dlg.move(x, y)
         dlg.show()
+        _active_team_dialog = dlg
         self._detail_dlg = dlg
 
 
@@ -2078,8 +2360,8 @@ class EncountersTab(QWidget):
         tabs = QTabWidget()
         tabs.setStyleSheet(
             "QTabWidget::pane { border:none; }"
-            "QTabBar::tab { background:#181825; color:#6c7086; padding:8px 20px; "
-            "   border-top-left-radius:6px; border-top-right-radius:6px; "
+            "QTabBar::tab { background:#181825; color:#6c7086; min-width:80px; padding:6px 16px; "
+            "   border-top-left-radius:4px; border-top-right-radius:4px; "
             "   border:1px solid #313244; margin-right:2px; }"
             "QTabBar::tab:selected { background:#1e1e2e; color:#cdd6f4; "
             "   border-bottom:2px solid #89b4fa; }"
@@ -2250,8 +2532,8 @@ class SublocationWidget(QWidget):
         tabs = QTabWidget()
         tabs.setStyleSheet(
             "QTabWidget::pane { border:none; background:#1e1e2e; }"
-            "QTabBar::tab { background:#181825; color:#6c7086; padding:8px 24px; "
-            "   border-top-left-radius:6px; border-top-right-radius:6px; "
+            "QTabBar::tab { background:#181825; color:#6c7086; min-width:80px; padding:6px 16px; "
+            "   border-top-left-radius:4px; border-top-right-radius:4px; "
             "   border:1px solid #313244; margin-right:2px; }"
             "QTabBar::tab:selected { background:#1e1e2e; color:#cdd6f4; "
             "   border-bottom:2px solid #89b4fa; }"
@@ -2320,7 +2602,7 @@ class LocationPanel(QWidget):
         outer.setContentsMargins(0, 0, 0, 0)
         outer.setSpacing(0)
 
-        # Header bar
+        # ── Header bar ────────────────────────────────────────────────────────
         self._header = QWidget()
         self._header.setFixedHeight(52)
         self._header.setStyleSheet("background:#181825; border-bottom:1px solid #313244;")
@@ -2339,33 +2621,45 @@ class LocationPanel(QWidget):
         )
         self._type_badge.hide()
         h_lay.addWidget(self._type_badge)
-
         h_lay.addStretch()
         outer.addWidget(self._header)
 
-        # Sub-location strip
+        # ── Sub-location button strip ──────────────────────────────────────────
+        # Plain QWidget with an HBoxLayout — NO scroll area, no inner widget,
+        # no ownership confusion.  We drain the layout completely each navigation.
         self._subloc_strip = QWidget()
         self._subloc_strip.setFixedHeight(44)
-        self._subloc_strip.setStyleSheet("background:#181825; border-bottom:1px solid #313244;")
+        self._subloc_strip.setStyleSheet(
+            "background:#181825; border-bottom:1px solid #313244;")
         self._strip_lay = QHBoxLayout(self._subloc_strip)
         self._strip_lay.setContentsMargins(12, 6, 12, 6)
         self._strip_lay.setSpacing(6)
-        self._strip_lay.addStretch()
         outer.addWidget(self._subloc_strip)
 
-        # Stacked content
+        # ── Stacked content area ───────────────────────────────────────────────
         self._stack = QStackedWidget()
         self._stack.setStyleSheet("background:#1e1e2e;")
         outer.addWidget(self._stack, 1)
 
-        # Placeholder
+        # Placeholder shown when nothing is selected / no subloc exists
         self._placeholder = QLabel("Select a location from the left panel.")
         self._placeholder.setAlignment(Qt.AlignCenter)
-        self._placeholder.setStyleSheet("color:#45475a; font-size:14px; padding:40px; background:transparent;")
-        self._stack.addWidget(self._placeholder)
+        self._placeholder.setStyleSheet(
+            "color:#45475a; font-size:14px; padding:40px; background:transparent;")
+        self._stack.addWidget(self._placeholder)   # index 0 — always present
+
+    def _drain_strip(self):
+        """Remove every item (buttons AND stretch) from _strip_lay and delete them."""
+        while self._strip_lay.count():
+            item = self._strip_lay.takeAt(0)
+            w = item.widget()
+            if w:
+                w.hide()
+                w.deleteLater()
+            # spacer/stretch items carry no widget; takeAt already freed them
 
     def load_location(self, map_key: str):
-        """Switch to showing the given primary map location."""
+        """Switch the panel to display the given primary map location."""
         if map_key == self._current_map_key:
             return
         self._current_map_key = map_key
@@ -2373,8 +2667,8 @@ class LocationPanel(QWidget):
         short_name = _map_key_to_short(map_key)
         display    = _map_name_to_label(map_key)
 
+        # Update header text + map-type badge
         self._loc_lbl.setText(display)
-
         map_data = _get_map_json(short_name) if short_name else {}
         map_type = map_data.get('map_type', '')
         if map_type:
@@ -2383,68 +2677,68 @@ class LocationPanel(QWidget):
         else:
             self._type_badge.hide()
 
-        # Clear old subloc buttons
-        for btn in self._subloc_buttons:
-            self._strip_lay.removeWidget(btn)
-            btn.deleteLater()
+        # Drain old buttons (and any leftover stretch items) from the strip
+        self._drain_strip()
         self._subloc_buttons = []
         self._subloc_widgets = {}
 
-        # Remove all widgets from stack except placeholder
+        # Remove all SublocationWidget pages from the stack (keep index-0 placeholder)
         while self._stack.count() > 1:
             w = self._stack.widget(1)
             self._stack.removeWidget(w)
             w.deleteLater()
 
-        # Build sub-location list: [main_area] + sub_maps
-        sublocs = [short_name] if short_name else []
+        # Build the ordered list of sublocation short-names for this location
+        sublocs: list = []
         if short_name:
-            subs = _SUB_MAPS.get(short_name, [])
-            sublocs += subs
+            sublocs.append(short_name)
+            for sub in _SUB_MAPS.get(short_name, []):
+                if sub not in sublocs:
+                    sublocs.append(sub)
 
-        # Deduplicate while preserving order
-        seen = set()
-        deduped = []
-        for s in sublocs:
-            if s not in seen:
-                seen.add(s)
-                deduped.append(s)
-        sublocs = deduped
-
+        # Create one pill-button per subloc
+        _BTN_STYLE = (
+            "QPushButton { background:#313244; color:#cdd6f4; border:1px solid #45475a; "
+            "   border-radius:12px; padding:3px 12px; font-size:11px; }"
+            "QPushButton:checked { background:#89b4fa; color:#1e1e2e; "
+            "   border-color:#89b4fa; font-weight:bold; }"
+            "QPushButton:hover:!checked { background:#3d3f4f; }"
+        )
         for subloc in sublocs:
-            display_name = _subloc_display(subloc, short_name)
-            btn = QPushButton(display_name)
+            label = _subloc_display(subloc, short_name)
+            btn   = QPushButton(label)
             btn.setCheckable(True)
-            btn.setStyleSheet(
-                "QPushButton { background:#313244; color:#cdd6f4; border:1px solid #45475a; "
-                "   border-radius:12px; padding:3px 12px; font-size:11px; }"
-                "QPushButton:checked { background:#89b4fa; color:#1e1e2e; border-color:#89b4fa; "
-                "   font-weight:bold; }"
-                "QPushButton:hover { background:#3d3f4f; }"
-            )
-            subloc_copy = subloc
-            btn.clicked.connect(lambda checked, s=subloc_copy: self._switch_subloc(s))
-            self._strip_lay.insertWidget(self._strip_lay.count() - 1, btn)
+            btn.setStyleSheet(_BTN_STYLE)
+            btn.clicked.connect(lambda _checked, s=subloc: self._switch_subloc(s))
+            self._strip_lay.addWidget(btn)
             self._subloc_buttons.append(btn)
 
-        # Select first subloc
+        # Push buttons to the left
+        self._strip_lay.addStretch()
+
+        # Show/hide the strip and navigate to the first subloc (or placeholder)
         if sublocs:
+            self._subloc_strip.show()
             self._switch_subloc(sublocs[0])
         else:
+            self._subloc_strip.hide()
             self._stack.setCurrentIndex(0)
 
     def _switch_subloc(self, short_name: str):
-        """Switch the stacked widget to the given sublocation."""
-        for btn in self._subloc_buttons:
-            btn.setChecked(btn.text() == _subloc_display(
-                short_name, _map_key_to_short(self._current_map_key)))
+        """Activate the given sublocation tab: highlight its button, show its page."""
+        parent_short = _map_key_to_short(self._current_map_key)
 
+        # Update button checked states
+        for btn in self._subloc_buttons:
+            # btn text was set to _subloc_display(subloc, parent_short)
+            btn.setChecked(btn.text() == _subloc_display(short_name, parent_short))
+
+        # Lazily create + cache the SublocationWidget for this subloc
         if short_name not in self._subloc_widgets:
-            enc_data = self._map_encounters.get(
-                _KEY_BY_DIR.get(short_name, ''), {})
+            map_key_for_subloc = _KEY_BY_DIR.get(short_name, '')
+            enc_data = self._map_encounters.get(map_key_for_subloc, {})
             w = SublocationWidget(
-                short_name,
-                _map_key_to_short(self._current_map_key),
+                short_name, parent_short,
                 enc_data,
                 self._pokemon_db, self._ability_db,
                 self._learnset_db, self._wild_db,
@@ -2453,9 +2747,9 @@ class LocationPanel(QWidget):
             self._stack.addWidget(w)
             self._subloc_widgets[short_name] = w
 
-        w = self._subloc_widgets[short_name]
-        w.ensure_built()
-        self._stack.setCurrentWidget(w)
+        page = self._subloc_widgets[short_name]
+        page.ensure_built()
+        self._stack.setCurrentWidget(page)
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -2670,8 +2964,8 @@ class SearchResultsPanel(QWidget):
         self._tabs = QTabWidget()
         self._tabs.setStyleSheet(
             "QTabWidget::pane { border:none; background:#1e1e2e; }"
-            "QTabBar::tab { background:#181825; color:#6c7086; padding:8px 20px; "
-            "   border-top-left-radius:6px; border-top-right-radius:6px; "
+            "QTabBar::tab { background:#181825; color:#6c7086; min-width:80px; padding:6px 16px; "
+            "   border-top-left-radius:4px; border-top-right-radius:4px; "
             "   border:1px solid #313244; margin-right:2px; }"
             "QTabBar::tab:selected { background:#1e1e2e; color:#cdd6f4; "
             "   border-bottom:2px solid #89b4fa; }"
@@ -2693,30 +2987,47 @@ class SearchResultsPanel(QWidget):
             self._tabs.addTab(scroll, cat)
             self._tab_widgets[cat] = (scroll, inner, lay)
 
+    _RESULT_CAP = 150   # max widgets per category tab before showing overflow label
+
     def _clear_tab(self, cat: str):
-        _, inner, lay = self._tab_widgets[cat]
-        while lay.count():
-            item = lay.takeAt(0)
-            if item.widget():
-                item.widget().deleteLater()
+        """O(1) clear: replace the inner widget instead of iterating the layout."""
+        scroll, _, _ = self._tab_widgets[cat]
+        new_inner = QWidget()
+        new_inner.setStyleSheet("background:#1e1e2e;")
+        new_lay = QVBoxLayout(new_inner)
+        new_lay.setContentsMargins(0, 0, 0, 12)
+        new_lay.setSpacing(0)
+        scroll.setWidget(new_inner)     # Qt automatically deletes the old inner widget
+        self._tab_widgets[cat] = (scroll, new_inner, new_lay)
 
     def populate(self, query: str, search_index: dict):
         q = query.strip().lower()
-        total = 0
+        cap = self._RESULT_CAP
 
         for cat in ['All', 'Items', 'Trainers', 'Pokemon', 'Trades']:
             self._clear_tab(cat)
 
-        def _add_row(cat_name: str, icon_pix, primary, secondary, location, map_key):
-            nonlocal total
-            for tab_cat in ['All', cat_name]:
-                _, inner, lay = self._tab_widgets[tab_cat]
-                row = SearchResultRow(icon_pix, primary, secondary, location,
-                                      map_key, self._on_navigate)
-                lay.addWidget(row)
-            if cat_name != 'All':
-                total += 1
+        # ── Per-category counts for overflow labels ───────────────────────────
+        cat_shown = {'Items': 0, 'Trainers': 0, 'Pokemon': 0, 'Trades': 0}
+        cat_total = {'Items': 0, 'Trainers': 0, 'Pokemon': 0, 'Trades': 0}
 
+        def _add_row(cat_name: str, icon_pix, primary, secondary, location, map_key):
+            cat_total[cat_name] += 1
+            if cat_shown[cat_name] >= cap:
+                return
+            cat_shown[cat_name] += 1
+            _, _inner, lay = self._tab_widgets[cat_name]
+            row = SearchResultRow(icon_pix, primary, secondary, location,
+                                  map_key, self._on_navigate)
+            lay.addWidget(row)
+            # Mirror into the All tab only if All isn't itself over-cap
+            _, _ai, all_lay = self._tab_widgets['All']
+            if all_lay.count() < cap * 4:
+                all_row = SearchResultRow(icon_pix, primary, secondary, location,
+                                          map_key, self._on_navigate)
+                all_lay.addWidget(all_row)
+
+        # ── Items ─────────────────────────────────────────────────────────────
         for entry in search_index.get('items', []):
             if q and q not in entry['name'].lower() and q not in entry['item_key'].lower():
                 continue
@@ -2724,16 +3035,18 @@ class SearchResultsPanel(QWidget):
             loc = _map_name_to_label(entry['map_key']) if entry['map_key'] else entry['short_name']
             _add_row('Items', pix, entry['name'], entry['badge'], loc, entry['map_key'])
 
+        # ── Trainers ──────────────────────────────────────────────────────────
+        trainer_db = _load_trainer_db()
         for entry in search_index.get('trainers', []):
             if q and q not in entry['name'].lower() and q not in entry['trainer_key'].lower():
                 continue
             loc = _map_name_to_label(entry['map_key']) if entry['map_key'] else entry['short_name']
-            trainer_db = _load_trainer_db()
             t = trainer_db.get(entry['trainer_key'].upper())
             pix = _trainer_pic_pixmap(t.pic if t else '', 28)
             cls_text = (t.trainer_class or '').replace('TRAINER_CLASS_', '').replace('_', ' ').title() if t else ''
             _add_row('Trainers', pix, entry['name'], cls_text, loc, entry['map_key'])
 
+        # ── Pokémon ───────────────────────────────────────────────────────────
         for entry in search_index.get('pokemon', []):
             if q and q not in entry['name'].lower() and q not in entry['species_key'].lower():
                 continue
@@ -2741,6 +3054,7 @@ class SearchResultsPanel(QWidget):
             loc = _map_name_to_label(entry['map_key']) if entry['map_key'] else entry['short_name']
             _add_row('Pokemon', pix, entry['name'], entry['table_type'], loc, entry['map_key'])
 
+        # ── Trades ────────────────────────────────────────────────────────────
         for entry in search_index.get('trades', []):
             offered_name = _species_display('SPECIES_' + entry['offered']) if entry['offered'] else entry['trade_id']
             wanted_name  = _species_display('SPECIES_' + entry['wanted'])  if entry['wanted'] else ''
@@ -2752,22 +3066,123 @@ class SearchResultsPanel(QWidget):
             secondary = f"wants: {wanted_name}" if wanted_name else ''
             _add_row('Trades', pix, offered_name, secondary, loc, entry['map_key'])
 
+        # ── Finalize each tab: overflow notice / empty label / stretch ────────
         for cat in ['All', 'Items', 'Trainers', 'Pokemon', 'Trades']:
-            _, inner, lay = self._tab_widgets[cat]
+            _, _inner, lay = self._tab_widgets[cat]
+            if cat == 'All':
+                shown = sum(cat_shown.values())
+                total_all = sum(cat_total.values())
+                capped = total_all > shown
+            else:
+                shown  = cat_shown[cat]
+                capped = cat_total[cat] > shown
+
+            if capped:
+                cap_lbl = QLabel(
+                    f"Showing {shown} of {cat_total.get(cat, shown)} results — refine your search to see more.")
+                cap_lbl.setAlignment(Qt.AlignCenter)
+                cap_lbl.setStyleSheet(
+                    "color:#f9e2af; font-size:11px; padding:8px; background:transparent;")
+                lay.addWidget(cap_lbl)
+
             if lay.count() == 0:
-                empty = QLabel(f"No {cat.lower()} results found." if q else f"No {cat.lower()} data available.")
+                empty_txt = (f"No {cat.lower()} results for \"{query}\"."
+                             if q else f"No {cat.lower()} data available.")
+                empty = QLabel(empty_txt)
                 empty.setAlignment(Qt.AlignCenter)
                 empty.setStyleSheet("color:#45475a; font-size:13px; padding:24px; background:transparent;")
                 lay.addWidget(empty)
+
             lay.addStretch()
 
+        total = sum(cat_total.values())
         self._result_count_lbl.setText(
             f"Search: \"{query}\"  —  {total} results" if q else "All Data"
         )
 
 
 # ══════════════════════════════════════════════════════════════════════════════
-# FatefulEncounterWindow — merged main window
+# CUSTOM FRAMELESS TITLE BAR
+# ══════════════════════════════════════════════════════════════════════════════
+class _AppTitleBar(QWidget):
+    """72px custom title bar: enlarged icon + app name + min/maximize/close."""
+
+    def __init__(self, icon_path, title, parent=None):
+        super().__init__(parent)
+        self.setFixedHeight(72)
+        self._drag_pos = None
+
+        lay = QHBoxLayout(self)
+        lay.setContentsMargins(16, 0, 12, 0)
+        lay.setSpacing(12)
+
+        icon_lbl = QLabel()
+        icon_lbl.setFixedSize(52, 52)
+        icon_lbl.setAlignment(Qt.AlignCenter)
+        if icon_path and os.path.isfile(icon_path):
+            pix = QPixmap(icon_path).scaled(52, 52, Qt.KeepAspectRatio, Qt.SmoothTransformation)
+            icon_lbl.setPixmap(pix)
+        lay.addWidget(icon_lbl)
+
+        title_lbl = QLabel(title)
+        title_lbl.setStyleSheet(
+            "color:#cdd6f4; font-size:16px; font-weight:bold; background:transparent;")
+        lay.addWidget(title_lbl)
+        lay.addStretch()
+
+        for symbol, tip, slot in [("─", "Minimize",         self._minimize),
+                                   ("□", "Maximize/Restore", self._toggle_maximize),
+                                   ("✕", "Close",            self._close)]:
+            btn = QPushButton(symbol)
+            btn.setFixedSize(36, 36)
+            btn.setToolTip(tip)
+            style = (
+                "QPushButton { background:transparent; border:none; border-radius:6px; "
+                "color:#a6adc8; font-size:14px; font-weight:bold; }"
+                "QPushButton:hover { background:#313244; color:#cdd6f4; }"
+            )
+            if tip == "Close":
+                style = (
+                    "QPushButton { background:transparent; border:none; border-radius:6px; "
+                    "color:#a6adc8; font-size:14px; font-weight:bold; }"
+                    "QPushButton:hover { background:#f38ba822; color:#f38ba8; }"
+                )
+            btn.setStyleSheet(style)
+            btn.clicked.connect(slot)
+            lay.addWidget(btn)
+
+        self.setStyleSheet(
+            "_AppTitleBar { background:#181825; border-top-left-radius:12px; "
+            "border-top-right-radius:12px; }"
+        )
+
+    def _minimize(self):         self.window().showMinimized()
+    def _close(self):            self.window().close()
+    def _toggle_maximize(self):
+        w = self.window()
+        if w.isMaximized(): w.showNormal()
+        else:               w.showMaximized()
+
+    def mousePressEvent(self, e):
+        if e.button() == Qt.LeftButton:
+            self._drag_pos = e.globalPos() - self.window().frameGeometry().topLeft()
+
+    def mouseMoveEvent(self, e):
+        if self._drag_pos and e.buttons() == Qt.LeftButton:
+            self.window().move(e.globalPos() - self._drag_pos)
+
+    def mouseReleaseEvent(self, e):
+        self._drag_pos = None
+
+    def mouseDoubleClickEvent(self, e):
+        if e.button() == Qt.LeftButton:
+            w = self.window()
+            if w.isMaximized(): w.showNormal()
+            else:               w.showMaximized()
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# Fateful Encounter — Stat Dex Hoenn Navigator main window
 # ══════════════════════════════════════════════════════════════════════════════
 class FatefulEncounterWindow(QMainWindow):
 
@@ -2784,39 +3199,55 @@ class FatefulEncounterWindow(QMainWindow):
         self._search_index  = {}
         self._search_built  = False
 
-        self.setWindowTitle("Fateful Encounter — Hoenn Navigator")
-        self.resize(1280, 800)
+        self._search_timer = QTimer(self)
+        self._search_timer.setSingleShot(True)
+        self._search_timer.setInterval(250)     # 250ms debounce
+        self._search_timer.timeout.connect(self._do_search)
+
+        self.setWindowFlags(Qt.FramelessWindowHint | Qt.Window)
+        self.setAttribute(Qt.WA_TranslucentBackground)
+        self.setWindowTitle("Fateful Encounter — Stat Dex Hoenn Navigator")
+        self.resize(960, 960)
+        self.setMinimumSize(800, 800)
         self._build_ui()
 
     def _build_ui(self):
-        central = QWidget()
-        self.setCentralWidget(central)
-        root_lay = QVBoxLayout(central)
-        root_lay.setContentsMargins(0, 0, 0, 0)
-        root_lay.setSpacing(0)
-
-        # Top bar: title + search
-        top_bar = QWidget()
-        top_bar.setFixedHeight(52)
-        top_bar.setStyleSheet(
-            "background:#11111b; border-bottom:1px solid #313244;"
+        # Outer rounded container — WA_TranslucentBackground composites corners
+        outer = QWidget()
+        outer.setObjectName("sd_outer")
+        outer.setStyleSheet(
+            "QWidget#sd_outer { background:#1e1e2e; border-radius:12px; border:1px solid #313244; }"
         )
+        outer_lay = QVBoxLayout(outer)
+        outer_lay.setContentsMargins(0, 0, 0, 0)
+        outer_lay.setSpacing(0)
+        self.setCentralWidget(outer)
+
+        # Title bar
+        _icon_path = os.path.join(_HERE, "gfx", "stat_dex_icon.png")
+        self._title_bar = _AppTitleBar(_icon_path, "Fateful Encounter — Stat Dex Hoenn Navigator", outer)
+        outer_lay.addWidget(self._title_bar)
+
+        # Thin divider
+        div = QFrame(); div.setFrameShape(QFrame.HLine)
+        div.setStyleSheet("QFrame { background:#313244; max-height:1px; border:none; }")
+        outer_lay.addWidget(div)
+
+        # Search bar (title label removed — title bar handles identity)
+        top_bar = QWidget()
+        top_bar.setFixedHeight(48)
+        top_bar.setStyleSheet("background:#11111b; border-bottom:1px solid #313244;")
         tb_lay = QHBoxLayout(top_bar)
         tb_lay.setContentsMargins(18, 0, 18, 0)
-        tb_lay.setSpacing(14)
-
-        title_lbl = QLabel("FATEFUL ENCOUNTER")
-        title_lbl.setStyleSheet(
-            "color:#cba6f7; font-size:13px; font-weight:bold; letter-spacing:2px; "
-            "background:transparent;"
-        )
-        tb_lay.addWidget(title_lbl)
-
+        tb_lay.setSpacing(0)
         tb_lay.addStretch()
+
+        search_grp = QHBoxLayout()
+        search_grp.setSpacing(6)
 
         self._search_input = QLineEdit()
         self._search_input.setPlaceholderText("Search items, trainers, Pokémon…")
-        self._search_input.setFixedWidth(320)
+        self._search_input.setFixedWidth(300)
         self._search_input.setFixedHeight(32)
         self._search_input.setStyleSheet(
             "QLineEdit { background:#1e1e2e; border:1px solid #45475a; border-radius:6px; "
@@ -2824,18 +3255,19 @@ class FatefulEncounterWindow(QMainWindow):
             "QLineEdit:focus { border-color:#cba6f7; }"
         )
         self._search_input.returnPressed.connect(self._do_search)
-        tb_lay.addWidget(self._search_input)
+        self._search_input.textChanged.connect(self._on_search_text_changed)
+        search_grp.addWidget(self._search_input)
 
         search_btn = QPushButton("Search")
         search_btn.setFixedHeight(32)
         search_btn.setStyleSheet(
             "QPushButton { background:#cba6f7; color:#1e1e2e; border:none; border-radius:6px; "
-            "   padding:0 16px; font-size:12px; font-weight:bold; }"
+            "   padding:0 14px; font-size:12px; font-weight:bold; }"
             "QPushButton:hover { background:#d5baf9; }"
             "QPushButton:pressed { background:#a882d0; }"
         )
         search_btn.clicked.connect(self._do_search)
-        tb_lay.addWidget(search_btn)
+        search_grp.addWidget(search_btn)
 
         clear_btn = QPushButton("Clear")
         clear_btn.setFixedHeight(32)
@@ -2845,16 +3277,15 @@ class FatefulEncounterWindow(QMainWindow):
             "QPushButton:hover { background:#3d3f4f; }"
         )
         clear_btn.clicked.connect(self._clear_search)
-        tb_lay.addWidget(clear_btn)
+        search_grp.addWidget(clear_btn)
 
-        root_lay.addWidget(top_bar)
+        tb_lay.addLayout(search_grp)
+        outer_lay.addWidget(top_bar)
 
-        # Body: splitter (tree | right panel)
+        # Body: splitter (nav tree | right panel)
         splitter = QSplitter(Qt.Horizontal)
         splitter.setHandleWidth(1)
-        splitter.setStyleSheet(
-            "QSplitter::handle { background:#313244; }"
-        )
+        splitter.setStyleSheet("QSplitter::handle { background:#313244; }")
 
         # Left nav panel
         nav_panel = QWidget()
@@ -2894,7 +3325,6 @@ class FatefulEncounterWindow(QMainWindow):
         self._populate_tree()
         nav_lay.addWidget(self._tree, 1)
 
-        # Footer
         nav_footer = QWidget()
         nav_footer.setFixedHeight(30)
         nav_footer.setStyleSheet("background:#181825; border-top:1px solid #313244;")
@@ -2926,9 +3356,26 @@ class FatefulEncounterWindow(QMainWindow):
         self._right_stack.addWidget(self._search_panel)
 
         splitter.addWidget(self._right_stack)
-        splitter.setSizes([240, 1040])
+        splitter.setSizes([240, 720])
+        outer_lay.addWidget(splitter, 1)
 
-        root_lay.addWidget(splitter, 1)
+        # Bottom bar: status text + resize grip
+        bottom_bar = QWidget()
+        bottom_bar.setFixedHeight(22)
+        bottom_bar.setStyleSheet(
+            "background:#181825; border-top:1px solid #313244; "
+            "border-bottom-left-radius:12px; border-bottom-right-radius:12px;"
+        )
+        bb_lay = QHBoxLayout(bottom_bar)
+        bb_lay.setContentsMargins(10, 0, 4, 0)
+        bb_lbl = QLabel(f"Fateful Encounter  ·  {count} locations")
+        bb_lbl.setStyleSheet("color:#45475a; font-size:10px; background:transparent;")
+        bb_lay.addWidget(bb_lbl)
+        bb_lay.addStretch()
+        grip = QSizeGrip(bottom_bar)
+        grip.setStyleSheet("background:transparent;")
+        bb_lay.addWidget(grip)
+        outer_lay.addWidget(bottom_bar)
 
         QTimer.singleShot(100, self._select_first)
 
@@ -2990,13 +3437,23 @@ class FatefulEncounterWindow(QMainWindow):
         self._right_stack.setCurrentWidget(self._loc_panel)
         self._loc_panel.load_location(map_key)
 
+    def _on_search_text_changed(self, text: str):
+        if text.strip():
+            self._search_timer.start()   # restart debounce window on each keystroke
+        else:
+            self._search_timer.stop()
+            self._clear_search()
+
     def _do_search(self):
         query = self._search_input.text().strip()
+        if not query:
+            return
         if not self._search_built:
-            print("Building search index...")
+            print("  Building search index…", end=' ', flush=True)
             self._search_index = _build_search_index(
                 self._map_encounters, self._pokemon_db)
             self._search_built = True
+            print("done", flush=True)
         self._search_panel.populate(query, self._search_index)
         self._right_stack.setCurrentWidget(self._search_panel)
 
@@ -3032,41 +3489,144 @@ QLabel#heading   { font-size:9px; }
 
 
 # ══════════════════════════════════════════════════════════════════════════════
+# Background loader thread
+# ══════════════════════════════════════════════════════════════════════════════
+class _LoadThread(QThread):
+    progress = pyqtSignal(str, int)   # (message, percent 0-100)
+    done     = pyqtSignal(object)     # emits dict of all loaded data
+
+    def run(self):
+        import traceback
+        data = {}
+        try:
+            self.progress.emit("Loading Pokémon database…", 10)
+            data['pokemon_db'] = {p.key.upper(): p for p in load_all_pokemon()}
+
+            self.progress.emit("Loading abilities & learnsets…", 35)
+            data['ability_db']  = load_ability_info()
+            data['learnset_db'] = load_learnsets()
+
+            self.progress.emit("Loading wild encounters…", 60)
+            data['wild_db']        = load_wild_encounters()
+            data['map_encounters'] = load_map_encounters()
+
+            self.progress.emit("Loading map index & trainers…", 82)
+            load_items()
+            _ensure_data_loaded()
+            data['trainer_db']    = dict(_TRAINER_DB)
+            data['trade_details'] = dict(_TRADE_DETAILS)
+
+            self.progress.emit("Ready!", 100)
+            self.done.emit(data)
+        except Exception:
+            traceback.print_exc()
+            self.progress.emit("Load failed — check console", -1)
+            self.done.emit(data)
+
+
+class _LoadingDialog(QDialog):
+    """Frameless splash shown during background data load."""
+
+    def __init__(self, parent=None):
+        super().__init__(parent, Qt.FramelessWindowHint | Qt.Dialog)
+        self.setAttribute(Qt.WA_TranslucentBackground)
+        self.setFixedSize(440, 170)
+
+        outer = QWidget(self)
+        outer.setObjectName("outer")
+        outer.setStyleSheet(
+            "QWidget#outer { background:#1e1e2e; border-radius:14px; "
+            "border:1px solid #313244; }"
+        )
+        outer_lay = QVBoxLayout(outer)
+        outer_lay.setContentsMargins(32, 28, 32, 28)
+        outer_lay.setSpacing(14)
+
+        title = QLabel("Fateful Encounter")
+        title.setStyleSheet(
+            "color:#cba6f7; font-size:17px; font-weight:bold; background:transparent;")
+        title.setAlignment(Qt.AlignCenter)
+        outer_lay.addWidget(title)
+
+        self._status = QLabel("Initialising…")
+        self._status.setStyleSheet(
+            "color:#a6adc8; font-size:12px; background:transparent;")
+        self._status.setAlignment(Qt.AlignCenter)
+        outer_lay.addWidget(self._status)
+
+        self._bar = QProgressBar()
+        self._bar.setRange(0, 100)
+        self._bar.setValue(0)
+        self._bar.setFixedHeight(6)
+        self._bar.setTextVisible(False)
+        self._bar.setStyleSheet(
+            "QProgressBar { background:#313244; border-radius:3px; border:none; }"
+            "QProgressBar::chunk { background:#cba6f7; border-radius:3px; }"
+        )
+        outer_lay.addWidget(self._bar)
+
+        main_lay = QVBoxLayout(self)
+        main_lay.setContentsMargins(0, 0, 0, 0)
+        main_lay.addWidget(outer)
+
+        screen = QApplication.desktop().availableGeometry()
+        self.move(screen.center() - self.rect().center())
+
+    def set_progress(self, message: str, pct: int):
+        self._status.setText(message)
+        if pct >= 0:
+            self._bar.setValue(pct)
+        label = f"[{'█' * (pct // 10):<10}] {pct:3d}%  {message}"
+        print(f"\r  {label}", end='', flush=True)
+        if pct >= 100:
+            print()
+
+
+# ══════════════════════════════════════════════════════════════════════════════
 # Entry point
 # ══════════════════════════════════════════════════════════════════════════════
 def main():
-    print("Fateful Encounter — loading data...")
-
-    print("  Pokemon database...", end=' ', flush=True)
-    pokemon_db = {p.key.upper(): p for p in load_all_pokemon()}
-    print(f"{len(pokemon_db)} species")
-
-    print("  Abilities / learnsets...", end=' ', flush=True)
-    ability_db  = load_ability_info()
-    learnset_db = load_learnsets()
-    print("done")
-
-    print("  Wild encounters...", end=' ', flush=True)
-    wild_db        = load_wild_encounters()
-    map_encounters = load_map_encounters()
-    print(f"{len(map_encounters)} locations")
-
-    print("  Map index / trainers...", end=' ', flush=True)
-    load_items()
-    _ensure_data_loaded()
-    print(f"{len(_TRAINER_DB)} trainers")
+    print("Fateful Encounter — Stat Dex Hoenn Navigator", flush=True)
+    print("  Starting…", flush=True)
 
     app = QApplication(sys.argv)
     app.setStyle("Fusion")
     app.setStyleSheet(DARK_STYLE + _COMPACT)
 
-    _icon_path = os.path.join(_HERE, "gfx", "party_god_icon.png")
+    _icon_path = os.path.join(_HERE, "gfx", "stat_dex_icon.png")
     if os.path.isfile(_icon_path):
         app.setWindowIcon(QIcon(_icon_path))
 
+    # ── Background loading with animated splash ──────────────────────────────
+    splash = _LoadingDialog()
+    splash.show()
+    app.processEvents()
+
+    loaded_data: dict = {}
+
+    thread = _LoadThread()
+    thread.progress.connect(lambda msg, pct: (splash.set_progress(msg, pct), app.processEvents()))
+    thread.done.connect(loaded_data.update)
+    thread.start()
+
+    while thread.isRunning():
+        app.processEvents()
+        QThread.msleep(16)      # ~60 fps event pump keeps splash animated
+
+    thread.wait()
+    splash.close()
+    print(f"\n  Loaded {len(loaded_data.get('pokemon_db', {}))} species, "
+          f"{len(loaded_data.get('trainer_db', {}))} trainers", flush=True)
+
+    # ── Launch main window ───────────────────────────────────────────────────
     win = FatefulEncounterWindow(
-        pokemon_db, ability_db, learnset_db, wild_db,
-        _TRAINER_DB, _TRADE_DETAILS, map_encounters,
+        loaded_data.get('pokemon_db', {}),
+        loaded_data.get('ability_db', {}),
+        loaded_data.get('learnset_db', {}),
+        loaded_data.get('wild_db', {}),
+        loaded_data.get('trainer_db', {}),
+        loaded_data.get('trade_details', {}),
+        loaded_data.get('map_encounters', {}),
     )
     win.show()
     sys.exit(app.exec_())

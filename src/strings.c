@@ -1302,6 +1302,23 @@ const u8 gText_Rename[] = _("RENAME");
 const u8 gText_CannotSendMonToBoxHM[] = _("Cannot send that mon to the box,\nbecause it knows a HM move.{PAUSE_UNTIL_PRESS}");
 
 //*
-const u8 gText_ChespinStarter[] = _("CHESPIN"); 
-const u8 gText_TepigStarter[] = _("TEPIG"); 
-const u8 gText_PiplupStarter[] = _("PIPLUP");
+const u8 gText_SafariGrass[] =    _("GRASS     Turtwig");
+const u8 gText_SafariFire[] =     _("FIRE      Fennekin");
+const u8 gText_SafariWater[] =    _("WATER     Mudkip");
+const u8 gText_SafariDark[] =     _("DARK      Pawniard");
+const u8 gText_SafariPsychic[] =  _("PSYCHIC   Solosis");
+const u8 gText_SafariFlying[] =   _("FLYING    Rookidee");
+const u8 gText_SafariRock[] =     _("ROCK      Archen");
+const u8 gText_SafariGround[] =   _("GROUND    Gligar");
+const u8 gText_SafariIce[] =      _("ICE       SPHEAL");
+const u8 gText_SafariPoison[] =   _("POISON    Venipede");
+const u8 gText_SafariGhost[] =    _("GHOST     Gastly");
+const u8 gText_SafariFairy[] =    _("FAIRY     Togepi");
+const u8 gText_SafariSteel[] =    _("STEEL     Honedge");
+const u8 gText_SafariBug[] =      _("BUG       Sewaddle");
+const u8 gText_SafariFighting[] = _("FIGHTING  Machop");
+const u8 gText_SafariElectric[] = _("ELECTRIC  Elekid");
+const u8 gText_SafariDragon[] =   _("DRAGON    Axew");
+const u8 gText_SafariNormal[] =   _("NORMAL    Munchlax");
+const u8 gText_SafariNextPage[] = _("NEXT PAGE");
+const u8 gText_SafariFirstPage[] = _("BACK");

@@ -106,6 +106,43 @@ Route112_EventScript_Shayla::
 	msgbox Route112_Text_ShaylaPostBattle, MSGBOX_AUTOCLOSE
 	end
 
+Route112_EventScript_KirliaPC::
+    lock
+    faceplayer
+
+    msgbox Route112_Text_KirliaPC, MSGBOX_DEFAULT
+
+    goto EventScript_PC
+
+Route112_EventScript_HealNpc::
+	lock
+	faceplayer
+	msgbox Route112_Text_WouldYouLikeToHeal, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, Route112_EventScript_HealNpc_No
+
+	special HealPlayerParty
+	msgbox Route112_Text_HealNpc_Done, MSGBOX_DEFAULT
+	release
+	end
+
+Route112_EventScript_HealNpc_No:
+	msgbox Route112_Text_HealNpc_No, MSGBOX_DEFAULT
+	release
+	end
+
+Route112_Text_WouldYouLikeToHeal:
+	.string "Would you like to heal your POKéMON?$"
+
+Route112_Text_HealNpc_Done:
+	.string "Your POKéMON were fully healed.$"
+
+Route112_Text_HealNpc_No:
+	.string "Come back anytime.$"
+
+Route112_Text_KirliaPC:
+    .string "Kirlia tilts its head...\n"
+    .string "It seems to connect you to a PC.$"
+
 Route112_Text_LeaderGoingToAwakenThing:
 	.string "Hey, man, is our leader really going\n"
 	.string "to awaken that thing?$"

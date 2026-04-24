@@ -428,7 +428,8 @@ script OldDale_Gatekeeper_Event {
 
     //fanfare(FANFARE_ITEM)
     giveitem(ITEM_RARE_CANDY, 1)
-	giveitem(ITEM_ORAN_BERRY, 20)
+	giveitem(ITEM_ORAN_BERRY, 50)
+	giveitem(ITEM_EVERSTONE, 1)
     //waitfanfare
 
     msgbox("These will aid you on your journey.")
